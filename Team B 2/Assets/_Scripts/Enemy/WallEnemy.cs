@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class WallEnemyMove:MonoBehaviour
+public class WallEnemyMove : MonoBehaviour
 {
     [SerializeField] private float speed = 2f;
-    [SerializeField] private float changeTime = 2f; //方向転換
+    [SerializeField] private float changeTime = 2f;
     private Vector2 moveDirection;
     private float timer;
+    public bool canMove = true;
 
     private void Start()
     {
@@ -15,22 +15,36 @@ public class WallEnemyMove:MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (!canMove) return;
 
-        if(timer >= changeTime)
+        timer += Time.deltaTime;
+        if (timer >= changeTime)
         {
             ChangeDirection();
             timer = 0f;
         }
-        transform.Translate(moveDirection * speed * Time.deltaTime);//方向×速さ
-        // Translate → 今の場所から相対的に移動
-        //今の場所から少しずつ動かす
+
+        // 進む方向に壁があるか調べる
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            moveDirection,
+            speed * Time.deltaTime + 0.1f
+        );
+
+        // 壁に当たりそうなら方向転換
+        if (hit.collider != null && hit.collider.CompareTag("Wall"))
+        {
+            moveDirection = Vector2.Reflect(moveDirection, hit.normal);
+            timer = 0f;
+        }
+
+        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
     }
 
     private void ChangeDirection()
     {
-        float x = Random.Range(-1f, 1f);//(最小値,最大値)の中でランダムに数字を入れる
+        float x = Random.Range(-1f, 1f);
         float y = Random.Range(-1f, 1f);
-        moveDirection = new Vector2(x, y).normalized;//斜めでも1に統一される
+        moveDirection = new Vector2(x, y).normalized;
     }
 }
