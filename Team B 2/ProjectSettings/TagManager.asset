@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Road
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Enemy
+  - Road
   - 
   - 
   - 
