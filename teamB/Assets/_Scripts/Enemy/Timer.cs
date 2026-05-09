@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class CountdownTimer : MonoBehaviour
     [SerializeField] private Text timerText;
 
     private int currentTime;
-    private bool isRunning = false;
+   
 
     void Start()
     {
@@ -20,13 +21,13 @@ public class CountdownTimer : MonoBehaviour
 
     public void StartTimer()
     {
-        isRunning = true;
+       
         StartCoroutine(CountDown());
     }
 
     public void StopTimer()
     {
-        isRunning = false;
+       
         StopAllCoroutines();
     }
 
@@ -34,7 +35,7 @@ public class CountdownTimer : MonoBehaviour
     {
         StopAllCoroutines();
         currentTime = (int)startTime;
-        isRunning = false;
+        
         UpdateTimerUI();
     }
 
@@ -64,7 +65,10 @@ public class CountdownTimer : MonoBehaviour
 
     private void OnTimerEnd()
     {
-        isRunning = false;
+        
         Debug.Log("タイマー終了！");
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
     }
 }
