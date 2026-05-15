@@ -8,6 +8,7 @@ TagManager:
   - Road
   - Wall
   - Oxygyn
+  - Oxygyn_get
   layers:
   - Default
   - TransparentFX
