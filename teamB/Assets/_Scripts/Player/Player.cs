@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public int Oxygyn_count = 0;
     public int Oxygyn_get = 0;
     public GameObject[] Oxygyns;
-    public GameObject[] Oxygyns_get;
+    public GameObject[] Oxygyns_lisult;
 
     void Start()
     {
@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
         Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ğ_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("c‚Á‚Ä‚é_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
 
-        Oxygyns_get = GameObject.FindGameObjectsWithTag("Oxygyn_get");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-        Oxygyn_get = Oxygyns_get.Length;//Oxygyns_lisult‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
+        Oxygyns_lisult = GameObject.FindGameObjectsWithTag("Oxygyn_get");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+        Oxygyn_get = Oxygyns_lisult.Length;//Oxygyns_lisult‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
     }
 
