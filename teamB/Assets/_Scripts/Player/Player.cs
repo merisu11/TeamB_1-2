@@ -2,35 +2,42 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject player;   //ƒIƒuƒWƒFƒNƒgtag
-    Vector3 touchWorldPosition;@//ˆÚ“®æÀ•W‚ÌŽæ“¾
+    public GameObject player;
+    Vector3 touchWorldPosition;
     public int speed = 5;
     public int Oxygyn_count = 0;
     public int Oxygyn_get = 0;
-    public GameObject[] Oxygyns;
-    public GameObject[] Oxygyns_get;
+
+    // FindGameObjectsWithTag ‚ÌŒÄ‚Ño‚µŠÔŠui•bj
+    private float tagCheckInterval = 0.5f;
+    private float tagCheckTimer = 0f;
 
     void Start()
     {
+        touchWorldPosition = player.transform.position;
     }
+
     void Update()
     {
+        // “ü—Íˆ—
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 touchScreenPosition = Input.mousePosition;//ƒNƒŠƒbƒNÀ•W‚ðtouchScreenPosition‚É
-            touchScreenPosition.z = 5.0f;//‰œsŒÅ’è
-            Camera camera = Camera.main;
-            touchWorldPosition = camera.ScreenToWorldPoint(touchScreenPosition);
+            Vector3 touchScreenPosition = Input.mousePosition;
+            touchScreenPosition.z = 5.0f;
+            touchWorldPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition);
         }
-        player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //ƒIƒuƒWƒFƒNƒg‚ÌˆÚ“®+ˆÚ“®‘¬“x
 
-        Oxygyns = GameObject.FindGameObjectsWithTag("Oxygyn");//ƒV[ƒ““à‚ÌŽ_‘f‚Ì”‚ð”‚¦‚é
-        Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ðŽ_‘f‚Ì”‚Æ“¯ˆê‰»
-        Debug.Log("Žc‚Á‚Ä‚éŽ_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
+        player.transform.position = Vector3.MoveTowards(
+            player.transform.position, touchWorldPosition, speed * Time.deltaTime);
 
-        Oxygyns_get = GameObject.FindGameObjectsWithTag("Oxygyn_get");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½Ž_‘f‚Ì”‚ð”‚¦‚é
-        Oxygyn_get = Oxygyns_get.Length;//Oxygyns_lisult‚Ì”‚ðŠl“¾‚µ‚½Ž_‘f‚Ì”‚Æ“¯ˆê‰»
-        Debug.Log("Šl“¾‚µ‚½Ž_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
+        // Ž_‘fƒJƒEƒ“ƒg‚Í–ˆƒtƒŒ[ƒ€‚Å‚Í‚È‚­ˆê’èŠÔŠu‚ÅXV
+        tagCheckTimer += Time.deltaTime;
+        if (tagCheckTimer >= tagCheckInterval)
+        {
+            tagCheckTimer = 0f;
+            Oxygyn_count = GameObject.FindGameObjectsWithTag("Oxygyn").Length;
+            Oxygyn_get = GameObject.FindGameObjectsWithTag("Oxygyn_get").Length;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,4 +48,3 @@ public class Player : MonoBehaviour
         }
     }
 }
-
