@@ -5,6 +5,10 @@ public class Player : MonoBehaviour
     public GameObject player;   //オブジェクトtag
     Vector3 touchWorldPosition;　//移動先座標の取得
     public int speed = 5;
+    public int Oxygyn_count = 0;
+    public int Oxygyn_get = 0;
+    public GameObject[] Oxygyns;
+    public GameObject[] Oxygyns_get;
 
     void Start()
     {
@@ -19,6 +23,14 @@ public class Player : MonoBehaviour
             touchWorldPosition = camera.ScreenToWorldPoint(touchScreenPosition);
         }
         player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //オブジェクトの移動+移動速度
+
+        Oxygyns = GameObject.FindGameObjectsWithTag("Oxygyn");//シーン内の酸素の数を数える
+        Oxygyn_count = Oxygyns.Length;//Oxygyn_countの数を酸素の数と同一化
+        Debug.Log("残ってる酸素の数は" + Oxygyn_count + "個");
+
+        Oxygyns_get = GameObject.FindGameObjectsWithTag("Oxygyn_get");//シーン内の獲得した酸素の数を数える
+        Oxygyn_get = Oxygyns_get.Length;//Oxygyns_lisultの数を獲得した酸素の数と同一化
+        Debug.Log("獲得した酸素の数は" + Oxygyn_get + "個");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

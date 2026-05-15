@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Road
   - Wall
+  - Oxygyn
+  - Oxygyn_get
   layers:
   - Default
   - TransparentFX
@@ -14,8 +16,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Oxygen
   - Enemy
   - Road
   - 
@@ -46,4 +48,3 @@ TagManager:
     locked: 0
   m_RenderingLayers:
   - Default
-  m_MigratedRenderPipelines: []
