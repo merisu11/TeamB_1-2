@@ -17,7 +17,7 @@ public class Oxygyn : MonoBehaviour
             if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//プレイヤーとの距離が1.5f未満の場合
             {
                 Follow = true;
-                this.gameObject.tag = "Oxygyn_count";//取得した酸素のタグを変更する
+                this.gameObject.tag = "Oxygyn_get";//取得した酸素のタグを変更する
             }
 
             if (Follow == true)
