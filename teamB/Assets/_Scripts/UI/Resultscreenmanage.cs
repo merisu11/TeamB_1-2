@@ -22,7 +22,7 @@ public class ResultScreenManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameManager.Instance.AddOxygen(50);
+       // GameManager.Instance.AddOxygen(50);
         retryButton.onClick.AddListener(OnRetryButtonClicked);
         
         skillTreeButton.onClick.AddListener(OnSkillTreeButtonClicked);

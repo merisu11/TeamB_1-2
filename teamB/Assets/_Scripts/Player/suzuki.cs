@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class suzuki : MonoBehaviour
 {
     public GameObject player;
     Vector3 touchWorldPosition;
