@@ -1,27 +1,73 @@
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour  //MonoBehaviourを引き継ぐことで
-//Unityのオブジェクトにアタッチできるようになる
+public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] private float speed = 3f;// [SerializeField] privateだけどUnityから値を買えれるように
-    private Transform player;//これにPlayerの位置情報を入れる
-    private void Start()//最初に一回だけ
+    [SerializeField] private float speed = 3f;
+
+    private Transform target;       // 現在の追跡対象
+    private bool isStunned = false; // 行動不能フラグ
+    private float stunTimer = 0f;
+    private const float StunDuration = 1.0f; // 攻撃後の行動不能時間
+
+    private void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
-        //Playerタグが付いてるオブジェクトを探す
-        //transformでそのオブジェクトの位置情報を取得
+        FindNearestPlayer();
     }
 
-    private void Update()//tuneni
+    private void Update()
     {
-        if (player == null) return;
+        // 行動不能中はタイマーを進めるだけ
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                FindNearestPlayer(); // 行動不能明けに索敵を再開
+            }
+            return;
+        }
 
-        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+        // ターゲットが消えていたら再索敵
+        if (target == null)
+        {
+            FindNearestPlayer();
+            return;
+        }
 
-        // AからBに向かってCの速さで移動する命令
-        //現在位置情報,プレイヤーの位置情報,速さ　を位置情報にまいふれーむ入れる
-        
-
+        // 最も近い赤血球に接近
+        transform.position = Vector2.MoveTowards(
+            transform.position, target.position, speed * Time.deltaTime);
     }
 
+    // マップ上の一番近い赤血球を探す（仕様書: 一番近い赤血球に接近）
+    private void FindNearestPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        float minDist = float.MaxValue;
+        target = null;
+
+        foreach (GameObject p in players)
+        {
+            float dist = Vector2.Distance(transform.position, p.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                target = p.transform;
+            }
+        }
+    }
+
+    // 接触した時に攻撃判定（仕様書: 攻撃判定は接触した時）
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isStunned) return;
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // 攻撃後1秒間行動不能（仕様書: 攻撃後１秒間行動不能）
+            isStunned = true;
+            stunTimer = StunDuration;
+        }
+    }
 }

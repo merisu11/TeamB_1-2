@@ -23,14 +23,12 @@ public class GameManager : MonoBehaviour
 
     // ── シーン名設定 ──────────────────────────────
     [Header("シーン名設定")]
-    [SerializeField] private string gameSceneName   = "MainGame";
+    [SerializeField] private string gameSceneName = "MainGame";
     [SerializeField] private string resultSceneName = "Result";
-    [SerializeField] private string skillSceneName  = "SkillTree";
+    [SerializeField] private string skillSceneName = "SkillTree";
 
-    // ─────────────────────────────────────────────
     void Awake()
     {
-        // シングルトン：シーンをまたいで１つだけ残す
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -41,14 +39,10 @@ public class GameManager : MonoBehaviour
     }
 
     // ── 酸素の加算 ────────────────────────────────
-    /// <summary>
-    /// 赤血球がゴールに酸素を届けたときに呼ぶ。
-    /// </summary>
-    /// <param name="amount">届けた酸素の数</param>
     public void AddOxygen(int amount)
     {
         OxygenThisRun += amount;
-        TotalOxygen   += amount;
+        TotalOxygen += amount;
         Debug.Log($"[GameManager] 酸素追加 +{amount} | 今回: {OxygenThisRun} | 累計: {TotalOxygen}");
     }
 
@@ -65,7 +59,12 @@ public class GameManager : MonoBehaviour
     public void OnTimerUp()
     {
         LastEndReason = EndReason.TimerUp;
-        Debug.Log("[GameManager] タイムアップ！ → リザルト画面へ");
+
+        // タイムアップ時は今回の獲得酸素を0に。累計(TotalOxygen)はそのまま。
+        TotalOxygen -= OxygenThisRun;
+        OxygenThisRun = 0;
+
+        Debug.Log($"[GameManager] タイムアップ！ 今回分リセット | 累計: {TotalOxygen}");
         LoadResultScene();
     }
 
@@ -78,7 +77,7 @@ public class GameManager : MonoBehaviour
     /// <summary>「ゲームを続ける」ボタンから呼ぶ。今回の酸素をリセットしてゲームへ。</summary>
     public void ContinueGame()
     {
-        OxygenThisRun = 0;                      // 今回分のみリセット（累計は保持）
+        OxygenThisRun = 0;
         SceneManager.LoadScene(gameSceneName);
     }
 

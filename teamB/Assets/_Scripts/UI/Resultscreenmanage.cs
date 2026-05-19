@@ -7,7 +7,6 @@ using System.Collections;
 //GameManagerのデータ・シーン遷移を使用します
 public class ResultScreenManager : MonoBehaviour
 {
-
     [SerializeField] private Button retryButton;
     [SerializeField] private Button skillTreeButton;
     [SerializeField] private Text earnedOxygenText;
@@ -18,17 +17,22 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private float countDuration = 2.2f;
 
     private bool isTransitioning = false;
+    private bool isAnimating = false;   //アニメーション中か
+    private bool skipRequested = false; //スキップするか
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       // GameManager.Instance.AddOxygen(50);
         retryButton.onClick.AddListener(OnRetryButtonClicked);
-        
         skillTreeButton.onClick.AddListener(OnSkillTreeButtonClicked);
-
         StartCoroutine(PlayOxygenAnimation());
-       
+    }
+
+    private void Update()
+    {
+        if (isAnimating && Input.GetMouseButtonDown(0))
+        {
+            skipRequested = true;
+        }
     }
 
     //リトライボタン(メインゲームに遷移)
@@ -60,6 +64,7 @@ public class ResultScreenManager : MonoBehaviour
     // 酸素カウンターアニメーション
     private IEnumerator PlayOxygenAnimation()
     {
+        isAnimating = true; // スキップ受付開始
         retryButton.interactable = false;
         skillTreeButton.interactable = false;
 
@@ -76,12 +81,16 @@ public class ResultScreenManager : MonoBehaviour
         // フェーズ1: 獲得酸素量を earned → 0 に減少
         yield return StartCoroutine(CountTo(earnedOxygenText, earned, 0, countDuration));
 
+        // フェーズ1中にスキップされていたら終了（フェーズ2を実行しない）
+        if (!isAnimating) yield break;
+
         yield return new WaitForSeconds(0.2f);
 
         // フェーズ2: 利用可能な酸素を prevTotal → newTotal に増加
         yield return StartCoroutine(CountTo(availableOxygenText, prevTotal, newTotal, countDuration));
 
         // アニメーション完了 → ボタン有効化
+        isAnimating = false;
         retryButton.interactable = true;
         skillTreeButton.interactable = true;
     }
@@ -91,6 +100,17 @@ public class ResultScreenManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
+            if (skipRequested)
+            {
+                // 両テキストを最終値に一気に設定して終了
+                earnedOxygenText.text = 0.ToString("N0");
+                availableOxygenText.text = GameManager.Instance.TotalOxygen.ToString("N0");
+                skipRequested = false;
+                isAnimating = false; // ← これでPlayOxygenAnimation側もyield breakする
+                retryButton.interactable = true;
+                skillTreeButton.interactable = true;
+                yield break;
+            }
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
             float eased = 1f - Mathf.Pow(1f - t, 3f); // EaseOutCubic
@@ -99,6 +119,4 @@ public class ResultScreenManager : MonoBehaviour
         }
         target.text = to.ToString("N0");
     }
-
-
 }
