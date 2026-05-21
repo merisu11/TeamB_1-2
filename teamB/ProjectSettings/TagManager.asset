@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Oxygyn
   - Oxygyn_get
+  - EnemyWall
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Oxygen
   - Enemy
   - Road
-  - 
+  - sonsyou
   - 
   - 
   - 

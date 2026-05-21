@@ -87,4 +87,18 @@ public class Oxygyn : MonoBehaviour
             }
         }
     }
+
+   
+    public void Release(Vector3 dropPosition)
+    {
+        Follow = false;
+        reached = false;
+        cooldown = false;
+        this.gameObject.tag = "Oxygyn";
+        transform.position = new Vector3(
+            dropPosition.x + Random.Range(-1.5f, 1.5f),
+            dropPosition.y + Random.Range(-1.5f, 1.5f),
+            -6.0f
+        );
+    }
 }

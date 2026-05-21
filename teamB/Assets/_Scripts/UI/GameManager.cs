@@ -87,4 +87,10 @@ public class GameManager : MonoBehaviour
         OxygenThisRun = 0;
         SceneManager.LoadScene(skillSceneName);
     }
+
+    // GameManager.cs に追記
+    public int GetOxygen()
+    {
+        return OxygenThisRun; 
+    }
 }
