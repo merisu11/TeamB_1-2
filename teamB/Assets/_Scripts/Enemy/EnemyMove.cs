@@ -7,7 +7,7 @@ public class EnemyMove : MonoBehaviour
     private Transform target;       // 現在の追跡対象
     private bool isStunned = false; // 行動不能フラグ
     private float stunTimer = 0f;
-    private const float StunDuration = 1.0f; // 攻撃後の行動不能時間
+    [SerializeField] private float StunDuration = 2.0f; // 攻撃後の行動不能時間
 
     private void Start()
     {
