@@ -4,16 +4,17 @@ public class Player : MonoBehaviour
 {
     public GameObject player;   //ƒIƒuƒWƒFƒNƒgtag
     public GameObject[] Oxygyns;
-    public GameObject[] Oxygyns_get;
+    public GameObject[] Oxygyns_get1;
+    public GameObject[] Oxygyns_get2;
     Vector3 touchWorldPosition;@//ˆÚ“®æÀ•W‚Ìæ“¾
     public int speed = 5;
     public int Oxygyn_count = 0; //ê‚Éc‚Á‚Ä‚é_‘f‚Ì”
     public int Oxygyn_get = 0; //¡‚Á‚Ä‚¢‚é_‘f‚Ì”
 
-    void Start()
+    private void Start()
     {
     }
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -28,8 +29,9 @@ public class Player : MonoBehaviour
         Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ğ_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("c‚Á‚Ä‚é_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
 
-        Oxygyns_get = GameObject.FindGameObjectsWithTag("Oxygyn_get");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-        Oxygyn_get = Oxygyns_get.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
+        Oxygyns_get1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+        Oxygyns_get2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+        Oxygyn_get = Oxygyns_get1.Length + Oxygyns_get2.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
     }
 

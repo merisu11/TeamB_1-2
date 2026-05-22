@@ -1,66 +1,101 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 
 public class Oxygyn : MonoBehaviour
 {
-    Transform playerTr; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Transform
-    [SerializeField] float speed = 10; // é…¸ç´ ã®å‹•ãã‚¹ãƒ”ãƒ¼ãƒ‰
+    Transform playerTr; // ƒvƒŒƒCƒ„[‚ÌTransform
+    Transform subplayerTr; // ƒvƒŒƒCƒ„[‚ÌTransform
+    public GameObject[] Oxygyn_get1;
+    public GameObject[] Oxygyn_get2;
+    [SerializeField] float speed = 10; // _‘f‚Ì“®‚­ƒXƒs[ƒh
     bool Follow = false;
+    bool subFollow = false;
     bool cooldown = false;
-    private bool reached = false;
     private float time;
     private float randomx;
     private float randomy;
+    public int Max_oxygyn1 = 0;
+    public int Max_oxygyn2 = 0;
 
     private void Start()
     {
-        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™å–å¾—
+        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// ƒvƒŒƒCƒ„[‚ÌÀ•Wæ“¾
+        subplayerTr = GameObject.FindGameObjectWithTag("SubPlayer").transform;// ƒTƒuƒvƒŒƒCƒ„[‚ÌÀ•Wæ“¾
         Vector3 startPos = transform.position;
         startPos.z = -6.0f;
-        transform.position = startPos;//åˆæœŸã®Zåº§æ¨™ã‚’-6ã«è¨­å®š
+        transform.position = startPos;//‰Šú‚ÌZÀ•W‚ğ-6‚Éİ’è
     }
-
     private void Update()
     {
-        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒ1.5fæœªæº€ã®å ´åˆ
+        Oxygyn_get1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");
+        Max_oxygyn1 = Oxygyn_get1.Length;
+        Oxygyn_get2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");
+        Max_oxygyn2 = Oxygyn_get2.Length;
+
+        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª1.5f–¢–‚Ìê‡
         {
             if (cooldown == false)
             {
-                Follow = true;
-                this.gameObject.tag = "Oxygyn_get";//å–å¾—ã—ãŸé…¸ç´ ã®ã‚¿ã‚°ã‚’å¤‰æ›´
+                if(Max_oxygyn1 <= 1)
+                {
+                    Follow = true;
+                    this.gameObject.tag = "Oxygyn_get.1";//æ“¾‚µ‚½_‘f‚Ìƒ^ƒO‚ğ•ÏX
+                }
+            }        
+        }
+
+        if (Vector2.Distance(transform.position, subplayerTr.position) < 1.5f)//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª1.5f–¢–‚Ìê‡
+        {
+            if (cooldown == false)
+            {
+                if (Max_oxygyn2 <= 1)
+                {
+                    subFollow = true;
+                    this.gameObject.tag = "Oxygyn_get.2";//æ“¾‚µ‚½_‘f‚Ìƒ^ƒO‚ğ•ÏX
+                }
             }
         }
 
         if (Follow == true)
         {
+            
             if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-            {
-                if (!reached)
-                {
-                    reached = true;
-                    GameManager.Instance.AddOxygen(1);
-                }
                 return;
-            }
 
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¿½å°¾
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// ƒvƒŒƒCƒ„[’Ç”ö
+                   
+        }
+
+        if (subFollow == true)
+        {
+
+            if (Vector2.Distance(transform.position, subplayerTr.position) < 0.3f)
+                return;
+
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(subplayerTr.position.x, subplayerTr.position.y, -6.0f), speed * Time.deltaTime);// ƒvƒŒƒCƒ„[’Ç”ö
+
         }
 
         time -= Time.deltaTime;
 
-        if (cooldown == true)//ç—…åŸèŒã¨è¡çªã—ãŸå¾Œã®å‡¦ç†
+        if (cooldown == true)//•aŒ´‹Û‚ÆÕ“Ë‚µ‚½Œã‚Ìˆ—
         {
             Follow = false;
-            reached = false;
+            subFollow = false;
             this.gameObject.tag = "Oxygyn";
             if (time >= 0.8f)
             {
-                this.transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy), 10.0f * Time.deltaTime);//ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®šã—ãŸåº§æ¨™ã«ç§»å‹•
+                this.transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy), 10.0f * Time.deltaTime);//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è‚µ‚½À•W‚ÉˆÚ“®
             }
         }
 
         if (time <= 0)
         {
             cooldown = false;
+        }
+
+        if (Follow == true && subFollow == true)
+        {
+            subFollow = false;
         }
     }
 
@@ -74,16 +109,27 @@ public class Oxygyn : MonoBehaviour
                 time = 1.0f;
                 if (cooldown == true)
                 {
-                    randomx = Random.Range(-9.0f, 9.0f);//9ã€œ-9ã®å€¤ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š
-                    randomy = Random.Range(-4.5f, 4.5f);//4.5ã€œ-4.5ã®å€¤ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š
+                    randomx = Random.Range(-9.0f, 9.0f);//9`-9‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
+                    randomy = Random.Range(-4.5f, 4.5f);//4.5`-4.5‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
+                }
+            }
+
+            if (subFollow == true)
+            {
+                cooldown = true;
+                time = 1.0f;
+                if (cooldown == true)
+                {
+                    randomx = Random.Range(-9.0f, 9.0f);//9`-9‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
+                    randomy = Random.Range(-4.5f, 4.5f);//4.5`-4.5‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
                 }
             }
         }
         if (collision.gameObject.tag == "Wall")
         {
-            if (cooldown == true)
+            if(cooldown == true)
             {
-                time = 0;//å£ã«ã¶ã¤ã‹ã‚‹ã¨ç§»å‹•ã‚’ä¸­æ­¢
+                time = 0;//•Ç‚É‚Ô‚Â‚©‚é‚ÆˆÚ“®‚ğ’†~
             }
         }
     }
