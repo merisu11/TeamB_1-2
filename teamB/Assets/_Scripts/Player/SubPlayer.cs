@@ -3,8 +3,7 @@ using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SubPlayer
-: MonoBehaviour
+public class SubPlayer : MonoBehaviour
 {
     Transform playerTr; // プレイヤーのTransform
     [SerializeField] float speed = 10; // 酸素の動くスピード
