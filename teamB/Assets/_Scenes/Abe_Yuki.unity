@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 1088188854}
   - component: {fileID: 1088188853}
   - component: {fileID: 1088188856}
-  - component: {fileID: 1088188851}
+  - component: {fileID: 1088188857}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -309,23 +309,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1088188851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088188850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6cb3c7c32837f49beae8a2c85f3748, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  player: {fileID: 1088188850}
-  speed: 5
-  Oxygyn_count: 0
-  boxSize: {x: 5, y: 5}
-  targetTag: Oxygen
 --- !u!61 &1088188853
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -473,6 +456,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1088188857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088188850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b8b8cc9c6452f408600747132f3b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  player: {fileID: 1088188850}
+  Oxygyns: []
+  Oxygyns_get: []
+  speed: 5
+  Oxygyn_count: 0
+  Oxygyn_get: 0
 --- !u!1 &1423101864
 GameObject:
   m_ObjectHideFlags: 0

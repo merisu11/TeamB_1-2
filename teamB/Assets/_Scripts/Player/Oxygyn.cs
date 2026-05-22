@@ -1,60 +1,55 @@
-ï»¿using UnityEngine;
+using Unity.VisualScripting;
+using UnityEditor.Build;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Oxygyn : MonoBehaviour
 {
-    Transform playerTr; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Transform
-    [SerializeField] float speed = 10; // é…¸ç´ ã®å‹•ãã‚¹ãƒ”ãƒ¼ãƒ‰
+    Transform playerTr; // ƒvƒŒƒCƒ„[‚ÌTransform
+    [SerializeField] float speed = 10; // _‘f‚Ì“®‚­ƒXƒs[ƒh
     bool Follow = false;
     bool cooldown = false;
-    private bool reached = false;
     private float time;
     private float randomx;
     private float randomy;
 
     private void Start()
     {
-        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™å–å¾—
+        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// ƒvƒŒƒCƒ„[‚ÌÀ•Wæ“¾
         Vector3 startPos = transform.position;
         startPos.z = -6.0f;
-        transform.position = startPos;//åˆæœŸã®Zåº§æ¨™ã‚’-6ã«è¨­å®š
+        transform.position = startPos;//‰Šú‚ÌZÀ•W‚ğ-6‚Éİ’è
     }
-
     private void Update()
     {
-        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒ1.5fæœªæº€ã®å ´åˆ
+        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª1.5f–¢–‚Ìê‡
         {
             if (cooldown == false)
             {
                 Follow = true;
-                this.gameObject.tag = "Oxygyn_get";//å–å¾—ã—ãŸé…¸ç´ ã®ã‚¿ã‚°ã‚’å¤‰æ›´
-            }
+                this.gameObject.tag = "Oxygyn_get";//æ“¾‚µ‚½_‘f‚Ìƒ^ƒO‚ğ•ÏX
+            }        
         }
 
         if (Follow == true)
         {
+            
             if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-            {
-                if (!reached)
-                {
-                    reached = true;
-                    GameManager.Instance.AddOxygen(1);
-                }
                 return;
-            }
 
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¿½å°¾
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// ƒvƒŒƒCƒ„[’Ç”ö
+                   
         }
 
         time -= Time.deltaTime;
 
-        if (cooldown == true)//ç—…åŸèŒã¨è¡çªã—ãŸå¾Œã®å‡¦ç†
+        if (cooldown == true)//•aŒ´‹Û‚ÆÕ“Ë‚µ‚½Œã‚Ìˆ—
         {
             Follow = false;
-            reached = false;
             this.gameObject.tag = "Oxygyn";
             if (time >= 0.8f)
             {
-                this.transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy), 10.0f * Time.deltaTime);//ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®šã—ãŸåº§æ¨™ã«ç§»å‹•
+                this.transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy), 10.0f * Time.deltaTime);//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è‚µ‚½À•W‚ÉˆÚ“®
             }
         }
 
@@ -62,6 +57,7 @@ public class Oxygyn : MonoBehaviour
         {
             cooldown = false;
         }
+ 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -74,16 +70,16 @@ public class Oxygyn : MonoBehaviour
                 time = 1.0f;
                 if (cooldown == true)
                 {
-                    randomx = Random.Range(-9.0f, 9.0f);//9ã€œ-9ã®å€¤ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š
-                    randomy = Random.Range(-4.5f, 4.5f);//4.5ã€œ-4.5ã®å€¤ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š
+                    randomx = Random.Range(-9.0f, 9.0f);//9`-9‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
+                    randomy = Random.Range(-4.5f, 4.5f);//4.5`-4.5‚Ì’l‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
                 }
             }
         }
         if (collision.gameObject.tag == "Wall")
         {
-            if (cooldown == true)
+            if(cooldown == true)
             {
-                time = 0;//å£ã«ã¶ã¤ã‹ã‚‹ã¨ç§»å‹•ã‚’ä¸­æ­¢
+                time = 0;//•Ç‚É‚Ô‚Â‚©‚é‚ÆˆÚ“®‚ğ’†~
             }
         }
     }
