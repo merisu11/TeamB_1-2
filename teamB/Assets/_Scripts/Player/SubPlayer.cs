@@ -12,6 +12,7 @@ public class SubPlayer : MonoBehaviour
     private float time;
     private float randomx;
     private float randomy;
+    private bool blood_on = true;
 
     private void Start()
     {
@@ -22,25 +23,27 @@ public class SubPlayer : MonoBehaviour
     }
     private void Update()
     {
-        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//プレイヤーとの距離が1.5f未満の場合
+        if (blood_on == true)
         {
-            Follow = false;
+            if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
+            {
+                Follow = false;
+            }
+            else
+            {
+                Follow = true;
+            }
+
+            if (Follow == true)
+            {
+
+                if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
+                    return;
+
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -5.0f), speed * Time.deltaTime);// プレイヤー追尾
+
+            }
         }
-        else
-        {
-            Follow = true;
-        }
-
-        if (Follow == true)
-        {
-
-            if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-                return;
-
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -5.0f), speed * Time.deltaTime);// プレイヤー追尾
-
-        }
- 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

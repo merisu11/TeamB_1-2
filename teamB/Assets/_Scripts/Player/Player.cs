@@ -4,11 +4,13 @@ public class Player : MonoBehaviour
 {
     public GameObject player;   //ƒIƒuƒWƒFƒNƒgtag
     public GameObject[] Oxygyns;
-    public GameObject[] Oxygyns_get;
+    public GameObject[] Oxygyns_get_1;
+    public GameObject[] Oxygyns_get_2;
     Vector3 touchWorldPosition;@//ˆÚ“®æÀ•W‚Ìæ“¾
     public int speed = 5;
     public int Oxygyn_count = 0; //ê‚Éc‚Á‚Ä‚é_‘f‚Ì”
     public int Oxygyn_get = 0; //¡‚Á‚Ä‚¢‚é_‘f‚Ì”
+    public int blood_count = 1;
 
     void Start()
     {
@@ -28,9 +30,14 @@ public class Player : MonoBehaviour
         Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ğ_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("c‚Á‚Ä‚é_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
 
-        Oxygyns_get = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");//ƒV[ƒ““à‚ÌŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-        Oxygyn_get = Oxygyns_get.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
+        Oxygyns_get_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");//ƒV[ƒ““à‚ÌƒƒCƒ“ƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+        Oxygyn_get = Oxygyns_get_1.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
+        if(blood_count == 1)
+        {
+            Oxygyns_get_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");//ƒV[ƒ““à‚ÌƒTƒuƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+            Oxygyn_get = Oxygyns_get_1.Length + Oxygyns_get_2.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

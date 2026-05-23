@@ -8,14 +8,18 @@ public class Oxygyn : MonoBehaviour
     Transform playerTr; // プレイヤーのTransform
     Transform subplayerTr; // プレイヤーのTransform
     [SerializeField] float speed = 10; // 酸素の動くスピード
+    public GameObject[] Oxygyns_1;
+    public GameObject[] Oxygyns_2;
     bool Follow = false;
     bool subFollow = false;
     bool cooldown = false;
     private float time;
     private float randomx;
     private float randomy;
-    public int Max_oxygyn1;
-    public int Max_oxygyn2;
+    public int Oxygyn1;
+    public int Oxygen2;
+    public int Max_oxygyn1 = 1;
+    public int Max_oxygyn2 = 1;
 
     private void Start()
     {
@@ -27,21 +31,33 @@ public class Oxygyn : MonoBehaviour
     }
     private void Update()
     {
+
+        Oxygyns_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");
+        Oxygyns_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");
+        Oxygyn1 = Oxygyns_1.Length;
+        Oxygen2 = Oxygyns_2.Length;
+
         if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//プレイヤーとの距離が1.5f未満の場合
         {
             if (cooldown == false)
             {
+                if (Oxygyn1 <= Max_oxygyn1)
+                {
                     Follow = true;
-                    this.gameObject.tag = "Oxygyn_get";//取得した酸素のタグを変更
+                    this.gameObject.tag = "Oxygyn_get.1";//取得した酸素のタグを変更
+                }
             }        
         }
 
-        if (Vector2.Distance(transform.position, subplayerTr.position) < 1.5f)//プレイヤーとの距離が1.5f未満の場合
+        if (Vector2.Distance(transform.position, subplayerTr.position) < 1.5f)//サブプレイヤーとの距離が1.5f未満の場合
         {
             if (cooldown == false)
             {
+                if (Oxygen2 <= Max_oxygyn2)
+                {
                     subFollow = true;
-                    this.gameObject.tag = "Oxygyn_get";//取得した酸素のタグを変更
+                    this.gameObject.tag = "Oxygyn_get.2";//取得した酸素のタグを変更
+                }
             }
         }
 
