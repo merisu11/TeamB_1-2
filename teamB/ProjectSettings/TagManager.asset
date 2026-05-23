@@ -10,6 +10,7 @@ TagManager:
   - Oxygyn
   - SubPlayer
   - Oxygyn_get.1
+  - Oxygyn_get.2
   layers:
   - Default
   - TransparentFX

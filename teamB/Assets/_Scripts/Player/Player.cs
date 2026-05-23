@@ -31,13 +31,13 @@ public class Player : MonoBehaviour
         Debug.Log("c‚Á‚Ä‚é_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
 
         Oxygyns_get_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");//ƒV[ƒ““à‚ÌƒƒCƒ“ƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-        Oxygyn_get = Oxygyns_get_1.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
-        Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
-        if(blood_count == 1)
+        if (blood_count == 1)
         {
             Oxygyns_get_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");//ƒV[ƒ““à‚ÌƒTƒuƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-            Oxygyn_get = Oxygyns_get_1.Length + Oxygyns_get_2.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
         }
+        Oxygyn_get = Oxygyns_get_1.Length + Oxygyns_get_2.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
+
+        Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

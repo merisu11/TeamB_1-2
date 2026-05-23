@@ -18,8 +18,9 @@ public class Oxygyn : MonoBehaviour
     private float randomy;
     public int Oxygyn1;
     public int Oxygen2;
-    public int Max_oxygyn1 = 1;
-    public int Max_oxygyn2 = 1;
+    public int Max_oxygyns = 1;
+    //public int Max_oxygyn1 = 1;
+    //public int Max_oxygyn2 = 1;
 
     private void Start()
     {
@@ -41,9 +42,10 @@ public class Oxygyn : MonoBehaviour
         {
             if (cooldown == false)
             {
-                if (Oxygyn1 <= Max_oxygyn1)
+                if (Oxygyn1 < Max_oxygyns)
                 {
                     Follow = true;
+                    subFollow = !Follow;
                     this.gameObject.tag = "Oxygyn_get.1";//取得した酸素のタグを変更
                 }
             }        
@@ -53,9 +55,10 @@ public class Oxygyn : MonoBehaviour
         {
             if (cooldown == false)
             {
-                if (Oxygen2 <= Max_oxygyn2)
+                if (Oxygen2 < Max_oxygyns)
                 {
                     subFollow = true;
+                    Follow = !subFollow;
                     this.gameObject.tag = "Oxygyn_get.2";//取得した酸素のタグを変更
                 }
             }
@@ -98,16 +101,6 @@ public class Oxygyn : MonoBehaviour
         {
             cooldown = false;
         }
-
-        if(Follow == true && subFollow == true)
-        {
-            if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-                return;
-
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// プレイヤー追尾
-
-        }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
