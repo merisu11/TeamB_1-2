@@ -1,0 +1,35 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class sonsyou : MonoBehaviour
+{
+    [SerializeField] int healRequiredCount = 3;
+
+    private List<kessyouban> arrivedPlatelets = new List<kessyouban>();
+
+    // ååè¨î¬Ç™ìûíÖÇµÇΩÇ∆Ç´Ç…åƒÇŒÇÍÇÈ
+    public void OnPlateletArrived(kessyouban platelet)
+    {
+        if (!arrivedPlatelets.Contains(platelet))
+            arrivedPlatelets.Add(platelet);
+
+        Debug.Log($"ååè¨î¬ìûíÖ: {arrivedPlatelets.Count}/{healRequiredCount}");
+
+        if (arrivedPlatelets.Count >= healRequiredCount)
+        {
+            HealFloor();
+        }
+    }
+
+    private void HealFloor()
+    {
+        Debug.Log("è·äQï®Ç™èúãéÇ≥ÇÍÇ‹ÇµÇΩÅI");
+
+        foreach (var p in arrivedPlatelets)
+        {
+            if (p != null) Destroy(p.gameObject);
+        }
+
+        Destroy(this.gameObject); // è·äQï®Ç≤Ç∆è¡Ç∑
+    }
+}

@@ -11,6 +11,7 @@ TagManager:
   - SubPlayer
   - Oxygyn_get.1
   - Oxygyn_get.2
+  - EnemyWall
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Oxygen
   - Enemy
   - Road
-  - 
+  - wall
   - 
   - 
   - 
