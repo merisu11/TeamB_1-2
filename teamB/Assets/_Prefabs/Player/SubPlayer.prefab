@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3101793231569924874}
   - component: {fileID: 2087467928820506032}
   - component: {fileID: 929788545050820788}
-  - component: {fileID: 4194779021991556064}
   m_Layer: 6
   m_Name: SubPlayer
   m_TagString: SubPlayer
@@ -167,16 +166,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4194779021991556064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2886866550145927134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f10c6e78f02bcd54aa61a101341df599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SubPlayer
-  speed: 10

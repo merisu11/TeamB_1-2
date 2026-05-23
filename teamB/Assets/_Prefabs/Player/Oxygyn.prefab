@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7073260370761255330}
   - component: {fileID: 7496884754857725056}
   - component: {fileID: 8606937829452358799}
-  - component: {fileID: 186484376573032531}
   m_Layer: 7
   m_Name: Oxygyn
   m_TagString: Oxygyn
@@ -157,18 +156,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &186484376573032531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9073658317965476720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2708c3d2a017d324a81c059696ddad51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Oxygen
-  speed: 10
-  Max_oxygyn1: 0
-  Max_oxygyn2: 0
