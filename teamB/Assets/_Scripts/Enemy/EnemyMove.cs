@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+public class EnemyMove : MonoBehaviour, IPathogen
 {
     [SerializeField] private float speed = 3f;
 
@@ -9,6 +9,16 @@ public class EnemyMove : MonoBehaviour
     private float stunTimer = 0f;
     private const float StunDuration = 1.0f; // 攻撃後の行動不能時間
 
+
+    private bool isImpeded = false;
+
+    public void SetImpeded(bool impeded)
+    {
+        isImpeded = impeded;
+    }
+
+
+
     private void Start()
     {
         FindNearestPlayer();
@@ -16,6 +26,9 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
+
+        if (isImpeded) return; // 阻害中は動かない
+
         // 行動不能中はタイマーを進めるだけ
         if (isStunned)
         {

@@ -4,6 +4,7 @@ public class kessyouban : MonoBehaviour
 {
     [SerializeField] float speed = 3f;
     [SerializeField] float rayLength = 1.5f;
+    [SerializeField] float healtimer = 5.0f;
     [SerializeField] LayerMask obstacleLayer;
 
     private Transform targetFloor;
