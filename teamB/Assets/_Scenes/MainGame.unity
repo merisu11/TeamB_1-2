@@ -724,6 +724,31 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b18b34655d6bfb545ac84da1a27190d9, type: 3}
+--- !u!1 &826542250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7717380261965478614, guid: aef37e089e161f7438dba57171f1e144, type: 3}
+  m_PrefabInstance: {fileID: 1934777455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &826542256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826542250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b8b8cc9c6452f408600747132f3b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  player: {fileID: 826542250}
+  Oxygyns: []
+  Oxygyns_get_1: []
+  Oxygyns_get_2: []
+  speed: 5
+  Oxygyn_count: 0
+  Oxygyn_get: 0
+  blood_count: 1
 --- !u!1001 &915846275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1148,11 +1173,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3870016593231949151, guid: aef37e089e161f7438dba57171f1e144, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.41
+      value: -7.4
       objectReference: {fileID: 0}
     - target: {fileID: 3870016593231949151, guid: aef37e089e161f7438dba57171f1e144, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.49
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3870016593231949151, guid: aef37e089e161f7438dba57171f1e144, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1186,6 +1211,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6290733473298771104, guid: aef37e089e161f7438dba57171f1e144, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290733473298771104, guid: aef37e089e161f7438dba57171f1e144, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7717380261965478614, guid: aef37e089e161f7438dba57171f1e144, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1206,10 +1239,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3345842855108280280, guid: aef37e089e161f7438dba57171f1e144, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7717380261965478614, guid: aef37e089e161f7438dba57171f1e144, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 826542256}
   m_SourcePrefab: {fileID: 100100000, guid: aef37e089e161f7438dba57171f1e144, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

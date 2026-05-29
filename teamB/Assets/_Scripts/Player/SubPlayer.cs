@@ -23,27 +23,32 @@ public class SubPlayer : MonoBehaviour
     }
     private void Update()
     {
-        if (blood_on == true)
+        if(time < 0)
         {
-            if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
+            if (blood_on)
             {
-                Follow = false;
-            }
-            else
-            {
-                Follow = true;
-            }
+                if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
+                {
+                    Follow = false;
+                }
+                else
+                {
+                    Follow = true;
+                }
 
-            if (Follow == true)
-            {
+                if (Follow)
+                {
 
-                if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-                    return;
+                    if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
+                        return;
 
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -5.0f), speed * Time.deltaTime);// プレイヤー追尾
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -5.0f), speed * Time.deltaTime);// プレイヤー追尾
 
+                }
             }
         }
+
+        time -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -54,6 +59,11 @@ public class SubPlayer : MonoBehaviour
             {
                 time = 0;//壁にぶつかると移動を中止
             }
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            time = 1.0f;
         }
     }
 }
