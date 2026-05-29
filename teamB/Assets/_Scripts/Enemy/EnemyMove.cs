@@ -1,46 +1,57 @@
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+public class EnemyMove : MonoBehaviour, IPathogen
 {
     [SerializeField] private float speed = 3f;
 
-    private Transform target;       // 現在の追跡対象
-    private bool isStunned = false; // 行動不能フラグ
+    private Transform target;
+    private bool isStunned = false;
     private float stunTimer = 0f;
-    private const float StunDuration = 1.0f; // 攻撃後の行動不能時間
+    private const float StunDuration = 1.0f;
+
+    private bool isImpeded = false;
+    private Rigidbody2D rb; // ← rb を宣言
+
+    // IPathogen の実装（白血球に張り付かれたとき呼ばれる）
+    public void SetImpeded(bool impeded)
+    {
+        isImpeded = impeded;
+        rb.linearVelocity = Vector2.zero;
+        // Kinematicにして物理的にも完全に止める
+        rb.bodyType = impeded ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+    }
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>(); // ← Startで取得
         FindNearestPlayer();
     }
 
     private void Update()
     {
-        // 行動不能中はタイマーを進めるだけ
+        if (isImpeded) return;
+
         if (isStunned)
         {
             stunTimer -= Time.deltaTime;
             if (stunTimer <= 0f)
             {
                 isStunned = false;
-                FindNearestPlayer(); // 行動不能明けに索敵を再開
+                FindNearestPlayer();
             }
             return;
         }
 
-        // ターゲットが消えていたら再索敵
         if (target == null)
         {
             FindNearestPlayer();
             return;
         }
 
-        // 最も近い赤血球に接近
         transform.position = Vector2.MoveTowards(
             transform.position, target.position, speed * Time.deltaTime);
     }
 
-    // マップ上の一番近い赤血球を探す（仕様書: 一番近い赤血球に接近）
     private void FindNearestPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -58,14 +69,12 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    // 接触した時に攻撃判定（仕様書: 攻撃判定は接触した時）
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isStunned) return;
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            // 攻撃後1秒間行動不能（仕様書: 攻撃後１秒間行動不能）
             isStunned = true;
             stunTimer = StunDuration;
         }
