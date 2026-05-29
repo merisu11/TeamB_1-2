@@ -1,4 +1,7 @@
+using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -11,21 +14,25 @@ public class Player : MonoBehaviour
     public int Oxygyn_count = 0; //場に残ってる酸素の数
     public int Oxygyn_get = 0; //今持っている酸素の数
     public int blood_count = 1;
+    private float time;
 
     void Start()
     {
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(time < 0)
         {
-            Vector3 touchScreenPosition = Input.mousePosition;//クリック座標をtouchScreenPositionに
-            touchScreenPosition.z = 5.0f;//奥行固定
-            Camera camera = Camera.main;
-            touchWorldPosition = camera.ScreenToWorldPoint(touchScreenPosition);
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 touchScreenPosition = Input.mousePosition;//クリック座標をtouchScreenPositionに
+                touchScreenPosition.z = 5.0f;//奥行固定
+                Camera camera = Camera.main;
+                touchWorldPosition = camera.ScreenToWorldPoint(touchScreenPosition);
+            }
+            player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //オブジェクトの移動+移動速度
         }
-        player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //オブジェクトの移動+移動速度
-
+        
         Oxygyns = GameObject.FindGameObjectsWithTag("Oxygyn");//シーン内の酸素の数を数える
         Oxygyn_count = Oxygyns.Length;//Oxygyn_countの数を酸素の数と同一化
         Debug.Log("残ってる酸素の数は" + Oxygyn_count + "個");
@@ -38,6 +45,8 @@ public class Player : MonoBehaviour
         Oxygyn_get = Oxygyns_get_1.Length + Oxygyns_get_2.Length;//Oxygyns_getの数を獲得した酸素の数と同一化
 
         Debug.Log("獲得した酸素の数は" + Oxygyn_get + "個");
+
+        time -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,6 +55,10 @@ public class Player : MonoBehaviour
         {
             touchWorldPosition = player.transform.position;
         }
+
+        if(collision.gameObject.tag == "Enemy")
+        {
+            time = 1.0f;
+        }
     }
 }
-
