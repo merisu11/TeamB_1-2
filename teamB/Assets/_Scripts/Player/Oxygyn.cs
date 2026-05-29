@@ -84,7 +84,7 @@ public class Oxygyn : MonoBehaviour
 
         }
 
-        if (Vector2.Distance(transform.position, enemyTr.position) < 1.0f)//サブプレイヤーとの距離が1.5f未満の場合
+        if (Vector2.Distance(transform.position, enemyTr.position) < 1.3f)
         {
             if (Follow)
             {
