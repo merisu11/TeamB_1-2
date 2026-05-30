@@ -7,7 +7,7 @@ public class Oxygyntest : MonoBehaviour
 {
     Transform playerTr; // プレイヤーのTransform
     Transform subplayerTr; // プレイヤーのTransform
-    [SerializeField] float speed = 10; // 酸素の動くスピード
+    [SerializeField] public static float speed = 10; // 酸素の動くスピード
     public GameObject[] Oxygyns_1;
     public GameObject[] Oxygyns_2;
     bool Follow = false;
@@ -18,7 +18,7 @@ public class Oxygyntest : MonoBehaviour
     private float randomy;
     public int Oxygyn1;
     public int Oxygen2;
-    public int Max_oxygyns = 1;
+    public static int Max_oxygyns = 1;
     //public int Max_oxygyn1 = 1;
     //public int Max_oxygyn2 = 1;
 

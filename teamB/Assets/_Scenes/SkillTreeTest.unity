@@ -129,11 +129,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1644809828286917513, guid: 6e405a79d7bbac64781fc1a6017785ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -11.36
       objectReference: {fileID: 0}
     - target: {fileID: 1644809828286917513, guid: 6e405a79d7bbac64781fc1a6017785ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1644809828286917513, guid: 6e405a79d7bbac64781fc1a6017785ee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -208,7 +208,7 @@ RectTransform:
   m_GameObject: {fileID: 500335003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9062, y: 2.7312, z: 1}
+  m_LocalScale: {x: 0.96024823, y: 2.15082, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1119435438}
@@ -216,7 +216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -804, y: 511}
+  m_AnchoredPosition: {x: -883, y: 510}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500335005
@@ -576,12 +576,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b0a5707a4711841883b9360d364ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Oxygyntest
-  speed: 10
   Oxygyns_1: []
   Oxygyns_2: []
   Oxygyn1: 0
   Oxygen2: 0
-  Max_oxygyns: 1
 --- !u!1 &1333565303 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7717380261965478614, guid: aef37e089e161f7438dba57171f1e144, type: 3}
@@ -775,12 +773,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b0a5707a4711841883b9360d364ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Oxygyntest
-  speed: 10
   Oxygyns_1: []
   Oxygyns_2: []
   Oxygyn1: 0
   Oxygen2: 0
-  Max_oxygyns: 1
 --- !u!1 &1480374705
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,12 +946,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b0a5707a4711841883b9360d364ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Oxygyntest
-  speed: 10
   Oxygyns_1: []
   Oxygyns_2: []
   Oxygyn1: 0
   Oxygen2: 0
-  Max_oxygyns: 1
 --- !u!1 &1646994335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,12 +1257,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b0a5707a4711841883b9360d364ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Oxygyntest
-  speed: 10
   Oxygyns_1: []
   Oxygyns_2: []
   Oxygyn1: 0
   Oxygen2: 0
-  Max_oxygyns: 1
 --- !u!1 &1996017517
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkilUI1 : MonoBehaviour
+public class SkilPS1 : MonoBehaviour
 {
-    static bool ButtonNONFF = false;
+    public static bool ButtonONOFF = false;
     public Button PS1;
 
     private void Update()
     {
-        if (ButtonNONFF)
+        if (ButtonONOFF)
         {
             PS1.interactable = false;
         }
     }
     public void OnTouched()
     {
-        Playertest.speed = 15;
+        Playertest.speed = 6;
+        Oxygyntest.speed = 11;
         PS1.interactable = false;
-        ButtonNONFF = true;
+        ButtonONOFF = true;
     }
 
 }
