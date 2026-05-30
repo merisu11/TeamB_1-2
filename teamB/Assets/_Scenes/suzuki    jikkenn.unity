@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::kessyouban
   speed: 3
-  rayLength: 1.5
+  rayLength: 10
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -414,6 +414,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4424375448877323819, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
+      propertyPath: rayLength
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7890918580532669676, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_Name
       value: "\u8840\u5C0F\u677F_0 (3)"
@@ -470,6 +474,10 @@ PrefabInstance:
     - target: {fileID: 3829020520024397682, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424375448877323819, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
+      propertyPath: rayLength
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7890918580532669676, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_Name
@@ -599,7 +607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5734113436645215595, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.31
+      value: 4.39
       objectReference: {fileID: 0}
     - target: {fileID: 5962752136430969010, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
       propertyPath: m_Layer
@@ -981,6 +989,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4424375448877323819, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
+      propertyPath: rayLength
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7890918580532669676, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_Name
       value: "\u8840\u5C0F\u677F_0 (6)"
@@ -1120,7 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::kessyouban
   speed: 3
-  rayLength: 1.5
+  rayLength: 10
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -1617,6 +1629,10 @@ PrefabInstance:
     - target: {fileID: 3829020520024397682, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424375448877323819, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
+      propertyPath: rayLength
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 7890918580532669676, guid: d0d4fd62409dd0f4687258e695585f48, type: 3}
       propertyPath: m_Name

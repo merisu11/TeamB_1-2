@@ -5,7 +5,7 @@ using UnityEngine;
 public class kessyouban : MonoBehaviour
 {
     [SerializeField] float speed = 3f;          // 移動速度
-    [SerializeField] float rayLength = 1.5f;    // 障害物検知レイの長さ
+    [SerializeField] float rayLength = 10.0f;    // 障害物検知レイの長さ
     [SerializeField] LayerMask obstacleLayer;   // 障害物と判定するレイヤー
 
     private Transform targetFloor;              // 向かう目標（損傷箇所）
@@ -34,7 +34,7 @@ public class kessyouban : MonoBehaviour
         if (arrived || targetFloor == null) return;
 
         Vector2 pos = (Vector2)transform.position;
-        // 目標への方向を毎フレーム計算する（目標が動く場合にも対応）
+        // 目標への方向を毎フレーム計算すru
         Vector2 toTarget = ((Vector2)targetFloor.position - pos).normalized;
 
         // 目標方向にRayを飛ばして障害物があるか調べる
