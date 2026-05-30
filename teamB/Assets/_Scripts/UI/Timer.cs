@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CountdownTimer : MonoBehaviour
 {
     [Header("タイマー設定")]
-    [SerializeField] private float startTime = 60f;
+    [SerializeField] public float startTime = 10f;
 
     [Header("UI（Canvas 右下の Text を割り当て）")]
     [SerializeField] private Text timerText;
