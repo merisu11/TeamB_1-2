@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
     public GameObject[] Oxygyns;
     public GameObject[] Oxygyns_get_1;
     public GameObject[] Oxygyns_get_2;
-    Vector3 touchWorldPosition;@//ˆÚ“®æÀ•W‚Ìæ“¾
-    public int speed = 5;
+    Vector3 touchWorldPosition; //ˆÚ“®æÀ•W‚Ìæ“¾
+    public static int speed = 5;
     public int Oxygyn_count = 0; //ê‚Éc‚Á‚Ä‚é_‘f‚Ì”
     public int Oxygyn_get = 0; //¡‚Á‚Ä‚¢‚é_‘f‚Ì”
     public int blood_count = 1;

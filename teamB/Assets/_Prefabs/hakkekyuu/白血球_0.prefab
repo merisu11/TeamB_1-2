@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1590008117731878172}
   - component: {fileID: 5061640664369745938}
-  - component: {fileID: 4958914082259356182}
   - component: {fileID: 3077781759329190320}
+  - component: {fileID: 6316266798217906813}
   - component: {fileID: 4951552797251015026}
   m_Layer: 0
   m_Name: "\u767D\u8840\u7403_0"
@@ -94,23 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &4958914082259356182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5286969378052173069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790b21b1bde441d499850c8f25ca8911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::hakekkyuu
-  detectionRange: 1
-  attachDuration: 2
-  moveSpeed: 3
-  followDistance: 1.5
-  maxPerPathogen: 1
 --- !u!50 &3077781759329190320
 Rigidbody2D:
   serializedVersion: 5
@@ -138,6 +121,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6316266798217906813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5286969378052173069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790b21b1bde441d499850c8f25ca8911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::hakekkyuu
+  detectionRange: 5
+  attachDuration: 2
+  moveSpeed: 3
+  followDistance: 1.5
+  maxPerPathogen: 1
 --- !u!58 &4951552797251015026
 CircleCollider2D:
   m_ObjectHideFlags: 0
