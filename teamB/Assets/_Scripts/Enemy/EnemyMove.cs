@@ -7,7 +7,7 @@ public class EnemyMove : MonoBehaviour, IPathogen
     private Transform target;
     private bool isStunned = false;
     private float stunTimer = 0f;
-    private const float StunDuration = 1.0f;
+    private const float StunDuration = 2.0f;
 
     private bool isImpeded = false;
     private Rigidbody2D rb; // © rb ‚ğéŒ¾

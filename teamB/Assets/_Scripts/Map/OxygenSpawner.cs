@@ -6,7 +6,7 @@ public class OxygenSpawner : MonoBehaviour
     [SerializeField] private GameObject oxygenPrefab;
 
     [Header("スポーン設定")]
-    [SerializeField] private int spawnCount = 30;
+    [SerializeField] public int spawnCount = 30;
 
     [Header("スポーン範囲（ステージの広さに合わせて調整）")]
     [SerializeField] private float rangeX = 8f;
