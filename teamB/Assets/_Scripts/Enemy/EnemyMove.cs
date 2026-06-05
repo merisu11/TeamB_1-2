@@ -3,27 +3,29 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour, IPathogen
 {
     [SerializeField] private float speed = 3f;
+    [SerializeField] private float StunDuration = 2.0f;
 
     private Transform target;
     private bool isStunned = false;
     private float stunTimer = 0f;
-    private const float StunDuration = 2.0f;
 
     private bool isImpeded = false;
-    private Rigidbody2D rb; // ← rb を宣言
+    private Rigidbody2D rb;
 
-    // IPathogen の実装（白血球に張り付かれたとき呼ばれる）
+    // 外部から白血球に捕まっているか確認できるプロパティ
+    // Player.cs側で collision.gameObject.GetComponent<EnemyMove>().IsImpeded で取得できる
+    public bool IsImpeded => isImpeded;
+
     public void SetImpeded(bool impeded)
     {
         isImpeded = impeded;
         rb.linearVelocity = Vector2.zero;
-        // Kinematicにして物理的にも完全に止める
         rb.bodyType = impeded ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // ← Startで取得
+        rb = GetComponent<Rigidbody2D>();
         FindNearestPlayer();
     }
 
