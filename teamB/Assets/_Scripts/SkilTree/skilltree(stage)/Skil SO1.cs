@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkilGT2 : MonoBehaviour
+public class SkilSO1 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
-    public Button GT2;
+    public Button SO1;
     public SkilGT1 skilGT1;
     public GameObject obj;
     private void Update()
@@ -17,7 +17,7 @@ public class SkilGT2 : MonoBehaviour
             if (ButtonONOFF)
             {
 
-                GT2.interactable = false;
+                SO1.interactable = false;
             }
         }
     }
@@ -25,9 +25,13 @@ public class SkilGT2 : MonoBehaviour
     {
         if (SkilGT1.ButtonONOFF)
         {
-            CountdownTimer.startTime = 18f;
-            GT2.interactable = false;
+            if (GameManager.Instance.TotalOxygen >= 15)
+            {
+                OxygenSpawner.spawnCount = 35;
+            SO1.interactable = false;
             ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(15);
+            }
         }
     }
 

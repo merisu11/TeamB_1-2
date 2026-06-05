@@ -25,9 +25,13 @@ public class SkilHT2 : MonoBehaviour
     {
         if (SkilHT1.ButtonONOFF)
         {
-            hakekkyuu.attachDuration = 3;
+            if (GameManager.Instance.TotalOxygen >= 25)
+            {
+                hakekkyuu.attachDuration = 3;
              HT2.interactable = false;
             ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(25);
+            }
         }
     }
 

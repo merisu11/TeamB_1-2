@@ -25,9 +25,13 @@ public class SkilGT3 : MonoBehaviour
     {
         if (SkilGT2.ButtonONOFF)
         {
-            CountdownTimer.startTime = 25f;
+            if (GameManager.Instance.TotalOxygen >= 45)
+            {
+                CountdownTimer.startTime = 25f;
             GT3.interactable = false;
             ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(45);
+            }
         }
     }
 

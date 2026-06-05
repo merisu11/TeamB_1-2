@@ -25,9 +25,13 @@ public class SkilHR3: MonoBehaviour
     {
         if (SkilHR2.ButtonONOFF)
         {
-            hakekkyuu.detectionRange = 10f;
+            if (GameManager.Instance.TotalOxygen >= 60)
+            {
+                hakekkyuu.detectionRange = 10f;
             HR3.interactable = false;
             ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(60);
+        }
         }
     }
 

@@ -25,9 +25,13 @@ public class SkilSO3 : MonoBehaviour
     {
         if (SkilSO2.ButtonONOFF)
         {
-            OxygenSpawner.spawnCount = 60;
+            if (GameManager.Instance.TotalOxygen >= 45)
+            {
+                OxygenSpawner.spawnCount = 60;
             SO3.interactable = false;
             ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(45);
+            }
         }
     }
 

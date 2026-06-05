@@ -25,10 +25,13 @@ public class SkilPS2 : MonoBehaviour
     {
         if (SkilPS1.ButtonONOFF)
         {
-            Player.speed = 9;
+            if (GameManager.Instance.TotalOxygen >= 25) { 
+                Player.speed = 9;
             Oxygyn.speed = 14;
             PS2.interactable = false;
             ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(25);
+            }
         }
     }
 

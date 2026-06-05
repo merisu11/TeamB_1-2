@@ -39,6 +39,15 @@ public class GameManager : MonoBehaviour
     }
 
     // ── 酸素の加算 ────────────────────────────────
+    public void RemoveOxygen(int amount)
+    {
+        TotalOxygen -= amount;
+
+        if (TotalOxygen < 0)
+        {
+            TotalOxygen = 0;
+        }
+    }
     public void AddOxygen(int amount)
     {
         OxygenThisRun += amount;

@@ -17,9 +17,13 @@ public class SkilHT1 : MonoBehaviour
     }
     public void OnTouched()
     {
+        if (GameManager.Instance.TotalOxygen >= 10)
+        {
         hakekkyuu.attachDuration = 2.4f;
         HT1.interactable = false;
         ButtonONOFF = true;
+        GameManager.Instance.RemoveOxygen(10);
+        }
     }
 
 }

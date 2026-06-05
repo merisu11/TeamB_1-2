@@ -25,10 +25,14 @@ public class SkilHT3 : MonoBehaviour
     {
         if (SkilHT2.ButtonONOFF)
         {
-            Oxygyntest.Max_oxygyns = 4;
+            if (GameManager.Instance.TotalOxygen >= 50)
+            {
+                Oxygyntest.Max_oxygyns = 4;
             HT3.interactable = false;
             ButtonONOFF = true;
-        }
+                GameManager.Instance.RemoveOxygen(50);
+            }
+            }
     }
 
 }

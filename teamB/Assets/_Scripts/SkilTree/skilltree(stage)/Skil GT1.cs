@@ -17,9 +17,13 @@ public class SkilGT1 : MonoBehaviour
     }
     public void OnTouched()
     {
-        CountdownTimer.startTime = 13f;
+        if (GameManager.Instance.TotalOxygen >= 10)
+        {
+            CountdownTimer.startTime = 13f;
         GT1.interactable = false;
         ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(10);
+        }
     }
 
 }
