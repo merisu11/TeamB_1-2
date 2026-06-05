@@ -86,7 +86,7 @@ public class Oxygyn : MonoBehaviour
 
         if (Vector2.Distance(transform.position, enemyTr.position) < 1.3f)
         {
-            if (Follow)
+            if (Follow && !EnemyMove.isImpeded)
             {
                 cooldown = true;
                 time = 1.0f;
@@ -97,7 +97,7 @@ public class Oxygyn : MonoBehaviour
                 }
             }
 
-            if (subFollow)
+            if (subFollow && !EnemyMove.isImpeded)
             {
                 cooldown = true;
                 time = 1.0f;

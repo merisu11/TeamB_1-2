@@ -9,7 +9,7 @@ public class EnemyMove : MonoBehaviour, IPathogen
     private bool isStunned = false;
     private float stunTimer = 0f;
 
-    private bool isImpeded = false;
+    public static bool isImpeded = false;
     private Rigidbody2D rb;
 
     // 外部から白血球に捕まっているか確認できるプロパティ
