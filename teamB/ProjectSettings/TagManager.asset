@@ -12,6 +12,7 @@ TagManager:
   - Oxygyn_get.1
   - Oxygyn_get.2
   - EnemyWall
+  - White_Blood
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Pathogen
   - Road
   - wall
-  - 
+  - white_blood
   - 
   - 
   - 

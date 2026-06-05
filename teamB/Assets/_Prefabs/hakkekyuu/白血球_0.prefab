@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4958914082259356182}
   - component: {fileID: 3077781759329190320}
   - component: {fileID: 4951552797251015026}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: "\u767D\u8840\u7403_0"
-  m_TagString: Untagged
+  m_TagString: White_Blood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790b21b1bde441d499850c8f25ca8911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::hakekkyuu
-  detectionRange: 1
-  attachDuration: 2
   moveSpeed: 3
   followDistance: 1.5
   maxPerPathogen: 1

@@ -59,7 +59,10 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "Enemy")
         {
-            time = 1.0f;
+            if (!collision.gameObject.GetComponent<EnemyMove>().IsImpeded)
+            {
+                time = 1.0f;
+            }
         }
     }
 }

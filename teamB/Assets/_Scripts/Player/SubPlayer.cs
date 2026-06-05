@@ -12,7 +12,7 @@ public class SubPlayer : MonoBehaviour
     private float time;
     private float randomx;
     private float randomy;
-    public static bool blood_on = true;
+    public static bool blood_on = false;
 
     private void Start()
     {
@@ -62,8 +62,9 @@ public class SubPlayer : MonoBehaviour
         }
 
         if (collision.gameObject.tag == "Enemy")
-        {
-            time = 1.0f;
-        }
+            if (!collision.gameObject.GetComponent<EnemyMove>().IsImpeded)
+            {
+                time = 1.0f;
+            }
     }
 }
