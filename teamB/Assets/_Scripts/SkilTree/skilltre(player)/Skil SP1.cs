@@ -25,9 +25,13 @@ public class SkilSP1 : MonoBehaviour
     {
         if (SkilPS1.ButtonONOFF)
         {
+            if (GameManager.Instance.TotalOxygen >= 20)
+            {
             SubPlayer.blood_on = true;
             SP1.interactable = false;
             ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(20);
+            }
         }
     }
 

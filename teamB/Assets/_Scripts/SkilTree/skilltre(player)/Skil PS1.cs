@@ -8,6 +8,7 @@ public class SkilPS1 : MonoBehaviour
     public static bool ButtonONOFF = false;
     public Button PS1;
 
+
     private void Update()
     {
         if (ButtonONOFF)
@@ -17,10 +18,14 @@ public class SkilPS1 : MonoBehaviour
     }
     public void OnTouched()
     {
+        if (GameManager.Instance.TotalOxygen >= 10) { 
         Player.speed = 6;
+        hakekkyuu.moveSpeed = 4;
         Oxygyn.speed = 11;
         PS1.interactable = false;
         ButtonONOFF = true;
+         GameManager.Instance.RemoveOxygen(10);
+        }
     }
 
 }
