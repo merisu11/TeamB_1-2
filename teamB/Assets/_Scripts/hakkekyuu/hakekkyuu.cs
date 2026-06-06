@@ -83,7 +83,11 @@ public class hakekkyuu : MonoBehaviour
 
         // 初期の検知範囲を保存しておく（スキルで倍率をかけるときの基準値として使う）
         baseDetectionRange = detectionRange;
-
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        if (col != null)
+        {
+            col.isTrigger = false;
+        }
         // FindGameObjectWithTag("タグ名") はシーン内からそのタグを持つGameObjectを1つ探す
         // 赤血球にタグ"Player"を設定しておく必要がある
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
