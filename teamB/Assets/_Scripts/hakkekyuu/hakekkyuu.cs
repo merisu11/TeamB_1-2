@@ -31,7 +31,7 @@ public class hakekkyuu : MonoBehaviour
     public static float attachDuration = 2f;
 
     [Header("移動")]
-    public float moveSpeed = 3f;
+    public static float moveSpeed = 3f;
 
     [Tooltip("追従時、赤血球との目標距離")]
     public float followDistance = 1.5f;

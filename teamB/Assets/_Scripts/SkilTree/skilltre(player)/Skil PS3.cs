@@ -26,7 +26,8 @@ public class SkilUI3 : MonoBehaviour
         if (SkilPS2.ButtonONOFF)
         {
             if (GameManager.Instance.TotalOxygen >= 50) { 
-                Player.speed = 15;
+            Player.speed = 10;
+            hakekkyuu.moveSpeed = 6;
             Oxygyn.speed = 20;
             PS3.interactable = false;
             ButtonONOFF = true;
