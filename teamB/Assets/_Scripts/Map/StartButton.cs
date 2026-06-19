@@ -7,6 +7,6 @@ public class StartButton : MonoBehaviour
 public void OnClickStart()
     {
         //""‚Ì•”•ª‚ÍˆÚ“®‚µ‚½‚¢ƒV[ƒ“–¼
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("Tyutoriaru1");
     }
 }
