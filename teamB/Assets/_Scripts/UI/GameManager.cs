@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string gameSceneName = "MainGame";
     [SerializeField] private string resultSceneName = "Result";
     [SerializeField] private string skillSceneName = "SkillTree";
+    [SerializeField] private string titleSceneName = "TaitoruScenes";
 
     void Awake()
     {
@@ -95,5 +96,11 @@ public class GameManager : MonoBehaviour
     {
         OxygenThisRun = 0;
         SceneManager.LoadScene(skillSceneName);
+    }
+
+    public void GoToTitleScene()
+    {
+        OxygenThisRun = 0;
+        SceneManager.LoadScene(titleSceneName);
     }
 }
