@@ -176,6 +176,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e06045f29a865a142a15a260f80c69f2, type: 3}
+--- !u!1001 &279386580
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6931793382456169698, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_Name
+      value: sonsyou 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388620632670913222, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44b261b78eaff7241a1ea7e53c6c999a, type: 3}
 --- !u!1 &401932418
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,14 +758,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Wall
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1188438064722512622, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4522230148298986442, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1931783561}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
 --- !u!1001 &922222800
 PrefabInstance:
@@ -971,23 +1024,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1931783556 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4522230148298986442, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
-  m_PrefabInstance: {fileID: 900517302}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1931783561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931783556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f220414c7f019343963a1f1ac22559b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::tut2gaol
 --- !u!1001 &1951182610311324705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1059,3 +1095,4 @@ SceneRoots:
   - {fileID: 900517302}
   - {fileID: 922222800}
   - {fileID: 1043865524}
+  - {fileID: 279386580}
