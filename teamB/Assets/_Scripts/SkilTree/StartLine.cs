@@ -53,7 +53,13 @@ public class StartLine : MonoBehaviour
     {
         if (SkilHM1.ButtonONOFF)
         {
-            if (speed <= 0f) speed = 0.01f;
+            Invoke(nameof(startlinestart), 0.8f);
+            
+        }
+    }
+    private void startlinestart()
+    {
+        if (speed <= 0f) speed = 0.01f;
 
         currentLength += speed * Time.deltaTime;
         currentLength = Mathf.Clamp(currentLength, 0f, totalLength);
@@ -84,7 +90,7 @@ public class StartLine : MonoBehaviour
                 }
                 break;
             }
-        }}
+        }
     }
 }
 

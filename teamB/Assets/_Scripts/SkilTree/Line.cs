@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrowingRightAngleLine : MonoBehaviour
+public class Line : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineRenderer;
 
@@ -53,7 +53,12 @@ public class GrowingRightAngleLine : MonoBehaviour
     {
         if (SkilKM1.ButtonONOFF)
         {
-            if (speed <= 0f) speed = 0.01f;
+            Invoke(nameof(linestart), 0.5f);
+        }
+    }
+    private void linestart()
+    {
+        if (speed <= 0f) speed = 0.01f;
 
         currentLength += speed * Time.deltaTime;
         currentLength = Mathf.Clamp(currentLength, 0f, totalLength);
@@ -84,8 +89,9 @@ public class GrowingRightAngleLine : MonoBehaviour
                 }
                 break;
             }
-        }}
+        }
     }
+
 }
 
 

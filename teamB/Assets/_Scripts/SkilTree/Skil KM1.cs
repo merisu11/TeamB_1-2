@@ -8,6 +8,7 @@ public class SkilKM1 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button KM1;
+    public Color newColor;
     public SkilHM1 skilHM1;
     public GameObject obj;
     private void Update()
@@ -18,6 +19,12 @@ public class SkilKM1 : MonoBehaviour
             if (ButtonONOFF)
             {
                 KM1.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 1)
+            {
+                ColorBlock cb = KM1.colors;
+                cb.normalColor = newColor;
+                KM1.colors = cb;
             }
         }
     }
