@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 6743167111052965262}
   - component: {fileID: 3592471161870252033}
   - component: {fileID: 3601484326551361298}
-  - component: {fileID: 1188438064722512622}
+  - component: {fileID: 6586114473008624127}
   m_Layer: 0
   m_Name: "\u30B4\u30FC\u30EB_\u5730\u9762_0"
   m_TagString: Untagged
@@ -714,7 +714,7 @@ PolygonCollider2D:
       - {x: 1.245, y: -1.035}
       - {x: 1.245, y: 1.035}
   m_UseDelaunayMesh: 1
---- !u!114 &1188438064722512622
+--- !u!114 &6586114473008624127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

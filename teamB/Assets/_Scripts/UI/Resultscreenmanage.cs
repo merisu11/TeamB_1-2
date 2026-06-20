@@ -9,6 +9,7 @@ public class ResultScreenManager : MonoBehaviour
 {
     [SerializeField] private Button retryButton;
     [SerializeField] private Button skillTreeButton;
+    [SerializeField] private Button TitleButton;
     [SerializeField] private Text earnedOxygenText;
     //älìæé_ëfó 
     [SerializeField] private Text availableOxygenText;
@@ -24,6 +25,7 @@ public class ResultScreenManager : MonoBehaviour
     {
         retryButton.onClick.AddListener(OnRetryButtonClicked);
         skillTreeButton.onClick.AddListener(OnSkillTreeButtonClicked);
+        TitleButton.onClick.AddListener(OnTitleButtonClicked);
         StartCoroutine(PlayOxygenAnimation());
     }
 
@@ -44,7 +46,7 @@ public class ResultScreenManager : MonoBehaviour
 
         retryButton.interactable = false;
         skillTreeButton.interactable = false;
-
+        TitleButton.interactable = false;
         GameManager.Instance.ContinueGame();
     }
 
@@ -57,9 +59,21 @@ public class ResultScreenManager : MonoBehaviour
 
         retryButton.interactable = false;
         skillTreeButton.interactable = false;
-
+        TitleButton.interactable = false;
         GameManager.Instance.GoToSkillTree();
     }
+
+    public void OnTitleButtonClicked()
+    {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        retryButton.interactable = false;
+        skillTreeButton.interactable = false;
+        TitleButton.interactable = false;
+        GameManager.Instance.GoToTitleScene();
+    }
+
 
     // é_ëfÉJÉEÉìÉ^Å[ÉAÉjÉÅÅ[ÉVÉáÉì
     private IEnumerator PlayOxygenAnimation()

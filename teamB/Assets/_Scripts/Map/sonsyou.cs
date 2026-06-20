@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class sonsyou : MonoBehaviour
 {
     [SerializeField] int healRequiredCount = 3;   // 修復に必要な血小板の数
     [SerializeField] float healTimer = 5.0f;      // 必要数到着後、修復までの待機時間（秒）
-
+    [SerializeField] Canvas worldCanvas;//Canvasをアタッチする
+    [SerializeField] Image plateletIcon;//血小板の画像をアタッチする
+    [SerializeField] TextMeshProUGUI countText;//カウントと個数
     private List<kessyouban> arrivedPlatelets = new List<kessyouban>();
     private bool isHealing = false;   // 修復カウント中かどうか
     private float currentTimer = 0f; // 現在のカウント時間
@@ -15,6 +19,7 @@ public class sonsyou : MonoBehaviour
     {
         // 初期値を保存しておく（スキルで何度呼ばれても元の値を基準にできる）
         baseHealTimer = healTimer;
+        UpdateUI();
     }
 
     private void Update()
@@ -22,7 +27,7 @@ public class sonsyou : MonoBehaviour
         if (!isHealing) return;
 
         currentTimer += Time.deltaTime;
-
+        UpdateUI(); // カウントダウン中は毎フレーム更新
         if (currentTimer >= healTimer)
         {
             HealFloor();
@@ -35,12 +40,42 @@ public class sonsyou : MonoBehaviour
         if (!arrivedPlatelets.Contains(platelet))
             arrivedPlatelets.Add(platelet);
 
-        Debug.Log($"血小板到着: {arrivedPlatelets.Count}/{healRequiredCount}");
-
+        Debug.Log($"[損傷] 血小板到着: {arrivedPlatelets.Count}/{healRequiredCount} isHealing:{isHealing}");
+        UpdateUI();
         if (arrivedPlatelets.Count >= healRequiredCount)
         {
+            currentTimer = 0f;
             isHealing = true;
-            Debug.Log($"修復開始：{healTimer}秒後に修復されます");
+            Debug.Log("[損傷] 必要数到達 → カウントダウン開始");
+            UpdateUI(); // 即座にUIを切り替え
+        }
+    }
+
+    private void UpdateUI()
+    {
+        if (countText == null) return;
+
+        if (!isHealing)
+        {
+            int left = healRequiredCount - arrivedPlatelets.Count;
+            left = Mathf.Max(0, left);
+
+            if (plateletIcon != null) plateletIcon.gameObject.SetActive(true);
+            countText.text = $"× {left}";
+            Debug.Log($"[損傷] UI更新（待機中）: × {left}");
+        }
+        else
+        {
+            float left = healTimer - currentTimer;
+            left = Mathf.Max(0f, left);
+            
+           
+            if (plateletIcon != null)
+            {
+                plateletIcon.gameObject.SetActive(false);
+                countText.text = $"{left:F1}";
+                Debug.Log($"[損傷] UI更新（カウントダウン）: {left:F1}");
+            }
         }
     }
 

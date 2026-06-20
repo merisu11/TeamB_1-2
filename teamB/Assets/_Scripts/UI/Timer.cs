@@ -5,19 +5,30 @@ using UnityEngine.UI;
 public class CountdownTimer : MonoBehaviour
 {
     [Header("タイマー設定")]
-    [SerializeField] public static float startTime = 10f;
-
-    [Header("UI（Canvas 右下の Text を割り当て）")]
-    [SerializeField] private Text timerText;
-
+    [SerializeField] public  static float startTime = 10f;
+    [SerializeField] private static float countTime = 3f;
+    [Header("UI")]
+    [SerializeField] private Text timerText;//制限時間
+    [SerializeField] private Text countText;//開始カウントダウン
     private float currentTime;
+   
     private bool isRunning = false;
-
+    private bool isCount = false;
     void Start()
     {
         ResetTimer();
         StartTimer();
     }
+
+    private void CountTimer()
+    {
+        if(!isCount)
+        {
+
+        }
+    }
+
+
 
     public void StartTimer()
     {
