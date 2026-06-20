@@ -7,11 +7,11 @@ public class SkilPO1 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button PO1;
-    public SkilPS1 skilPS1;
+    public SkilKM1 skilKM1;
     public GameObject obj;
     private void Update()
     {
-        if (SkilPS1.ButtonONOFF)
+        if (SkilKM1.ButtonONOFF)
         {
             Destroy(obj);
             if (ButtonONOFF)
@@ -23,7 +23,7 @@ public class SkilPO1 : MonoBehaviour
     }
     public void OnTouched()
     {
-        if (SkilPS1.ButtonONOFF)
+        if (SkilKM1.ButtonONOFF)
         {
             if (GameManager.Instance.TotalOxygen >= 10)
             {

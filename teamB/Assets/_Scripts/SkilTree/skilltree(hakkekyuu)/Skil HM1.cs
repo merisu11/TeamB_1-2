@@ -10,7 +10,6 @@ public class SkilHM1 : MonoBehaviour
 
     private void Update()
     {
-        ButtonONOFF = true;
         if (ButtonONOFF)
         {
             HM1.interactable = false;
@@ -18,11 +17,11 @@ public class SkilHM1 : MonoBehaviour
     }
     public void OnTouched()
     {
-        if (GameManager.Instance.TotalOxygen >= 15)
+        if (GameManager.Instance.TotalOxygen >= 1)
         {
         HM1.interactable = false;
         ButtonONOFF = true;
-        GameManager.Instance.RemoveOxygen(15);
+        GameManager.Instance.RemoveOxygen(1);
         }
     }
 

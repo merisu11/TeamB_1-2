@@ -8,18 +8,30 @@ public class SkilKM1 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button KM1;
+    public SkilHM1 skilHM1;
+    public GameObject obj;
     private void Update()
     {
-        if (ButtonONOFF)
+        if (SkilHM1.ButtonONOFF)
         {
-            KM1.interactable = false;
+            Destroy(obj);
+            if (ButtonONOFF)
+            {
+                KM1.interactable = false;
+            }
         }
     }
     public void OnTouched()
     {
-       
-        KM1.interactable = false;
-        ButtonONOFF = true;
+        if (SkilHM1.ButtonONOFF)
+        {
+            if (GameManager.Instance.TotalOxygen >= 1)
+            {
+                KM1.interactable = false;
+                ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(1);
+            }
+        }
     }
 
 }
