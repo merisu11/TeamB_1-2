@@ -7,8 +7,7 @@ using UnityEngine;
 public class hakekkyuu : MonoBehaviour
 {
     
-    // 白血球の「今何をしているか」を表す状態の種類を定義する
-    // enumを使うことでif文の代わりにswitchで状態ごとの処理を綺麗に分けられる
+    
  
     public enum State
     {
@@ -18,10 +17,7 @@ public class hakekkyuu : MonoBehaviour
     }
 
     
-    // Inspectorに表示するパラメーター
-    // [Header("文字")] はInspectorにグループ名を表示する装飾
-    // [Tooltip("文字")] はInspectorでマウスを乗せたとき説明文を表示する装飾
-    // publicにすることでInspectorから値を変更できる
+    
     
     [Header("検知・妨害")]
 
@@ -31,10 +27,10 @@ public class hakekkyuu : MonoBehaviour
     public static float attachDuration = 2f;
 
     [Header("移動")]
-    public static float moveSpeed = 3f;
+    public static float moveSpeed = 5f;
 
     [Tooltip("追従時、赤血球との目標距離")]
-    public float followDistance = 1.5f;
+    public float followDistance = 1.2f;
 
     [Header("集中阻止")]
     [Tooltip("1体の病原菌に同時に張り付ける白血球の最大数")]
@@ -45,7 +41,7 @@ public class hakekkyuu : MonoBehaviour
     // publicにすることで他のスクリプトから呼び出せる
     
     /// 【スキル①】妨害継続時間を変更する
-    /// スキルツリー側から呼び出してください
+   
    
     public void SetAttachDuration(float duration)
     {
@@ -55,7 +51,7 @@ public class hakekkyuu : MonoBehaviour
 
    
     /// 【スキル②】検知範囲を倍率で変更する
-    /// スキルツリー側から呼び出してください
+   
     
     public void SetDetectionRangeMultiplier(float multiplier)
     {
