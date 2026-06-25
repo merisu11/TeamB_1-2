@@ -7,8 +7,9 @@ public class SkilPS1 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button PS1;
-    public SkilKM1 skilKM1;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
 
     private void Update()
     {
@@ -19,11 +20,17 @@ public class SkilPS1 : MonoBehaviour
             {
                 PS1.interactable = false;
             }
+            if (GameManager.Instance.TotalOxygen >= 10)
+            {
+                ColorBlock cb = PS1.colors;
+                cb.normalColor = newColor;
+                PS1.colors = cb;
+            }
         }
     }
     public void OnTouched()
     {
-        if (SkilPS1.ButtonONOFF)
+        if (SkilKM1.ButtonONOFF)
         {
             if (GameManager.Instance.TotalOxygen >= 10)
             {
@@ -33,6 +40,7 @@ public class SkilPS1 : MonoBehaviour
                 PS1.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(10);
+                effectParticle.Play();
             }
         }
     }

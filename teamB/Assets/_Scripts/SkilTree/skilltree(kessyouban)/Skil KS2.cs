@@ -1,42 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
-public class SkilHT2 : MonoBehaviour
+public class SkilKS2 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
-    public Button HT2;
+    public Button KS2;
     public Color newColor;
     public GameObject obj;
     [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
-        if (SkilHT1.ButtonONOFF)
+        if (SkilKS1.ButtonONOFF)
         {
             Destroy(obj);
             if (ButtonONOFF)
             {
-                HT2.interactable = false;
+                KS2.interactable = false;
             }
-            if (GameManager.Instance.TotalOxygen >= 25)
+            if (GameManager.Instance.TotalOxygen >= 30)
             {
-                ColorBlock cb = HT2.colors;
+                ColorBlock cb = KS2.colors;
                 cb.normalColor = newColor;
-                HT2.colors = cb;
+                KS2.colors = cb;
             }
         }
     }
     public void OnTouched()
     {
-        if (SkilHT1.ButtonONOFF)
+        if (SkilKS1.ButtonONOFF)
         {
-            if (GameManager.Instance.TotalOxygen >= 25)
+            if (GameManager.Instance.TotalOxygen >= 30)
             {
-                hakekkyuu.attachDuration = 3;
-                HT2.interactable = false;
+                KS2.interactable = false;
                 ButtonONOFF = true;
-                GameManager.Instance.RemoveOxygen(25);
+                GameManager.Instance.RemoveOxygen(30);
                 effectParticle.Play();
             }
         }

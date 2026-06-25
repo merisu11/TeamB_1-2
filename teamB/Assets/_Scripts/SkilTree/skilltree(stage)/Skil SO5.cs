@@ -7,8 +7,9 @@ public class SkilSO5 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button SO5;
-    public SkilSO4 skilSO4;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilSO4.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilSO5 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-
                 SO5.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 100)
+            {
+                ColorBlock cb = SO5.colors;
+                cb.normalColor = newColor;
+                SO5.colors = cb;
             }
         }
     }
@@ -28,9 +34,10 @@ public class SkilSO5 : MonoBehaviour
             if (GameManager.Instance.TotalOxygen >= 100)
             {
                 OxygenSpawner.spawnCount = 100;
-            SO5.interactable = false;
-            ButtonONOFF = true;
+                SO5.interactable = false;
+                ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(100);
+                effectParticle.Play();
             }
         }
     }

@@ -7,8 +7,9 @@ public class SkilHT3 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button HT3;
-    public SkilHT2 skilHT2;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilHT2.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilHT3 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-
                 HT3.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 50)
+            {
+                ColorBlock cb = HT3.colors;
+                cb.normalColor = newColor;
+                HT3.colors = cb;
             }
         }
     }
@@ -27,10 +33,11 @@ public class SkilHT3 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 50)
             {
-                Oxygyntest.Max_oxygyns = 4;
-            HT3.interactable = false;
-            ButtonONOFF = true;
+                hakekkyuu.attachDuration = 4;
+                HT3.interactable = false;
+                ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(50);
+                effectParticle.Play();
             }
             }
     }

@@ -4,39 +4,40 @@ using UnityEngine;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
-public class SkilKM1 : MonoBehaviour
+public class SkilKS3 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
-    public Button KM1;
+    public Button KS3;
     public Color newColor;
-    public SkilHM1 skilHM1;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
-        if (SkilHM1.ButtonONOFF)
+        if (SkilKS1.ButtonONOFF)
         {
             Destroy(obj);
             if (ButtonONOFF)
             {
-                KM1.interactable = false;
+                KS3.interactable = false;
             }
-            if (GameManager.Instance.TotalOxygen >= 1)
+            if (GameManager.Instance.TotalOxygen >= 60)
             {
-                ColorBlock cb = KM1.colors;
+                ColorBlock cb = KS3.colors;
                 cb.normalColor = newColor;
-                KM1.colors = cb;
+                KS3.colors = cb;
             }
         }
     }
     public void OnTouched()
     {
-        if (SkilHM1.ButtonONOFF)
+        if (SkilKS2.ButtonONOFF)
         {
-            if (GameManager.Instance.TotalOxygen >= 1)
+            if (GameManager.Instance.TotalOxygen >= 60)
             {
-                KM1.interactable = false;
+                KS3.interactable = false;
                 ButtonONOFF = true;
-                GameManager.Instance.RemoveOxygen(1);
+                GameManager.Instance.RemoveOxygen(60);
+                effectParticle.Play();
             }
         }
     }

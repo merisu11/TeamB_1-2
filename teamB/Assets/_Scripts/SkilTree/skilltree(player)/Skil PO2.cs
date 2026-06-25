@@ -7,8 +7,9 @@ public class SkilPO2 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button PO2;
-    public SkilPO1 skilPO1;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilPO1.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilPO2 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-
                 PO2.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 20)
+            {
+                ColorBlock cb = PO2.colors;
+                cb.normalColor = newColor;
+                PO2.colors = cb;
             }
         }
     }
@@ -27,10 +33,11 @@ public class SkilPO2 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 20)
             {
-            Oxygyn.Max_oxygyns = 3;
-            PO2.interactable = false;
-            ButtonONOFF = true;
-            GameManager.Instance.RemoveOxygen(20);
+                Oxygyn.Max_oxygyns = 3;
+                PO2.interactable = false;
+                ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(20);
+                effectParticle.Play();
             }
         }
     }

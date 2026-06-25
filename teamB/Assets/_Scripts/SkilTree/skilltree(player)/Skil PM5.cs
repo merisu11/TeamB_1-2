@@ -3,41 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkilHT2 : MonoBehaviour
+public class SkilPM5 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
-    public Button HT2;
+    public Button PM5;
     public Color newColor;
     public GameObject obj;
+    public Image image;
     [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
-        if (SkilHT1.ButtonONOFF)
+        if (SkilPM4.ButtonONOFF)
         {
             Destroy(obj);
             if (ButtonONOFF)
             {
-                HT2.interactable = false;
+                PM5.interactable = false;
             }
-            if (GameManager.Instance.TotalOxygen >= 25)
+            if (GameManager.Instance.TotalOxygen >= 120)
             {
-                ColorBlock cb = HT2.colors;
+                ColorBlock cb = PM5.colors;
                 cb.normalColor = newColor;
-                HT2.colors = cb;
+                PM5.colors = cb;
             }
         }
     }
     public void OnTouched()
     {
-        if (SkilHT1.ButtonONOFF)
+        if (SkilPM4.ButtonONOFF)
         {
-            if (GameManager.Instance.TotalOxygen >= 25)
+            if (GameManager.Instance.TotalOxygen >= 120)
             {
-                hakekkyuu.attachDuration = 3;
-                HT2.interactable = false;
+                SubPlayer.blood_on = true;
+                PM5.interactable = false;
                 ButtonONOFF = true;
-                GameManager.Instance.RemoveOxygen(25);
+                GameManager.Instance.RemoveOxygen(120);
                 effectParticle.Play();
+                image.fillAmount = 10 / 10f;
             }
         }
     }

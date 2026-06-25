@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneMoveSkillTreeTest : MonoBehaviour
+public class SceneMoveMainGame : MonoBehaviour
 {
     public void Change_Scene()
     {

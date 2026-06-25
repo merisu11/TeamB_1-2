@@ -8,6 +8,7 @@ public class SkilHM1 : MonoBehaviour
     public static bool ButtonONOFF = false;
     public Button HM1;
     public Color newColor;
+    public Image image;
     [SerializeField] private ParticleSystem effectParticle;
 
     private void Update()
@@ -28,10 +29,11 @@ public class SkilHM1 : MonoBehaviour
     {
         if (GameManager.Instance.TotalOxygen >= 1)
         {
-        HM1.interactable = false;
-        ButtonONOFF = true;
-        GameManager.Instance.RemoveOxygen(1);
-        effectParticle.Play();
+            HM1.interactable = false;
+            ButtonONOFF = true;
+            GameManager.Instance.RemoveOxygen(1);
+            effectParticle.Play();
+            image.fillAmount = 10 / 60f;
         }
     }
 

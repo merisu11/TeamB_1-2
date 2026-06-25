@@ -7,8 +7,9 @@ public class SkilUI3 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button PS3;
-    public SkilPS2 skilPS2;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilPS2.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilUI3 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-                
                 PS3.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 50)
+            {
+                ColorBlock cb = PS3.colors;
+                cb.normalColor = newColor;
+                PS3.colors = cb;
             }
         }
     }
@@ -32,6 +38,7 @@ public class SkilUI3 : MonoBehaviour
             PS3.interactable = false;
             ButtonONOFF = true;
             GameManager.Instance.RemoveOxygen(50);
+            effectParticle.Play();
             }
         }
     }
