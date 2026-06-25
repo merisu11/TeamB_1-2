@@ -5,19 +5,25 @@ public class StartLine : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
 
     [Header("Points (直角ラインの経路)")]
-    [SerializeField] private Vector3 startPoint = new Vector3(0, 0, 0);
-    [SerializeField] private Vector3 corner1 = new Vector3(0, 0, 0);     // 1回目の直角
-    [SerializeField] private Vector3 corner2 = new Vector3(0, 0, 0);     // 2回目の直角
-    [SerializeField] private Vector3 endPoint = new Vector3(0, 0, 0);
+    [SerializeField] private Vector3 startPoint;
+    [SerializeField] private Vector3 corner1;
+    [SerializeField] private Vector3 corner2;
+    [SerializeField] private Vector3 endPoint;
 
     [Header("Config")]
-    [SerializeField] private float speed = 15f;   // 伸びるスピード（単位距離／秒）
+    [SerializeField] private float speed = 30f;
+
+    // シーンをまたいで保持する状態
+    public static bool lineCompleted = false;
 
     private float totalLength;
     private float currentLength = 0f;
 
     private Vector3[] points;
     private float[] segmentLengths;
+
+    private bool started = false;
+    private bool canDraw = false;
 
     private void Start()
     {
@@ -28,11 +34,11 @@ public class StartLine : MonoBehaviour
             return;
         }
 
-        // 経路点をセット
+        // 経路を設定
         points = new Vector3[] { startPoint, corner1, corner2, endPoint };
         lineRenderer.positionCount = points.Length;
 
-        // 各セグメントの長さを計算
+        // 各区間の長さを計算
         segmentLengths = new float[points.Length - 1];
         totalLength = 0f;
 
@@ -42,25 +48,51 @@ public class StartLine : MonoBehaviour
             totalLength += segmentLengths[i];
         }
 
-        // 初期はすべて startPoint を描く
-        for (int i = 0; i < points.Length; i++)
+        // すでに完成済みなら最初から全部表示
+        if (lineCompleted)
         {
-            lineRenderer.SetPosition(i, startPoint);
+            for (int i = 0; i < points.Length; i++)
+            {
+                lineRenderer.SetPosition(i, points[i]);
+            }
+
+            currentLength = totalLength;
+            started = true;
+            canDraw = false;
+        }
+        else
+        {
+            // 初期状態はすべて始点
+            for (int i = 0; i < points.Length; i++)
+            {
+                lineRenderer.SetPosition(i, startPoint);
+            }
         }
     }
 
     private void Update()
     {
-        if (SkilHM1.ButtonONOFF)
+        // 一度だけ開始
+        if (SkilHM1.ButtonONOFF && !started)
         {
-            Invoke(nameof(startlinestart), 0.8f);
-            
+            started = true;
+            Invoke(nameof(StartDrawing), 0.8f);
+        }
+
+        // 描画中
+        if (canDraw && currentLength < totalLength)
+        {
+            DrawLine();
         }
     }
-    private void startlinestart()
-    {
-        if (speed <= 0f) speed = 0.01f;
 
+    private void StartDrawing()
+    {
+        canDraw = true;
+    }
+
+    private void DrawLine()
+    {
         currentLength += speed * Time.deltaTime;
         currentLength = Mathf.Clamp(currentLength, 0f, totalLength);
 
@@ -72,24 +104,33 @@ public class StartLine : MonoBehaviour
 
             if (remaining >= segLen)
             {
-                // この区間は全て描画済み
                 lineRenderer.SetPosition(i, points[i]);
                 remaining -= segLen;
             }
             else
             {
-                // この区間の途中まで伸びている
                 Vector3 pos = Vector3.Lerp(points[i], points[i + 1], remaining / segLen);
+
                 lineRenderer.SetPosition(i, points[i]);
                 lineRenderer.SetPosition(i + 1, pos);
 
-                // 以降はまだ伸びていないので同じ位置に固定
                 for (int j = i + 2; j < points.Length; j++)
                 {
                     lineRenderer.SetPosition(j, pos);
                 }
-                break;
+
+                return;
             }
+        }
+
+        // 最後まで描画したら完成フラグを保存
+        lineCompleted = true;
+        canDraw = false;
+
+        // 念のため終点を確実に設定
+        for (int i = 0; i < points.Length; i++)
+        {
+            lineRenderer.SetPosition(i, points[i]);
         }
     }
 }

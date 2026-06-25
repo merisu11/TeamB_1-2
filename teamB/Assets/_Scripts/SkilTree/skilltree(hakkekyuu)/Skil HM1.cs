@@ -15,7 +15,7 @@ public class SkilHM1 : MonoBehaviour
     {
         if (ButtonONOFF)
         {
-            HM1.interactable = false;
+            HM1.interactable = false; 
         }
         if (GameManager.Instance.TotalOxygen >= 1)
         {
