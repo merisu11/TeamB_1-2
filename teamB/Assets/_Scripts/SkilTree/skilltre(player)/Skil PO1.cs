@@ -27,7 +27,8 @@ public class SkilPO1 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 10)
             {
-            Oxygyn.Max_oxygyns = 2;
+            Player.maxOxygen = 2;
+            SubPlayer.maxOxygen = 2;
             PO1.interactable = false;
             ButtonONOFF = true;
             GameManager.Instance.RemoveOxygen(10);
