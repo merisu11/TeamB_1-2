@@ -18,7 +18,7 @@ public class SubPlayer : MonoBehaviour
     public static List<Transform> SubPlayers = new List<Transform>();//SubPlayerの管理リスト
 
     public List<Oxygyn> oxygens = new List<Oxygyn>();//Oxygen管理リスト
-    public int maxOxygen = 1;
+    public int maxOxygen = 1;//個数調整
 
     private void Awake()
     {

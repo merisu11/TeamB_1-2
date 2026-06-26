@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public int blood_count = 1;
     private float time;
 
+    public static int playerMaxOxygen = 1;   //‚±‚±‚ÅãŒÀ•ÏX‰Â”\
+    public static int playerOxygenCount = 0; //Œ»İŠ”
+
     void Start()
     {
         touchWorldPosition = transform.position;

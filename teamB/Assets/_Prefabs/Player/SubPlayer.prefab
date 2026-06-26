@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 235502954711187580}
   - component: {fileID: 1306889174083415637}
   - component: {fileID: 3462336865141119253}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: SubPlayer
   m_TagString: SubPlayer
   m_Icon: {fileID: 0}
@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SubPlayer
   speed: 10
+  oxygens: []
+  maxOxygen: 1
 --- !u!58 &3462336865141119253
 CircleCollider2D:
   m_ObjectHideFlags: 0

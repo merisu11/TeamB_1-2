@@ -8,9 +8,6 @@ public class Oxygyn : MonoBehaviour
 
     [SerializeField] public static float speed = 10; // é_ëfÇÃìÆÇ≠ÉXÉsÅ[Éh
 
-    public GameObject[] Oxygyns_1;
-    public GameObject[] Oxygyns_2;
-
     bool Follow = false;
     bool subFollow = false;
     bool cooldown = false;
@@ -20,10 +17,7 @@ public class Oxygyn : MonoBehaviour
     private float randomy;
     private bool collected = false;
 
-    public int Oxygyn1;
-    public int Oxygen2;
-
-    private SubPlayer ownerSubPlayer = null;
+    private SubPlayer owner = null;
     public static int Max_oxygyns = 1;
 
     private void Start()
@@ -38,11 +32,6 @@ public class Oxygyn : MonoBehaviour
     private void Update()
     {
 
-        Oxygyns_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");
-        Oxygyns_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");
-        Oxygyn1 = Oxygyns_1.Length;
-        Oxygen2 = Oxygyns_2.Length;
-
         subplayerTr = GetNearestSubPlayer();//àÍî‘ãﬂÇ¢SubPlayerÇéÊìæ
         if (subplayerTr == null) return;
 
@@ -50,11 +39,11 @@ public class Oxygyn : MonoBehaviour
         {
             if (!cooldown)
             {
-                if (Oxygyn1 < Max_oxygyns)
+                if (Player.playerOxygenCount < Player.playerMaxOxygen)
                 {
                     Follow = true;
-                    subFollow = !Follow;
-                    this.gameObject.tag = "Oxygyn_get.1";//éÊìæÇµÇΩé_ëfÇÃÉ^ÉOÇïœçX
+                    subFollow = false;
+                    owner = null;
                 }
             }
         }
@@ -67,19 +56,14 @@ public class Oxygyn : MonoBehaviour
 
                 if (sub.oxygens.Count < sub.maxOxygen)
                 {
-                    if (Oxygen2 < Max_oxygyns)
+                    subFollow = true;
+                    Follow = false;
+
+                    if (!collected)
                     {
-                        subFollow = true;
-                        Follow = !subFollow;
-                        this.gameObject.tag = "Oxygyn_get.2";//éÊìæÇµÇΩé_ëfÇÃÉ^ÉOÇïœçX
-
-                        if (!collected)//ìoò^èàóù
-                        {
-                            sub.oxygens.Add(this);
-                            ownerSubPlayer = sub;
-                            collected = true;
-                        }
-
+                        sub.oxygens.Add(this);
+                        owner = sub;
+                        collected = true;
                     }
                 }
             }
@@ -116,6 +100,14 @@ public class Oxygyn : MonoBehaviour
                     randomx = Random.Range(-9.0f, 9.0f);//9Å`-9ÇÃílÇ©ÇÁÉâÉìÉ_ÉÄÇ…åàíË
                     randomy = Random.Range(-4.5f, 4.5f);//4.5Å`-4.5ÇÃílÇ©ÇÁÉâÉìÉ_ÉÄÇ…åàíË
                 }
+
+                if (owner != null)//ìoò^âèú
+                {
+                    owner.oxygens.Remove(this);
+                    owner = null;
+                }
+
+                Player.playerOxygenCount = Mathf.Max(0, Player.playerOxygenCount - 1);
             }
 
             if (subFollow && !EnemyMove.isImpeded)
@@ -128,10 +120,10 @@ public class Oxygyn : MonoBehaviour
                     randomy = Random.Range(-4.5f, 4.5f);//4.5Å`-4.5ÇÃílÇ©ÇÁÉâÉìÉ_ÉÄÇ…åàíË
                 }
 
-                if (ownerSubPlayer != null)//ìoò^âèú
+                if (owner != null)//ìoò^âèú
                 {
-                    ownerSubPlayer.oxygens.Remove(this);
-                    ownerSubPlayer = null;
+                    owner.oxygens.Remove(this);
+                    owner = null;
                 }
             }
         }
