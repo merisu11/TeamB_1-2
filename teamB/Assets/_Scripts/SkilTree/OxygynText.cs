@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class OxygenUI : MonoBehaviour
 {
-    public TMP_Text oxygenText;
+    [SerializeField] private Text oxygenText;
+
 
     void Update()
     {
