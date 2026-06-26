@@ -41,6 +41,7 @@ public class SkilHM4 : MonoBehaviour
                 GameManager.Instance.RemoveOxygen(80);
                 effectParticle.Play();
                 image.fillAmount = 40 / 60f;
+                SkilHM1.SavedFillAmount = image.fillAmount;
             }
         }
     }

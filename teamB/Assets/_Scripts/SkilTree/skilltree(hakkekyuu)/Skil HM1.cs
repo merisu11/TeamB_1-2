@@ -9,7 +9,14 @@ public class SkilHM1 : MonoBehaviour
     public Button HM1;
     public Color newColor;
     public Image image;
+    public static float SavedFillAmount = 0f;
     [SerializeField] private ParticleSystem effectParticle;
+
+    private void Start()
+    {
+        image.fillAmount = SavedFillAmount;
+    }
+
 
     private void Update()
     {
@@ -34,6 +41,7 @@ public class SkilHM1 : MonoBehaviour
             GameManager.Instance.RemoveOxygen(1);
             effectParticle.Play();
             image.fillAmount = 10 / 60f;
+            SavedFillAmount = image.fillAmount;
         }
     }
 

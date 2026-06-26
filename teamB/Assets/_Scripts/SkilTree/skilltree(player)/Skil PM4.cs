@@ -11,6 +11,7 @@ public class SkilPM4 : MonoBehaviour
     public GameObject obj;
     public Image image;
     [SerializeField] private ParticleSystem effectParticle;
+  
     private void Update()
     {
         if (SkilPM3.ButtonONOFF)
@@ -40,6 +41,7 @@ public class SkilPM4 : MonoBehaviour
                 GameManager.Instance.RemoveOxygen(85);
                 effectParticle.Play();
                 image.fillAmount = 7 / 10f;
+                SkilPM1.SavedFillAmount = image.fillAmount;
             }
         }
     }

@@ -12,7 +12,13 @@ public class SkilPM1 : MonoBehaviour
     public GameObject obj;
     public Image image;
     public GameObject prefab;
+    public static float SavedFillAmount = 0.1f;
     [SerializeField] private ParticleSystem effectParticle;
+
+    private void Start()
+    {
+        image.fillAmount = SavedFillAmount;
+    }
     private void Update()
     {
         if (SkilKM1.ButtonONOFF)
@@ -42,6 +48,7 @@ public class SkilPM1 : MonoBehaviour
                 GameManager.Instance.RemoveOxygen(20);
                 effectParticle.Play();
                 image.fillAmount = 2 / 10f;
+                SavedFillAmount = image.fillAmount;
             }
         }
     }

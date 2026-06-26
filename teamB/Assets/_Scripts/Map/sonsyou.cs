@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class sonsyou : MonoBehaviour
 {
     [SerializeField] int healRequiredCount = 3;   // 修復に必要な血小板の数
-    [SerializeField] float healTimer = 5.0f;      // 必要数到着後、修復までの待機時間（秒）
+    [SerializeField] public static float healTimer = 5.0f;      // 必要数到着後、修復までの待機時間（秒）
 
     private List<kessyouban> arrivedPlatelets = new List<kessyouban>();
     private bool isHealing = false;   // 修復カウント中かどうか

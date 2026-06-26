@@ -34,6 +34,7 @@ public class SkilKS2 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 30)
             {
+                sonsyou.healTimer = 4f;
                 KS2.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(30);
