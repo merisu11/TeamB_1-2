@@ -12,7 +12,7 @@ public class SubPlayer : MonoBehaviour
     private float time;
     private float randomx;
     private float randomy;
-    public static bool blood_on = false;
+    public static bool blood_on = true;
 
     private void Start()
     {

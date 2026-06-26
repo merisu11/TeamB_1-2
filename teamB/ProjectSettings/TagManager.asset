@@ -8,11 +8,11 @@ TagManager:
   - Road
   - Wall
   - Oxygyn
-  - SubPlayer
   - Oxygyn_get.1
   - Oxygyn_get.2
   - EnemyWall
   - White_Blood
+  - SubPlayer
   layers:
   - Default
   - TransparentFX
