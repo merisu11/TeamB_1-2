@@ -1,50 +1,65 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class gaol : MonoBehaviour
 {
     [SerializeField] private GameObject effectGoalprefab;
 
-    // ƒGƒtƒFƒNƒg‚Ì”­¶ˆÊ’uiƒS[ƒ‹‚Ì‰œF‰æ–ÊŠO‘¤j
+    // ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½Ì”ï¿½ï¿½ï¿½ï¿½Ê’uï¿½iï¿½Sï¿½[ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Fï¿½ï¿½ÊŠOï¿½ï¿½ï¿½j
     [SerializeField] private Transform effectSpawnPoint;
 
-    // ƒGƒtƒFƒNƒg‚ªŒü‚©‚¤•ûŒüiƒXƒe[ƒW‘¤F‰æ–Ê“à‘¤j
+    // ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½Fï¿½ï¿½Ê“ï¿½ï¿½ï¿½ï¿½j
     [SerializeField] private Transform effectTargetPoint;
+
+    private int remainingRedCells = -1;   // ï¿½Ü‚ï¿½ï¿½Sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ÔŒï¿½ï¿½ï¿½(Playerï¿½^ï¿½O)ï¿½Ìcï¿½ï¿½
+    private bool goalCompleted = false;   // ï¿½Sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½iï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½Eï¿½Vï¿½[ï¿½ï¿½ï¿½iï¿½sï¿½jï¿½ï¿½ï¿½Ï‚ñ‚¾‚ï¿½
+
+    private void Start()
+    {
+        // ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½ï¿½uPlayerï¿½vï¿½^ï¿½Oï¿½iï¿½ÔŒï¿½ï¿½ï¿½ï¿½jï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ğ”‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+        // ï¿½dï¿½lï¿½Fï¿½uï¿½Sï¿½Ä‚ÌÔŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½[ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Aï¿½Ì”ï¿½ï¿½ï¿½î€ï¿½É‚ï¿½ï¿½ï¿½
+        remainingRedCells = GameObject.FindGameObjectsWithTag("Player").Length;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag != "Player") return;
+        if (goalCompleted) return; // ï¿½ï¿½ï¿½É‘Sï¿½ï¿½ï¿½Sï¿½[ï¿½ï¿½ï¿½Ï‚İ‚È‚ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+
+        // ï¿½ï¿½ï¿½ÌÔŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½fï¿½ï¿½ï¿½ï¿½ GameManager ï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½iï¿½ÔŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½Ñ–ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½j
+        Player playerScript = other.GetComponent<Player>();
+        if (playerScript != null)
         {
-            if (effectGoalprefab != null)
-            {
-                // ƒS[ƒ‹‰œ‚ÌˆÊ’u‚ÉƒGƒtƒFƒNƒg‚ğ¶¬
-                Vector3 spawnPos = effectSpawnPoint != null
-                    ? effectSpawnPoint.position
-                    : transform.position;
-
-                // ƒXƒe[ƒW‘¤‚ÖŒü‚¯‚Ä‰ñ“]
-                Vector3 direction = effectTargetPoint != null
-                    ? (effectTargetPoint.position - spawnPos).normalized
-                    : Vector3.up;
-
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-                Instantiate(effectGoalprefab, spawnPos, rotation);
-            }
-
-            Player playerScript = other.GetComponent<Player>();
-            if (other.gameObject.tag == "Player")
-            {
-                // ƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f”‚ğ GameManager ‚É“n‚·
-               
-                if (playerScript != null)
-                {
-                    GameManager.Instance.AddOxygen(playerScript.Oxygyn_get);
-                }
-
-                Invoke("GoalAfterDelay", 0.5f);//0.5byougo
-            }
+            GameManager.Instance.AddOxygen(playerScript.Oxygyn_get);
         }
 
+        remainingRedCells--;
+
+        // ï¿½Ü‚ï¿½ï¿½Sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ÔŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Î‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
+        // ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ÆƒSï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Vï¿½[ï¿½ï¿½ï¿½iï¿½sï¿½jï¿½Íuï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ìuï¿½Ô‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+        if (remainingRedCells > 0) return;
+
+        goalCompleted = true;
+
+        // ===== ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½Sï¿½Ä‚ÌÔŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½[ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½uï¿½Ô‚Ìï¿½ï¿½ï¿½ =====
+        if (effectGoalprefab != null)
+        {
+            // ï¿½Sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½ÉƒGï¿½tï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½
+            Vector3 spawnPos = effectSpawnPoint != null
+                ? effectSpawnPoint.position
+                : transform.position;
+
+            // ï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½ÖŒï¿½ï¿½ï¿½ï¿½Ä‰ï¿½]ï¿½iï¿½Xï¿½}ï¿½uï¿½ï¿½ï¿½ÌŒï¿½ï¿½ÄƒGï¿½tï¿½Fï¿½Nï¿½gï¿½Æ“ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ÊŠOï¿½ï¿½ï¿½ï¿½Ê“ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½[ï¿½Wï¿½j
+            Vector3 direction = effectTargetPoint != null
+                ? (effectTargetPoint.position - spawnPos).normalized
+                : Vector3.up;
+
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+            Instantiate(effectGoalprefab, spawnPos, rotation);
+        }
+
+        Invoke("GoalAfterDelay", 0.5f); // 0.5ï¿½bï¿½ï¿½
     }
 
     private void GoalAfterDelay()
