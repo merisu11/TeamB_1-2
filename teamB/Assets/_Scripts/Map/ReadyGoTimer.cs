@@ -7,6 +7,8 @@ public class ReadyGoTimer : MonoBehaviour
     public Text uiText; //画像に表示するTextコンポーネント
     public GameObject startPanel; //一緒に消したいPanel
 
+    //ゲームが開始されたかどうかを判断するフラグ
+    public bool IsGameStarted { get; private set; } = true;
     void Start()
     {
         //演出のコールチンを開始
