@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     {
         if(time < 0)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 Vector3 touchScreenPosition = Input.mousePosition;//クリック座標をtouchScreenPositionに
                 touchScreenPosition.z = 5.0f;//奥行固定
