@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if(time < 0)
+        if (time < 0)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
             }
             player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //ƒIƒuƒWƒFƒNƒg‚ÌˆÚ“®+ˆÚ“®‘¬“x
         }
-        
+
         Oxygyns = GameObject.FindGameObjectsWithTag("Oxygyn");//ƒV[ƒ““à‚ÌŽ_‘f‚Ì”‚ð”‚¦‚é
         Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ðŽ_‘f‚Ì”‚Æ“¯ˆê‰»
         Debug.Log("Žc‚Á‚Ä‚éŽ_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
             touchWorldPosition = player.transform.position;
         }
 
-        if(collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             if (!collision.gameObject.GetComponent<EnemyMove>().IsImpeded)
             {

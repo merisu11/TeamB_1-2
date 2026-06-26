@@ -1,29 +1,42 @@
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class SubPlayer : MonoBehaviour
 {
     Transform playerTr; // プレイヤーのTransform
     [SerializeField] float speed = 10; // 酸素の動くスピード
+
     bool Follow = true;
     bool cooldown = false;
     private float time;
+
     private float randomx;
     private float randomy;
+
     public static bool blood_on = true;
+
+    public static List<Transform> SubPlayers = new List<Transform>();//SubPlayerの管理リスト
+
+    public List<Oxygyn> oxygens = new List<Oxygyn>();//Oxygen管理リスト
+    public int maxOxygen = 1;
+
+    private void Awake()
+    {
+        SubPlayers.Add(transform);
+    }
 
     private void Start()
     {
         playerTr = GameObject.FindGameObjectWithTag("Player").transform;// プレイヤーの座標取得
+        SubPlayers.Add(transform);//サブプレイヤー登録
+
         Vector3 startPos = transform.position;
         startPos.z = -5.0f;
         transform.position = startPos;//初期のZ座標を-5に設定
     }
     private void Update()
     {
-        if(time < 0)
+        if (time < 0)
         {
             if (blood_on)
             {
@@ -55,7 +68,7 @@ public class SubPlayer : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-            if(cooldown == true)
+            if (cooldown == true)
             {
                 time = 0;//壁にぶつかると移動を中止
             }
@@ -66,5 +79,10 @@ public class SubPlayer : MonoBehaviour
             {
                 time = 1.0f;
             }
+    }
+
+    private void OnDestroy()
+    {
+        SubPlayers.Remove(transform);//リストから削除
     }
 }
