@@ -59,7 +59,7 @@ public class gaol : MonoBehaviour
             Instantiate(effectGoalprefab, spawnPos, rotation);
         }
 
-        Invoke("GoalAfterDelay", 0.5f); // 0.5�b��
+        Invoke("GoalAfterDelay", 0.8f); // 0.5�b��
     }
 
     private void GoalAfterDelay()

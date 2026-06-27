@@ -12,19 +12,88 @@ public class kessyouban : MonoBehaviour
     private bool arrived = false;               // 到着済みかどうか
     private Vector2 currentDir;                 // 現在の移動方向（なめらかに変化させるために保持）
     private Vector2 committedSlide = Vector2.zero; // 障害物を避けるときに決定したスライド方向
+    private float prevDistToTarget = float.MaxValue; // 前フレームの目標との距離（遠ざかり検知用）
+    private float slidingAwayTimer = 0f;             // スライド中に目標から遠ざかり続けた時間
+
+    // コライダーの中心オフセットとサイズ（Rayの起点をコライダー中心に合わせるために使う）
+    private Vector2 colliderOffset;
+    private float colliderRadius; // CircleCastに使う半径（コライダーの幅の半分）
 
     // Start はシーン開始時に1回だけ呼ばれる
     private void Start()
     {
-        // "EnemyWall"タグのオブジェクトを目標として取得する
-        GameObject floorObj = GameObject.FindGameObjectWithTag("EnemyWall");
-        if (floorObj != null)
+        // コライダーの中心・サイズを取得しておく
+        // → Rayの開始位置をコライダー中心に合わせることで、端ズレによる誤検知を防ぐ
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
         {
-            targetFloor = floorObj.transform;
+            colliderOffset = col.offset;
+            // CircleCollider2D なら radius、それ以外は bounds の半径を使う
+            if (col is CircleCollider2D circle)
+                colliderRadius = circle.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
+            else
+                colliderRadius = Mathf.Min(col.bounds.extents.x, col.bounds.extents.y);
+        }
+
+        // "EnemyWall"タグのオブジェクトの中から、割り当て先を決定する
+        GameObject target = FindBestTarget();
+        if (target != null)
+        {
+            targetFloor = target.transform;
+            // 割り当て数を+1登録する
+            sonsyou s = targetFloor.GetComponent<sonsyou>();
+            if (s != null) s.RegisterAssigned(this);
+
             // 最初の移動方向を目標への方向に設定する
             currentDir = ((Vector2)targetFloor.position - (Vector2)transform.position).normalized;
-            //normalizedはピタゴラスの定理を使って目標までの長さを1に統一している
+            // normalizedはピタゴラスの定理を使って目標までの長さを1に統一している
         }
+    }
+
+    // 最適な割り当て先（損傷）を選ぶ
+    // 優先順位：必要数に達していない損傷の中で、割り当て数が少ない順
+    private GameObject FindBestTarget()
+    {
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("EnemyWall");
+        if (walls.Length == 0) return null;
+
+        GameObject best = null;
+        int bestAssigned = int.MaxValue;
+
+        foreach (GameObject wall in walls)
+        {
+            sonsyou s = wall.GetComponent<sonsyou>();
+            if (s == null) continue; // sonsyou がないオブジェクトは損傷ではないので無視
+
+            // すでに必要数に達している損傷は除外
+            if (s.IsFullyAssigned()) continue;
+
+            int assigned = s.GetAssignedCount();
+            if (assigned < bestAssigned)
+            {
+                bestAssigned = assigned;
+                best = wall;
+            }
+        }
+
+        // 全損傷が満員なら最も近い損傷に向かう（フォールバック）
+        // sonsyou コンポーネントがないオブジェクトは対象外にする
+        if (best == null)
+        {
+            float minDist = float.MaxValue;
+            foreach (GameObject wall in walls)
+            {
+                if (wall.GetComponent<sonsyou>() == null) continue; // sonsyouがないEnemyWallは無視
+                float dist = Vector2.Distance(transform.position, wall.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    best = wall;
+                }
+            }
+        }
+
+        return best;
     }
 
     // Update は毎フレーム呼ばれる
@@ -34,7 +103,7 @@ public class kessyouban : MonoBehaviour
         if (arrived || targetFloor == null) return;
 
         Vector2 pos = (Vector2)transform.position;
-        // 目標への方向を毎フレーム計算すru
+        // 目標への方向を毎フレーム計算する
         Vector2 toTarget = ((Vector2)targetFloor.position - pos).normalized;
 
         // 目標方向にRayを飛ばして障害物があるか調べる
@@ -55,6 +124,8 @@ public class kessyouban : MonoBehaviour
                 // 目標方向により近い方のスライド方向を選ぶ
                 // Vector2.Dot(A, B) はAとBの内積（同じ方向ほど大きい値になる）
                 committedSlide = Vector2.Dot(toTarget, surfaceA) > 0 ? surfaceA : surfaceB;
+                prevDistToTarget = float.MaxValue; // 方向決定時にリセット
+                slidingAwayTimer = 0f;
             }
 
             // 選んだスライド方向も塞がれていたら逆方向に切り替える
@@ -62,7 +133,26 @@ public class kessyouban : MonoBehaviour
             if (slideHit.collider != null && slideHit.collider.gameObject != targetFloor.gameObject)
             {
                 committedSlide = -committedSlide;
+                slidingAwayTimer = 0f;
             }
+
+            // スライド中に目標から遠ざかり続けていたら逆方向に切り替える
+            // 壁の端の法線が誤った方向を返したときの救済処理
+            float currentDist = Vector2.Distance(pos, targetFloor.position);
+            if (currentDist > prevDistToTarget)
+            {
+                slidingAwayTimer += Time.deltaTime;
+                if (slidingAwayTimer > 0.5f) // 0.5秒以上遠ざかり続けたら逆転
+                {
+                    committedSlide = -committedSlide;
+                    slidingAwayTimer = 0f;
+                }
+            }
+            else
+            {
+                slidingAwayTimer = 0f;
+            }
+            prevDistToTarget = currentDist;
 
             desiredDir = committedSlide;
         }
@@ -70,6 +160,8 @@ public class kessyouban : MonoBehaviour
         {
             // 障害物がなければスライド方向をリセットして目標に向かって直進する
             committedSlide = Vector2.zero;
+            slidingAwayTimer = 0f;
+            prevDistToTarget = float.MaxValue;
             desiredDir = toTarget;
         }
 
@@ -98,7 +190,7 @@ public class kessyouban : MonoBehaviour
         if (Vector2.Distance(transform.position, targetFloor.position) < 1.0f)
         {
             arrived = true;
-            // ?. はnullチェック付きのメソッド呼び出し（sonsyouがなければ何もしない）
+            // ?.はnullチェック付きのメソッド呼び出し（sonsyouがなければ何もしない）
             // sonsyouに「血小板が到着した」と通知する
             targetFloor.GetComponent<sonsyou>()?.OnPlateletArrived(this);
         }

@@ -15,6 +15,7 @@ public class sonsyou : MonoBehaviour
     [SerializeField] float healEffectFadeDelay = 2.0f; // Stop後、エフェクトを破棄するまでの待ち時間（フェードアウト用の余裕）
     private GameObject healEffectInstance;             // 生成したエフェクトの参照（回復終了時に止めるために保持）
     private List<kessyouban> arrivedPlatelets = new List<kessyouban>();
+    private List<kessyouban> assignedPlatelets = new List<kessyouban>(); // 向かってきている血小板の一覧
     private bool isHealing = false;   // 治癒カウント中かどうか
     private float currentTimer = 0f; // 現在のカウント秒
     private float baseHealTimer;     // 初期の待機時間（スキル倍率計算の基準値）
@@ -37,6 +38,31 @@ public class sonsyou : MonoBehaviour
             HealFloor();
         }
     }
+
+    // ---- 割り当て管理（kessyouban.cs から呼ばれる） ----
+
+    // この損傷に向かう血小板を登録する（kessyouban の Start で呼ぶ）
+    public void RegisterAssigned(kessyouban platelet)
+    {
+        if (!assignedPlatelets.Contains(platelet))
+            assignedPlatelets.Add(platelet);
+    }
+
+    // 割り当て済みの血小板数を返す
+    public int GetAssignedCount()
+    {
+        // 破棄済みオブジェクトを除いてカウントする
+        assignedPlatelets.RemoveAll(p => p == null);
+        return assignedPlatelets.Count;
+    }
+
+    // 必要数の血小板が既に割り当て済みか（これ以上送り込まなくてよいか）
+    public bool IsFullyAssigned()
+    {
+        return GetAssignedCount() >= healRequiredCount;
+    }
+
+    // ---- 到着通知（kessyouban の Update で呼ばれる） ----
 
     // 血小板が到着したときに kessyouban から呼ばれる
     public void OnPlateletArrived(kessyouban platelet)
@@ -63,6 +89,8 @@ public class sonsyou : MonoBehaviour
 
         if (!isHealing)
         {
+            // 到着済みの数だけで「あと何個必要か」を表示する
+            // （向かっている途中の血小板はまだ到着していないのでカウントしない）
             int left = healRequiredCount - arrivedPlatelets.Count;
             left = Mathf.Max(0, left);
 
@@ -141,7 +169,6 @@ public class sonsyou : MonoBehaviour
 
     /// <スキル：回復速度を上げる> 待機時間を倍率で短縮する
     /// スキルツリーから各sonsyouに対して呼び出してください
-
     public void SetHealSpeedMultiplier(float multiplier)
     {
         // 倍率が大きいほど待機時間が短くなる（早く治癒する）
