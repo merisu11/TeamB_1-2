@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int OxygenThisRun { get; private set; } = 0;
 
     /// <summary>現在所持している酸素数（累計）</summary>
-    public int TotalOxygen { get; private set; } = 10000;
+    public int TotalOxygen { get; private set; } = 0;
 
     // ── ゲーム終了理由 ────────────────────────────
     public enum EndReason { Goal, TimerUp }
