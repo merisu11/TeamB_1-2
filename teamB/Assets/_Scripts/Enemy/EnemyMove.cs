@@ -9,16 +9,29 @@ public class EnemyMove : MonoBehaviour, IPathogen
     private bool isStunned = false;
     private float stunTimer = 0f;
 
-    public static bool isImpeded = false;
+    // static を外してインスタンスごとに管理する
+    // static だと全ての敵が同じフラグを共有してしまうため、1体が捕まると全員止まるバグが起きる
+    // インスタンスごとに管理する（static にすると1体捕まると全員止まるバグが起きる）
+    private bool _isImpeded = false;
+
+    // Oxygyn.cs など外部から EnemyMove.isImpeded でアクセスできるよう互換性を綴持する
+    // 「シーン内のいずれか1体でも捕まっているか」を返す static プロパティ
+    public static bool isImpeded
+    {
+        get
+        {
+            foreach (EnemyMove e in FindObjectsByType<EnemyMove>(FindObjectsSortMode.None))
+                if (e._isImpeded) return true;
+            return false;
+        }
+    }
     private Rigidbody2D rb;
 
-    // 外部から白血球に捕まっているか確認できるプロパティ
-    // Player.cs側で collision.gameObject.GetComponent<EnemyMove>().IsImpeded で取得できる
-    public bool IsImpeded => isImpeded;
+    public bool IsImpeded => _isImpeded;
 
     public void SetImpeded(bool impeded)
     {
-        isImpeded = impeded;
+        _isImpeded = impeded;
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = impeded ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
     }
@@ -31,7 +44,7 @@ public class EnemyMove : MonoBehaviour, IPathogen
 
     private void Update()
     {
-        if (isImpeded) return;
+        if (_isImpeded) return;
 
         if (isStunned)
         {

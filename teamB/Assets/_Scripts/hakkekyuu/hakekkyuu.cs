@@ -6,9 +6,9 @@ using UnityEngine;
 /// </summary>
 public class hakekkyuu : MonoBehaviour
 {
-    
-    
- 
+
+
+
     public enum State
     {
         Follow, // 赤血球（プレイヤー）の後ろをついていく状態
@@ -16,9 +16,9 @@ public class hakekkyuu : MonoBehaviour
         Attach, // 病原菌に張り付いて阻害している状態
     }
 
-    
-    
-    
+
+
+
     [Header("検知・妨害")]
 
     public static float detectionRange = 5f;
@@ -36,23 +36,27 @@ public class hakekkyuu : MonoBehaviour
     [Tooltip("1体の病原菌に同時に張り付ける白血球の最大数")]
     public int maxPerPathogen = 1;
 
-    
+    [Header("レイヤー設定")]
+    [Tooltip("壁と判定するレイヤー。検知時にRaycastで壁越しを禁止するために使う")]
+    public LayerMask wallLayer;
+
+
     // スキルツリー用のpublicメソッド
     // publicにすることで他のスクリプトから呼び出せる
-    
+
     /// 【スキル①】妨害継続時間を変更する
-   
-   
+
+
     public void SetAttachDuration(float duration)
     {
         // 引数で受け取った値をそのままattachDurationに代入する
         attachDuration = duration;
     }
 
-   
+
     /// 【スキル②】検知範囲を倍率で変更する
-   
-    
+
+
     public void SetDetectionRangeMultiplier(float multiplier)
     {
         // 初期値（baseDetectionRange）に倍率をかけて現在の検知範囲を更新する
@@ -71,7 +75,7 @@ public class hakekkyuu : MonoBehaviour
     private float baseDetectionRange;          // 検知範囲の初期値（スキル倍率の基準）
     private FixedJoint2D joint;                // 張り付き用のJoint（接触時に動的に追加する）
 
-   void Start()
+    void Start()
     {
         // GetComponent<T>() は自分のGameObjectについているTというコンポーネントを取得する
         rb = GetComponent<Rigidbody2D>();
@@ -96,7 +100,7 @@ public class hakekkyuu : MonoBehaviour
         currentState = State.Follow;
     }
 
-      void Update()
+    void Update()
     {
         // switch文でcurrentStateの値によって実行する処理を切り替える
         // if-elseでも書けるが状態が多いときはswitchのほうが読みやすい
@@ -117,9 +121,9 @@ public class hakekkyuu : MonoBehaviour
         }
     }
 
-  
+
     // 赤血球（プレイヤー）に追従する処理
-  
+
     void UpdateFollow()
     {
         // nullチェック：playerTransformが取得できていなければ何もしない
@@ -143,9 +147,9 @@ public class hakekkyuu : MonoBehaviour
         }
     }
 
-    
+
     // 周囲の病原菌を探す処理（Follow状態のときだけ毎フレーム呼ばれる）
-    
+
     void SearchPathogen()
     {
         // Physics2D.OverlapCircleAll(中心, 半径) は
@@ -168,6 +172,15 @@ public class hakekkyuu : MonoBehaviour
             // 最大数に達していなければこの病原菌を追いかける
             if (attached < maxPerPathogen)
             {
+                // Raycastで白血球から病原菌までの間に壁があるか確認する
+                // wallLayerが設定されていない場合は視線チェックをスキップする
+                if (wallLayer != 0)
+                {
+                    Vector2 toEnemy = (Vector2)(hit.transform.position - transform.position);
+                    RaycastHit2D wallHit = Physics2D.Raycast(transform.position, toEnemy.normalized, toEnemy.magnitude, wallLayer);
+                    if (wallHit.collider != null) continue; // 壁で遮られているのでスキップ
+                }
+
                 chaseTarget = hit.transform;
                 currentState = State.Chase; // 状態をChaseに切り替え
                 return; // 1体見つかればOKなのでループを抜ける
@@ -175,9 +188,9 @@ public class hakekkyuu : MonoBehaviour
         }
     }
 
-    
+
     // 病原菌を追いかける処理（Chase状態のときに毎フレーム呼ばれる）
-    
+
     void UpdateChase()
     {
         // 追いかけている病原菌が消えていたら（倒されたなど）追従に戻る
@@ -193,11 +206,11 @@ public class hakekkyuu : MonoBehaviour
         // 病原菌との接触検知はOnCollisionEnter2Dに任せる
     }
 
-    
+
     // OnCollisionEnter2D はCollider同士が衝突した瞬間にUnityが自動で呼ぶ関数
     // 引数のCollision2Dには衝突相手の情報が入っている
     // （IsTriggerがオフのCollider同士が衝突したときに呼ばれる）
-    
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Chase状態のときだけ処理する
@@ -214,10 +227,10 @@ public class hakekkyuu : MonoBehaviour
         BeginAttach(collision.gameObject);
     }
 
-    
+
     // 張り付き開始の処理
     // BeginAttachはOnCollisionEnter2Dから呼ばれる
-    
+
     void BeginAttach(GameObject pathogen)
     {
         attachedPathogen = pathogen;       // 張り付いた病原菌を記録
@@ -257,8 +270,8 @@ public class hakekkyuu : MonoBehaviour
             Debug.LogError($"[白血球] IPathogen が見つかりません: {pathogen.name}");
     }
 
-        // 張り付き中の処理（Attach状態のときに毎フレーム呼ばれる）
-    
+    // 張り付き中の処理（Attach状態のときに毎フレーム呼ばれる）
+
     void UpdateAttach()
     {
         // 病原菌が消滅していたらJointも無効になるので自分も消す
@@ -286,10 +299,10 @@ public class hakekkyuu : MonoBehaviour
         }
     }
 
-    
+
     // 指定した病原菌に現在何体の白血球が張り付いているか数えるユーティリティ関数
     // CountAttachedToはSearchPathogenから呼ばれる
-        int CountAttachedTo(GameObject pathogen)
+    int CountAttachedTo(GameObject pathogen)
     {
         int count = 0;
 
@@ -304,10 +317,10 @@ public class hakekkyuu : MonoBehaviour
         return count;
     }
 
-  
+
     // OnDrawGizmosSelected はUnityエディターでこのオブジェクトを選択したとき
     // Sceneビューに補助図形を描画する関数（ゲーム中には表示されない）
-    
+
     void OnDrawGizmosSelected()
     {
         // 検知範囲を水色のワイヤーフレーム円で表示する
