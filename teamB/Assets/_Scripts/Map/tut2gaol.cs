@@ -10,7 +10,7 @@ public class tut2gaol : MonoBehaviour
             Player playerScript = other.GetComponent<Player>();
             if (playerScript != null)
             {
-                GameManager.Instance.AddOxygen(playerScript.Oxygyn_get);
+                GameManager.Instance.AddOxygen(playerScript.oxygenCount);
             }
 
             // ゴール処理 → スキルツリー画面へ

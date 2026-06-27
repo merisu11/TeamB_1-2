@@ -11,7 +11,7 @@ public class tyutoriarugaol : MonoBehaviour
             Player playerScript = other.GetComponent<Player>();
             if (playerScript != null)
             {
-                GameManager.Instance.AddOxygen(playerScript.Oxygyn_get);
+                GameManager.Instance.AddOxygen(playerScript.oxygenCount);
             }
 
 

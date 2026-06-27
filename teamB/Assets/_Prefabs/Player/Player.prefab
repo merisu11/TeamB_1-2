@@ -169,10 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b8b8cc9c6452f408600747132f3b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  player: {fileID: 1793995136522203110}
-  Oxygyns: []
-  Oxygyns_get_1: []
-  Oxygyns_get_2: []
-  Oxygyn_count: 0
-  Oxygyn_get: 0
-  blood_count: 1
+  oxygenCount: 0
+  resetTime: 3

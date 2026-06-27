@@ -1,68 +1,68 @@
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IOxygenTarget
 {
-    public GameObject player;   //ƒIƒuƒWƒFƒNƒgtag
-    public GameObject[] Oxygyns;
-    public GameObject[] Oxygyns_get_1;
-    public GameObject[] Oxygyns_get_2;
-    Vector3 touchWorldPosition;@//ˆÚ“®æÀ•W‚Ìæ“¾
+    public int oxygenCount = 0;//Player‚ª‚Á‚Ä‚é_‘f‚Ì”
+    public static int maxOxygen = 1;//Player‚ª‚Ä‚é_‘f‚Ì”
+
+    [SerializeField] float resetTime = 3f;
+
     public static int speed = 5;
-    public int Oxygyn_count = 0; //ê‚Éc‚Á‚Ä‚é_‘f‚Ì”
-    public int Oxygyn_get = 0; //¡‚Á‚Ä‚¢‚é_‘f‚Ì”
-    public int blood_count = 1;
+    Vector3 touchWorldPosition;
     private float time;
 
     void Start()
     {
         touchWorldPosition = transform.position;
     }
+
     void Update()
     {
-        if(time < 0)
+
+        if (time < 0)
         {
             if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
-                Vector3 touchScreenPosition = Input.mousePosition;//ƒNƒŠƒbƒNÀ•W‚ğtouchScreenPosition‚É
-                touchScreenPosition.z = 5.0f;//‰œsŒÅ’è
-                Camera camera = Camera.main;
-                touchWorldPosition = camera.ScreenToWorldPoint(touchScreenPosition);
+                Vector3 pos = Input.mousePosition;
+                pos.z = 5.0f;
+
+                touchWorldPosition = Camera.main.ScreenToWorldPoint(pos);
             }
-            player.transform.position = Vector3.MoveTowards(player.transform.position, touchWorldPosition, speed * Time.deltaTime); //ƒIƒuƒWƒFƒNƒg‚ÌˆÚ“®+ˆÚ“®‘¬“x
-        }
-        
-        Oxygyns = GameObject.FindGameObjectsWithTag("Oxygyn");//ƒV[ƒ““à‚Ì_‘f‚Ì”‚ğ”‚¦‚é
-        Oxygyn_count = Oxygyns.Length;//Oxygyn_count‚Ì”‚ğ_‘f‚Ì”‚Æ“¯ˆê‰»
-        Debug.Log("c‚Á‚Ä‚é_‘f‚Ì”‚Í" + Oxygyn_count + "ŒÂ");
 
-        Oxygyns_get_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");//ƒV[ƒ““à‚ÌƒƒCƒ“ƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
-        if (blood_count == 1)
-        {
-            Oxygyns_get_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");//ƒV[ƒ““à‚ÌƒTƒuƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½_‘f‚Ì”‚ğ”‚¦‚é
+            transform.position = Vector3.MoveTowards(transform.position,touchWorldPosition,speed * Time.deltaTime);
         }
-        Oxygyn_get = Oxygyns_get_1.Length + Oxygyns_get_2.Length;//Oxygyns_get‚Ì”‚ğŠl“¾‚µ‚½_‘f‚Ì”‚Æ“¯ˆê‰»
-
-        Debug.Log("Šl“¾‚µ‚½_‘f‚Ì”‚Í" + Oxygyn_get + "ŒÂ");
 
         time -= Time.deltaTime;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool TryGetOxygen()
     {
-        if (collision.gameObject.tag == "Wall")
+
+        if (oxygenCount >= maxOxygen)
         {
-            touchWorldPosition = player.transform.position;
+            return false;
         }
 
-        if(collision.gameObject.tag == "Enemy")
+        oxygenCount++;
+
+        return true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            if (!collision.gameObject.GetComponent<EnemyMove>().IsImpeded)
-            {
-                time = 1.0f;
-            }
+            touchWorldPosition = transform.position;
         }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            time = 1.0f;
+        }
+    }
+
+    public void Reset()
+    {
+        oxygenCount = 0;
     }
 }

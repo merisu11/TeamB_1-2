@@ -1,141 +1,130 @@
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Oxygyn : MonoBehaviour
 {
-    Transform playerTr; // プレイヤーのTransform
-    Transform subplayerTr; // プレイヤーのTransform
+    enum State
+    {
+        Idle,
+        Follow,
+        Escape
+    }
+
+    State state = State.Idle;
+
     Transform enemyTr;
-    [SerializeField] public static float speed = 10; // 酸素の動くスピード
-    public GameObject[] Oxygyns_1;
-    public GameObject[] Oxygyns_2;
-    bool Follow = false;
-    bool subFollow = false;
-    bool cooldown = false;
-    private float time;
+    IOxygenTarget target;
+
+    [SerializeField] public static float speed = 10f;//速度
+
+    private float escapeTime = 0f;
     private float randomx;
     private float randomy;
-    public int Oxygyn1;
-    public int Oxygen2;
-    public static int Max_oxygyns = 1;
 
-    private void Start()
+    void Start()
     {
-        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// プレイヤーの座標取得
-        subplayerTr = GameObject.FindGameObjectWithTag("SubPlayer").transform;// サブプレイヤーの座標取得
         enemyTr = GameObject.FindGameObjectWithTag("Enemy").transform;
-        Vector3 startPos = transform.position;
-        startPos.z = -6.0f;
-        transform.position = startPos;//初期のZ座標を-6に設定
     }
-    private void Update()
+
+    void Update()
     {
+        GameObject[] subPlayers = GameObject.FindGameObjectsWithTag("SubPlayer");
+        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
-        Oxygyns_1 = GameObject.FindGameObjectsWithTag("Oxygyn_get.1");
-        Oxygyns_2 = GameObject.FindGameObjectsWithTag("Oxygyn_get.2");
-        Oxygyn1 = Oxygyns_1.Length;
-        Oxygen2 = Oxygyns_2.Length;
+        float distEnemy = Vector2.Distance(transform.position, enemyTr.position);
 
-        if (Vector2.Distance(transform.position, playerTr.position) < 1.5f)//プレイヤーとの距離が1.5f未満の場合
+        if ((state == State.Follow) && distEnemy < 1.0f)
         {
-            if (!cooldown)
-            {
-                if (Oxygyn1 < Max_oxygyns)
-                {
-                    Follow = true;
-                    subFollow = !Follow;
-                    this.gameObject.tag = "Oxygyn_get.1";//取得した酸素のタグを変更
-                }
-            }        
+            state = State.Escape;
+
+            escapeTime = 1.0f;
+
+            randomx = Random.Range(-9f, 9f);
+            randomy = Random.Range(-4.5f, 4.5f);
+            target.Reset();
+            //player.oxygenCount = 0;
+            target = null;
         }
 
-        if (Vector2.Distance(transform.position, subplayerTr.position) < 1.5f)//サブプレイヤーとの距離が1.5f未満の場合
+        if (state == State.Escape)
         {
-            if (!cooldown)
+            escapeTime -= Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(randomx, randomy, -6f),speed * Time.deltaTime);
+
+            if (escapeTime <= 0f)
             {
-                if (Oxygen2 < Max_oxygyns)
+                state = State.Idle;
+            }
+
+            return;
+        }
+
+        if (state == State.Idle)
+        {
+            IOxygenTarget bestTarget = null;
+            float bestDist = Mathf.Infinity;
+
+            float range = 1.5f;//酸素の取得範囲
+
+            if (player != null && player.oxygenCount < Player.maxOxygen)
+            {
+                float d = Vector2.Distance(transform.position, player.transform.position);
+
+                if (d < range)
                 {
-                    subFollow = true;
-                    Follow = !subFollow;
-                    this.gameObject.tag = "Oxygyn_get.2";//取得した酸素のタグを変更
+                    bestTarget = player;
+                    bestDist = d;
+                }
+            }
+
+            foreach (GameObject sp in subPlayers)
+            {
+                SubPlayer sub = sp.GetComponent<SubPlayer>();
+                if (sub == null) continue;
+                if (sub.oxygenCount >= SubPlayer.maxOxygen) continue;
+
+                float d = Vector2.Distance(transform.position, sp.transform.position);
+
+                if (d < range && d < bestDist)
+                {
+                    bestTarget = sub;
+                    bestDist = d;
+                }
+            }
+
+            if (bestTarget != null)
+            {
+                bool result = bestTarget.TryGetOxygen();;
+
+                if (result)
+                {
+                    target = bestTarget;
+                    state = State.Follow;
                 }
             }
         }
 
-        if (Follow)
+        if (state == State.Follow && target != null)
         {
-            
-            if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
+
+            MonoBehaviour mb = target as MonoBehaviour;
+
+            if (mb == null)
+            {
+                target = null;
+                state = State.Idle;
                 return;
-
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -6.0f), speed * Time.deltaTime);// プレイヤー追尾
-                   
-        }
-
-        if (subFollow)
-        {
-
-            if (Vector2.Distance(transform.position, subplayerTr.position) < 0.3f)
-                return;
-
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(subplayerTr.position.x, subplayerTr.position.y, -6.0f), speed * Time.deltaTime);// プレイヤー追尾
-
-        }
-
-        if (Vector2.Distance(transform.position, enemyTr.position) < 1.3f)
-        {
-            if (Follow && !EnemyMove.isImpeded)
-            {
-                cooldown = true;
-                time = 1.0f;
-                if (cooldown)
-                {
-                    randomx = Random.Range(-9.0f, 9.0f);//9～-9の値からランダムに決定
-                    randomy = Random.Range(-4.5f, 4.5f);//4.5～-4.5の値からランダムに決定
-                }
             }
 
-            if (subFollow && !EnemyMove.isImpeded)
-            {
-                cooldown = true;
-                time = 1.0f;
-                if (cooldown)
-                {
-                    randomx = Random.Range(-9.0f, 9.0f);//9～-9の値からランダムに決定
-                    randomy = Random.Range(-4.5f, 4.5f);//4.5～-4.5の値からランダムに決定
-                }
-            }
-        }
-
-            time -= Time.deltaTime;
-
-        if (cooldown)//病原菌と衝突した後の処理
-        {
-            Follow = false;
-            subFollow = false;
-            this.gameObject.tag = "Oxygyn";
-            if (time >= 0.8f)
-            {
-                this.transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy), 10.0f * Time.deltaTime);//ランダムに決定した座標に移動
-            }
-        }
-
-        if (time <= 0)
-        {
-            cooldown = false;
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(mb.transform.position.x, mb.transform.position.y, -6f),speed * Time.deltaTime);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            if(cooldown)
-            {
-                time = 0;//壁にぶつかると移動を中止
-            }
+            escapeTime = 0;
         }
     }
 }

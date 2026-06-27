@@ -1,70 +1,56 @@
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class SubPlayer : MonoBehaviour
+public class SubPlayer : MonoBehaviour, IOxygenTarget
 {
-    Transform playerTr; // プレイヤーのTransform
-    [SerializeField] float speed = 10; // 酸素の動くスピード
+    public int oxygenCount = 0;//SubPlayerが持ってる酸素の数
+    public static int maxOxygen = 1;//SubPlayerが持てる酸素の数
+
+    [SerializeField] float resetTime = 3f;
+    private float resetTimer;
+
+    Transform playerTr;
+    public float speed = 5f;
     bool Follow = true;
-    bool cooldown = false;
-    private float time;
-    private float randomx;
-    private float randomy;
-    public static bool blood_on = false;
 
-    private void Start()
+    void Start()
     {
-        playerTr = GameObject.FindGameObjectWithTag("Player").transform;// プレイヤーの座標取得
-        Vector3 startPos = transform.position;
-        startPos.z = -5.0f;
-        transform.position = startPos;//初期のZ座標を-5に設定
-    }
-    private void Update()
-    {
-        if(time < 0)
-        {
-            if (blood_on)
-            {
-                if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
-                {
-                    Follow = false;
-                }
-                else
-                {
-                    Follow = true;
-                }
-
-                if (Follow)
-                {
-
-                    if (Vector2.Distance(transform.position, playerTr.position) < 0.3f)
-                        return;
-
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, -5.0f), speed * Time.deltaTime);// プレイヤー追尾
-
-                }
-            }
-        }
-
-        time -= Time.deltaTime;
+        playerTr = GameObject.FindGameObjectWithTag("Player").transform;
+        resetTimer = resetTime;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void Update()
     {
-        if (collision.gameObject.tag == "Wall")
+        if (playerTr == null) return;
+
+        if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
         {
-            if(cooldown == true)
-            {
-                time = 0;//壁にぶつかると移動を中止
-            }
+            Follow = false;
+        }
+        else
+        {
+            Follow = true;
         }
 
-        if (collision.gameObject.tag == "Enemy")
-            if (!collision.gameObject.GetComponent<EnemyMove>().IsImpeded)
-            {
-                time = 1.0f;
-            }
+        if(Follow)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, transform.position.z), speed * Time.deltaTime);
+        }
+    }
+
+    public bool TryGetOxygen()
+    {
+        if (oxygenCount >= maxOxygen)
+        {
+            return false;
+        }
+
+        oxygenCount++;
+        resetTimer = resetTime;
+        return true;
+    }
+
+    public void Reset()
+    {
+        oxygenCount = 0;
     }
 }
