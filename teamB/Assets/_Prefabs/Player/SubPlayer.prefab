@@ -133,9 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10c6e78f02bcd54aa61a101341df599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SubPlayer
+  oxygenCount: 0
+  resetTime: 3
   speed: 10
-  oxygens: []
-  maxOxygen: 1
 --- !u!58 &3462336865141119253
 CircleCollider2D:
   m_ObjectHideFlags: 0

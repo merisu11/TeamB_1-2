@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IOxygenTarget
 {
-    public int oxygenCount = 0;
-    public static int maxOxygen = 1;
+    public int oxygenCount = 0;//Playerが持ってる酸素の数
+    public static int maxOxygen = 1;//Playerが持てる酸素の数
 
     [SerializeField] float resetTime = 3f;
-    private float resetTimer;
 
     public static int speed = 5;
     Vector3 touchWorldPosition;
@@ -15,24 +14,10 @@ public class Player : MonoBehaviour, IOxygenTarget
     void Start()
     {
         touchWorldPosition = transform.position;
-        resetTimer = resetTime;
     }
 
     void Update()
     {
-        // =========================
-        // 自動リセット（重要）
-        // =========================
-        if (oxygenCount > 0)
-        {
-            resetTimer -= Time.deltaTime;
-
-            if (resetTimer <= 0f)
-            {
-                oxygenCount = 0;
-                resetTimer = resetTime;
-            }
-        }
 
         if (time < 0)
         {
@@ -44,25 +29,23 @@ public class Player : MonoBehaviour, IOxygenTarget
                 touchWorldPosition = Camera.main.ScreenToWorldPoint(pos);
             }
 
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                touchWorldPosition,
-                speed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position,touchWorldPosition,speed * Time.deltaTime);
         }
 
         time -= Time.deltaTime;
     }
 
-    public bool CanGetOxygen()
+    public bool TryGetOxygen()
     {
-        return oxygenCount < maxOxygen;
-    }
 
-    public void AddOxygen()
-    {
+        if (oxygenCount >= maxOxygen)
+        {
+            return false;
+        }
+
         oxygenCount++;
-        resetTimer = resetTime; // ★取得したらリセット延長
+
+        return true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -76,5 +59,10 @@ public class Player : MonoBehaviour, IOxygenTarget
         {
             time = 1.0f;
         }
+    }
+
+    public void Reset()
+    {
+        oxygenCount = 0;
     }
 }

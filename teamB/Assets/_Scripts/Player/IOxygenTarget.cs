@@ -1,5 +1,6 @@
 public interface IOxygenTarget
 {
-    bool CanGetOxygen();
-    void AddOxygen();
+    bool TryGetOxygen();
+
+    void Reset();
 }

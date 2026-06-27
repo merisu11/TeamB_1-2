@@ -14,7 +14,7 @@ public class Oxygyn : MonoBehaviour
     Transform enemyTr;
     IOxygenTarget target;
 
-    [SerializeField] public static float speed = 10f;
+    [SerializeField] public static float speed = 10f;//ë¨ìx
 
     private float escapeTime = 0f;
     private float randomx;
@@ -32,10 +32,7 @@ public class Oxygyn : MonoBehaviour
 
         float distEnemy = Vector2.Distance(transform.position, enemyTr.position);
 
-        // =================================================
-        // Enemy Å® Escape
-        // =================================================
-        if ((state == State.Idle || state == State.Follow) && distEnemy < 1.3f)
+        if ((state == State.Follow) && distEnemy < 1.0f)
         {
             state = State.Escape;
 
@@ -43,22 +40,16 @@ public class Oxygyn : MonoBehaviour
 
             randomx = Random.Range(-9f, 9f);
             randomy = Random.Range(-4.5f, 4.5f);
-
+            target.Reset();
+            //player.oxygenCount = 0;
             target = null;
         }
 
-        // =================================================
-        // Escape
-        // =================================================
         if (state == State.Escape)
         {
             escapeTime -= Time.deltaTime;
 
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                new Vector3(randomx, randomy, -6f),
-                speed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(randomx, randomy, -6f),speed * Time.deltaTime);
 
             if (escapeTime <= 0f)
             {
@@ -68,18 +59,14 @@ public class Oxygyn : MonoBehaviour
             return;
         }
 
-        // =================================================
-        // Idle Å® çıìGÅiÇ±Ç±Ç™çƒí«è]ÇÃåÆÅj
-        // =================================================
         if (state == State.Idle)
         {
             IOxygenTarget bestTarget = null;
             float bestDist = Mathf.Infinity;
 
-            float range = 4.0f;
+            float range = 1.5f;//é_ëfÇÃéÊìæîÕàÕ
 
-            // Player
-            if (player.CanGetOxygen())
+            if (player != null && player.oxygenCount < Player.maxOxygen)
             {
                 float d = Vector2.Distance(transform.position, player.transform.position);
 
@@ -90,13 +77,11 @@ public class Oxygyn : MonoBehaviour
                 }
             }
 
-            // SubPlayer
             foreach (GameObject sp in subPlayers)
             {
                 SubPlayer sub = sp.GetComponent<SubPlayer>();
                 if (sub == null) continue;
-
-                if (!sub.CanGetOxygen()) continue;
+                if (sub.oxygenCount >= SubPlayer.maxOxygen) continue;
 
                 float d = Vector2.Distance(transform.position, sp.transform.position);
 
@@ -107,20 +92,21 @@ public class Oxygyn : MonoBehaviour
                 }
             }
 
-            // í«è]äJén
             if (bestTarget != null)
             {
-                target = bestTarget;
-                target.AddOxygen();
-                state = State.Follow;
+                bool result = bestTarget.TryGetOxygen();;
+
+                if (result)
+                {
+                    target = bestTarget;
+                    state = State.Follow;
+                }
             }
         }
 
-        // =================================================
-        // Follow
-        // =================================================
         if (state == State.Follow && target != null)
         {
+
             MonoBehaviour mb = target as MonoBehaviour;
 
             if (mb == null)
@@ -130,11 +116,15 @@ public class Oxygyn : MonoBehaviour
                 return;
             }
 
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                new Vector3(mb.transform.position.x, mb.transform.position.y, -6f),
-                speed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(mb.transform.position.x, mb.transform.position.y, -6f),speed * Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            escapeTime = 0;
         }
     }
 }

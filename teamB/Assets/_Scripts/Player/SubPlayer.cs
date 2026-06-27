@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class SubPlayer : MonoBehaviour, IOxygenTarget
 {
-    public int oxygenCount = 0;
-    public static int maxOxygen = 1;
+    public int oxygenCount = 0;//SubPlayer‚ªŽ‚Á‚Ä‚éŽ_‘f‚Ì”
+    public static int maxOxygen = 1;//SubPlayer‚ªŽ‚Ä‚éŽ_‘f‚Ì”
 
     [SerializeField] float resetTime = 3f;
     private float resetTimer;
 
     Transform playerTr;
     public float speed = 5f;
+    bool Follow = true;
 
     void Start()
     {
@@ -19,34 +20,37 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
 
     void Update()
     {
-        if (oxygenCount > 0)
-        {
-            resetTimer -= Time.deltaTime;
-
-            if (resetTimer <= 0f)
-            {
-                oxygenCount = 0;
-                resetTimer = resetTime;
-            }
-        }
-
         if (playerTr == null) return;
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            new Vector3(playerTr.position.x, playerTr.position.y, transform.position.z),
-            speed * Time.deltaTime
-        );
+        if (Vector2.Distance(transform.position, playerTr.position) < 2f)//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª2f–¢–ž‚Ìê‡
+        {
+            Follow = false;
+        }
+        else
+        {
+            Follow = true;
+        }
+
+        if(Follow)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, transform.position.z), speed * Time.deltaTime);
+        }
     }
 
-    public bool CanGetOxygen()
+    public bool TryGetOxygen()
     {
-        return oxygenCount < maxOxygen;
-    }
+        if (oxygenCount >= maxOxygen)
+        {
+            return false;
+        }
 
-    public void AddOxygen()
-    {
         oxygenCount++;
         resetTimer = resetTime;
+        return true;
+    }
+
+    public void Reset()
+    {
+        oxygenCount = 0;
     }
 }

@@ -169,7 +169,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2708c3d2a017d324a81c059696ddad51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Oxygen
-  Oxygyns_1: []
-  Oxygyns_2: []
-  Oxygyn1: 0
-  Oxygen2: 0
