@@ -5,7 +5,7 @@ public class SubPlayerSpawner : MonoBehaviour
     public GameObject subPlayerPrefab;
 
     [Range(0, 9)]
-    public int subPlayerCount = 0;
+    public static int subPlayerCount = 0;
 
     void Start()
     {
