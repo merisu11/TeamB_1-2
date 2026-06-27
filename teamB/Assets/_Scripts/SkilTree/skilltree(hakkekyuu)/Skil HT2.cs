@@ -7,8 +7,9 @@ public class SkilHT2 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button HT2;
-    public SkilHT1 skilHT1;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilHT1.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilHT2 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-
                 HT2.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 25)
+            {
+                ColorBlock cb = HT2.colors;
+                cb.normalColor = newColor;
+                HT2.colors = cb;
             }
         }
     }
@@ -28,9 +34,10 @@ public class SkilHT2 : MonoBehaviour
             if (GameManager.Instance.TotalOxygen >= 25)
             {
                 hakekkyuu.attachDuration = 3;
-             HT2.interactable = false;
-            ButtonONOFF = true;
-            GameManager.Instance.RemoveOxygen(25);
+                HT2.interactable = false;
+                ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(25);
+                effectParticle.Play();
             }
         }
     }

@@ -7,8 +7,9 @@ public class SkilGT3 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button GT3;
-    public SkilGT2 skilGT2;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilGT2.ButtonONOFF)
@@ -19,6 +20,12 @@ public class SkilGT3 : MonoBehaviour
 
                 GT3.interactable = false;
             }
+            if (GameManager.Instance.TotalOxygen >= 45)
+            {
+                ColorBlock cb = GT3.colors;
+                cb.normalColor = newColor;
+                GT3.colors = cb;
+            }
         }
     }
     public void OnTouched()
@@ -28,9 +35,10 @@ public class SkilGT3 : MonoBehaviour
             if (GameManager.Instance.TotalOxygen >= 45)
             {
                 CountdownTimer.startTime = 25f;
-            GT3.interactable = false;
-            ButtonONOFF = true;
+                GT3.interactable = false;
+                ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(45);
+                effectParticle.Play();
             }
         }
     }

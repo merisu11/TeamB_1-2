@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SkilPM3 : MonoBehaviour
+{
+    public static bool ButtonONOFF = false;
+    public Button PM3;
+    public Color newColor;
+    public GameObject obj;
+    public Image image;
+    [SerializeField] private ParticleSystem effectParticle;
+   
+    private void Update()
+    {
+        if (SkilPM2.ButtonONOFF)
+        {
+            Destroy(obj);
+            if (ButtonONOFF)
+            {
+                PM3.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 60)
+            {
+                ColorBlock cb = PM3.colors;
+                cb.normalColor = newColor;
+                PM3.colors = cb;
+            }
+        }
+    }
+    public void OnTouched()
+    {
+        if (SkilPM2.ButtonONOFF)
+        {
+            if (GameManager.Instance.TotalOxygen >= 60)
+            {
+                SubPlayer.blood_on = true;
+                PM3.interactable = false;
+                ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(60);
+                effectParticle.Play();
+                image.fillAmount = 5 / 10f;
+                SkilPM1.SavedFillAmount = image.fillAmount;
+            }
+        }
+    }
+
+}

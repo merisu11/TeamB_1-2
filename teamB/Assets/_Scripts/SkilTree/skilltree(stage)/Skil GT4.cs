@@ -7,8 +7,9 @@ public class SkilGT4 : MonoBehaviour
 {
     public static bool ButtonONOFF = false;
     public Button GT4;
-    public SkilGT3 skilGT3;
+    public Color newColor;
     public GameObject obj;
+    [SerializeField] private ParticleSystem effectParticle;
     private void Update()
     {
         if (SkilGT3.ButtonONOFF)
@@ -16,8 +17,13 @@ public class SkilGT4 : MonoBehaviour
             Destroy(obj);
             if (ButtonONOFF)
             {
-
                 GT4.interactable = false;
+            }
+            if (GameManager.Instance.TotalOxygen >= 70)
+            {
+                ColorBlock cb = GT4.colors;
+                cb.normalColor = newColor;
+                GT4.colors = cb;
             }
         }
     }
@@ -28,9 +34,10 @@ public class SkilGT4 : MonoBehaviour
             if (GameManager.Instance.TotalOxygen >= 70)
             {
                 CountdownTimer.startTime = 30f;
-            GT4.interactable = false;
-            ButtonONOFF = true;
+                GT4.interactable = false;
+                ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(70);
+                effectParticle.Play();
             }
         }
     }
