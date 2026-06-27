@@ -5,7 +5,7 @@ using UnityEngine;
 public class kessyouban : MonoBehaviour
 {
     [SerializeField] float speed = 3f;          // 移動速度
-    [SerializeField] float rayLength = 10.0f;    // 障害物検知レイの長さ
+    [SerializeField] float rayLength = 13.0f;    // 障害物検知レイの長さ
     [SerializeField] LayerMask obstacleLayer;   // 障害物と判定するレイヤー
 
     private Transform targetFloor;              // 向かう目標（損傷箇所）
