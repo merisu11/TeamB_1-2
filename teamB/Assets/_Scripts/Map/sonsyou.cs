@@ -6,7 +6,7 @@ using TMPro;
 public class sonsyou : MonoBehaviour
 {
     [SerializeField] int healRequiredCount = 3;   // 治癒に必要な血小板の数
-    [SerializeField] float healTimer = 5.0f;      // 必要数到達後、治癒までの待機時間（秒）
+    [SerializeField] public static float healTimer = 5.0f;      // 必要数到達後、治癒までの待機時間（秒）
     [SerializeField] Canvas worldCanvas;          // Canvasをアタッチする
     [SerializeField] Image plateletIcon;          // 血小板の画像をアタッチする
     [SerializeField] TextMeshProUGUI countText;   // カウントと秒
