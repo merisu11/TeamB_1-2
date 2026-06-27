@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SubPlayerSpawner
   subPlayerPrefab: {fileID: 7866785951260386925, guid: c79a7782601e3b4418e5fedb20aece13, type: 3}
-  subPlayerCount: 3
+  subPlayerCount: 9
 --- !u!4 &797908811
 Transform:
   m_ObjectHideFlags: 0
