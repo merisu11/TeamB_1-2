@@ -35,7 +35,7 @@ public class SkilPM5 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 120)
             {
-                SubPlayer.blood_on = true;
+                SubPlayerSpawner.subPlayerCount = 9;
                 PM5.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(120);

@@ -12,7 +12,6 @@ public class Prefab_Instantiate : MonoBehaviour
 
     void Start()
     {
-        SubPlayer.blood_on = true;
 
         for (int i = 0; i < count; i++)
         {
