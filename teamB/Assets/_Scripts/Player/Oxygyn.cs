@@ -32,7 +32,7 @@ public class Oxygyn : MonoBehaviour
 
         float distEnemy = Vector2.Distance(transform.position, enemyTr.position);
 
-        if ((state == State.Follow) && distEnemy < 1.0f)
+        if ((state == State.Follow) && distEnemy < 0.8f)
         {
             state = State.Escape;
 

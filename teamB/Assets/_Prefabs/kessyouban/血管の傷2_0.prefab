@@ -153,10 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::sonsyou
   healRequiredCount: 5
-  healTimer: 5
   worldCanvas: {fileID: 9207026907789196220}
   plateletIcon: {fileID: 4443523726499150592}
   countText: {fileID: 7373649091424402544}
+  healEffectPrefab: {fileID: 2176751554526786764, guid: a9d9f49ee8bb654438a48b5b89f456d7, type: 3}
+  healEffectPoint: {fileID: 0}
+  healEffectFadeDelay: 2
 --- !u!1 &5567651993326254699
 GameObject:
   m_ObjectHideFlags: 0

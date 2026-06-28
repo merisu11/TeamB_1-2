@@ -422,10 +422,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenDropFloor
   healRequiredCount: 3
-  healTimer: 5
   worldCanvas: {fileID: 3003283918773255147}
   plateletIcon: {fileID: 4357993020576245107}
   countText: {fileID: 8005744118421767423}
+  healEffectPrefab: {fileID: 2176751554526786764, guid: a9d9f49ee8bb654438a48b5b89f456d7, type: 3}
+  healEffectPoint: {fileID: 0}
+  healEffectFadeDelay: 2
 --- !u!61 &4848694375795015037
 BoxCollider2D:
   m_ObjectHideFlags: 0

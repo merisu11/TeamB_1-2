@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string resultSceneName = "Result";
     [SerializeField] private string skillSceneName = "SkillTree";
     [SerializeField] private string titleSceneName = "TaitoruScenes";
-
+    [SerializeField] private float startDelay = 1f;
     void Awake()
     {
         if (Instance != null && Instance != this)
