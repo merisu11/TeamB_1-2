@@ -1018,6 +1018,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193346270}
   m_CullTransparentMesh: 1
+--- !u!1 &1316530080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316530082}
+  - component: {fileID: 1316530081}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1316530081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316530080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f57e77901078d04d96e12379ad4fc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::hakkekkyuuspawn
+  prefab: {fileID: 5286969378052173069, guid: ac6c57984eb23d044b5ced5b6b2ee768, type: 3}
+  player: {fileID: 1543813934}
+  spawnRadius: 1
+--- !u!4 &1316530082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316530080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.56, y: 2.57, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1543813934 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+  m_PrefabInstance: {fileID: 1043865524}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1644480715
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1103,7 @@ MonoBehaviour:
   resultSceneName: Result
   skillSceneName: SkillTree
   titleSceneName: TaitoruScenes
+  startDelay: 1
 --- !u!4 &1644480717
 Transform:
   m_ObjectHideFlags: 0
@@ -1097,3 +1150,4 @@ SceneRoots:
   - {fileID: 922222800}
   - {fileID: 1043865524}
   - {fileID: 1148141957}
+  - {fileID: 1316530082}
