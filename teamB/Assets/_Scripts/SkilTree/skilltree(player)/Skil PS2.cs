@@ -34,7 +34,7 @@ public class SkilPS2 : MonoBehaviour
             if (GameManager.Instance.TotalOxygen >= 25) { 
             Player.speed = 8;
             hakekkyuu.moveSpeed = 5;
-            Oxygyn.speed = 14;
+            Oxygyn.speed = 9;
             PS2.interactable = false;
             ButtonONOFF = true;
             GameManager.Instance.RemoveOxygen(25);

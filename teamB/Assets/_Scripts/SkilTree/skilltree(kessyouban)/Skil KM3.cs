@@ -36,11 +36,12 @@ public class SkilKM3 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 50)
             {
+                kessyoubannspawn.count = 25;
                 KM3.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(50);
                 effectParticle.Play();
-                image.fillAmount = 15 / 45f;
+                image.fillAmount = 25 / 60f;
                 SkilKM1.SavedFillAmount = image.fillAmount;
             }
         }

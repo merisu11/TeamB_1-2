@@ -36,7 +36,7 @@ public class SkilPS1 : MonoBehaviour
             {
                 Player.speed = 6;
                 hakekkyuu.moveSpeed = 4;
-                Oxygyn.speed = 11;
+                Oxygyn.speed = 7;
                 PS1.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(10);

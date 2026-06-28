@@ -35,11 +35,12 @@ public class SkilHM2 : MonoBehaviour
         {
             if (GameManager.Instance.TotalOxygen >= 35)
             {
+                hakkekkyuuspawn.count = 8;
                 HM2.interactable = false;
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(35);
                 effectParticle.Play();
-                image.fillAmount = 18 / 60f;
+                image.fillAmount = 8 / 45f;
                 SkilHM1.SavedFillAmount = image.fillAmount;
             }
         }

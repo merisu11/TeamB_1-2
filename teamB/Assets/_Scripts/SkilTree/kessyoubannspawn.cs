@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Prefab_Instantiate : MonoBehaviour
+public class kessyoubannspawn : MonoBehaviour
 {
     public GameObject prefab;
     public Transform player;   // プレイヤー
-    public int count = 5;
-    public float spawnRadius = 3f; // プレイヤーからの距離
+    public static int count = 0;
+    public float spawnRadius = 1f; // プレイヤーからの距離
 
     List<GameObject> objects = new List<GameObject>();
 
