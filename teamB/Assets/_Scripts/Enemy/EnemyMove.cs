@@ -15,7 +15,7 @@ public class EnemyMove : MonoBehaviour, IPathogen
     private bool _isImpeded = false;
 
     // Oxygyn.cs など外部から EnemyMove.isImpeded でアクセスできるよう互換性を綴持する
-    // 「シーン内のいずれか1体でも捕まっているか」を返す static プロパティ
+   
     public static bool isImpeded
     {
         get

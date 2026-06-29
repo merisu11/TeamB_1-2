@@ -36,10 +36,6 @@ public class hakekkyuu : MonoBehaviour
     [Tooltip("1体の病原菌に同時に張り付ける白血球の最大数")]
     public int maxPerPathogen = 1;
 
-    [Header("レイヤー設定")]
-    [Tooltip("壁と判定するレイヤー。検知時にRaycastで壁越しを禁止するために使う")]
-    public LayerMask wallLayer;
-
 
     // スキルツリー用のpublicメソッド
     // publicにすることで他のスクリプトから呼び出せる
@@ -172,15 +168,6 @@ public class hakekkyuu : MonoBehaviour
             // 最大数に達していなければこの病原菌を追いかける
             if (attached < maxPerPathogen)
             {
-                // Raycastで白血球から病原菌までの間に壁があるか確認する
-                // wallLayerが設定されていない場合は視線チェックをスキップする
-                if (wallLayer != 0)
-                {
-                    Vector2 toEnemy = (Vector2)(hit.transform.position - transform.position);
-                    RaycastHit2D wallHit = Physics2D.Raycast(transform.position, toEnemy.normalized, toEnemy.magnitude, wallLayer);
-                    if (wallHit.collider != null) continue; // 壁で遮られているのでスキップ
-                }
-
                 chaseTarget = hit.transform;
                 currentState = State.Chase; // 状態をChaseに切り替え
                 return; // 1体見つかればOKなのでループを抜ける
@@ -300,7 +287,8 @@ public class hakekkyuu : MonoBehaviour
     }
 
 
-    // 指定した病原菌に現在何体の白血球が張り付いているか数えるユーティリティ関数
+    // 指定した病原菌にChase中またはAttach中の白血球が何体いるか数える
+    // Chase中もカウントすることで、追いかけ中の白血球も含めて重複妨害を防ぐ
     // CountAttachedToはSearchPathogenから呼ばれる
     int CountAttachedTo(GameObject pathogen)
     {
@@ -310,8 +298,14 @@ public class hakekkyuu : MonoBehaviour
         // FindObjectsSortMode.None はソートしない（パフォーマンスが良い）
         foreach (hakekkyuu wbc in FindObjectsByType<hakekkyuu>(FindObjectsSortMode.None))
         {
-            // attachedPathogenが同じ病原菌を指しているか確認
+            // Attach中（張り付き済み）の白血球
             if (wbc.attachedPathogen == pathogen)
+            {
+                count++;
+                continue;
+            }
+            // Chase中（追いかけ中）の白血球もカウントする
+            if (wbc.currentState == State.Chase && wbc.chaseTarget != null && wbc.chaseTarget.gameObject == pathogen)
                 count++;
         }
         return count;
