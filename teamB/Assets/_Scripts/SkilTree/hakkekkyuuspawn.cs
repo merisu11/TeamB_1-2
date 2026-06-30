@@ -10,7 +10,7 @@ public class hakkekkyuuspawn : MonoBehaviour
 
     List<GameObject> objects = new List<GameObject>();
 
-    void Start()
+    void Awake()
     {
 
         for (int i = 0; i < count; i++)

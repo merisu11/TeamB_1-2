@@ -35,6 +35,18 @@ public class ResultScreenManager : MonoBehaviour
         {
             skipRequested = true;
         }
+
+        // デバッグ用: Oキーを押すと酸素を+10する
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GameManager.Instance.AddOxygen(10);
+            // アニメーション中でなければ、表示も即座に最新の所持量へ更新する
+            if (!isAnimating)
+            {
+                availableOxygenText.text = GameManager.Instance.TotalOxygen.ToString("N0");
+            }
+            Debug.Log($"[デバッグ] 酸素+10 → 現在の所持量: {GameManager.Instance.TotalOxygen}");
+        }
     }
 
     //リトライボタン(メインゲームに遷移)
