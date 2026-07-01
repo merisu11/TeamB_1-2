@@ -12,6 +12,7 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
     public float speed = 5f;
     bool Follow = true;
 
+    private bool playerLost = false;
     private Vector3 touchWorldPosition; // Player不在時（ゴール後）にマウス操作する際の目標位置
 
     void Start()
@@ -27,10 +28,18 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
 
     void Update()
     {
+
         // Playerがゴールしてシーンから消えている場合は、SubPlayer自身をマウスクリックで操作する
         // （Player.csのクリック移動と同じ仕組み）
         if (playerTr == null)
         {
+            // playerTrがnullになった瞬間だけ現在地で止める
+            if (!playerLost)
+            {
+                playerLost = true;
+                touchWorldPosition = transform.position; // ← これがないとワープする
+            }
+
             if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 Vector3 pos = Input.mousePosition;
@@ -42,7 +51,7 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
             return;
         }
 
-        if (Vector2.Distance(transform.position, playerTr.position) < 2f)//プレイヤーとの距離が2f未満の場合
+        if (Vector2.Distance(transform.position, playerTr.position) < 1f)//プレイヤーとの距離が2f未満の場合
         {
             Follow = false;
         }
