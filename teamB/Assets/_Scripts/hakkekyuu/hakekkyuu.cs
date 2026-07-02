@@ -30,7 +30,7 @@ public class hakekkyuu : MonoBehaviour
     public static float moveSpeed = 5f;
 
     [Tooltip("追従時、赤血球との目標距離")]
-    public float followDistance = 1.2f;
+    public float followDistance = 2f;
 
     [Header("集中阻止")]
     [Tooltip("1体の病原菌に同時に張り付ける白血球の最大数")]

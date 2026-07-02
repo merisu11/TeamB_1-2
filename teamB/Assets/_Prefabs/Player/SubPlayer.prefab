@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 235502954711187580}
   - component: {fileID: 1306889174083415637}
   - component: {fileID: 3462336865141119253}
-  m_Layer: 13
+  m_Layer: 8
   m_Name: SubPlayer
   m_TagString: SubPlayer
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2030102935040418843, guid: 69ce43390be922f448a5807b9669559b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SubPlayer
   oxygenCount: 0
   resetTime: 3
-  speed: 10
+  speed: 4
 --- !u!58 &3462336865141119253
 CircleCollider2D:
   m_ObjectHideFlags: 0

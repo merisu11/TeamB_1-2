@@ -14,21 +14,48 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
 
     private bool playerLost = false;
     private Vector3 touchWorldPosition; // Player不在時（ゴール後）にマウス操作する際の目標位置
-
+    private Rigidbody2D rb;//0703サブプレイヤーの挙動修正
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();//挙動修正
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             playerTr = playerObj.transform;
         }
+        else
+        {
+            Debug.LogWarning("Playerが見つかりません"); // ← これが出るか確認
+        }
+           
         resetTimer = resetTime;
         touchWorldPosition = transform.position;
     }
 
+    void FixedUpdate()
+    {
+        if (playerTr == null) return;
+
+        float dist = Vector2.Distance(transform.position, playerTr.position);
+
+        if (dist > 1f)
+        {
+            Vector2 dir = ((Vector2)playerTr.position - (Vector2)transform.position).normalized;
+            rb.linearVelocity = dir * speed;
+        }
+        else
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+
     void Update()
     {
-
+        if (playerTr != null)
+        {
+            float s = Vector2.Distance(transform.position, playerTr.position);
+            Debug.Log($"距離: {s}");
+        }
         // Playerがゴールしてシーンから消えている場合は、SubPlayer自身をマウスクリックで操作する
         // （Player.csのクリック移動と同じ仕組み）
         if (playerTr == null)
@@ -38,6 +65,7 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
             {
                 playerLost = true;
                 touchWorldPosition = transform.position; // ← これがないとワープする
+                rb.linearVelocity = Vector2.zero; // ← 止める
             }
 
             if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
@@ -50,20 +78,8 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
             transform.position = Vector3.MoveTowards(transform.position, touchWorldPosition, speed * Time.deltaTime);
             return;
         }
+       
 
-        if (Vector2.Distance(transform.position, playerTr.position) < 1f)//プレイヤーとの距離が2f未満の場合
-        {
-            Follow = false;
-        }
-        else
-        {
-            Follow = true;
-        }
-
-        if(Follow)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerTr.position.x, playerTr.position.y, transform.position.z), speed * Time.deltaTime);
-        }
     }
 
     public bool TryGetOxygen()
