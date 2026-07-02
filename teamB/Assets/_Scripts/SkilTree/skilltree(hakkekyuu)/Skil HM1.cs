@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class SkilHM1 : MonoBehaviour
 {
@@ -9,12 +10,16 @@ public class SkilHM1 : MonoBehaviour
     public Button HM1;
     public Color newColor;
     public Image image;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     public static float SavedFillAmount = 0f;
     [SerializeField] private ParticleSystem effectParticle;
 
     private void Start()
     {
         image.fillAmount = SavedFillAmount;
+        light.SetActive(false);
     }
 
 
@@ -29,6 +34,10 @@ public class SkilHM1 : MonoBehaviour
             ColorBlock cb = HM1.colors;
             cb.normalColor = newColor;
             HM1.colors = cb;
+            if (!ButtonONOFF)
+            {
+                light.SetActive(true);
+            }
         }
     }
 
@@ -43,6 +52,8 @@ public class SkilHM1 : MonoBehaviour
             effectParticle.Play();
             image.fillAmount = 3 / 45f;
             SavedFillAmount = image.fillAmount;
+            light.SetActive(false);
+            audioSource.PlayOneShot(seClip);
         }
     }
 

@@ -10,8 +10,14 @@ public class SkilPM2 : MonoBehaviour
     public Color newColor;
     public GameObject obj;
     public Image image;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
-
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilPM1.ButtonONOFF)
@@ -26,6 +32,10 @@ public class SkilPM2 : MonoBehaviour
                 ColorBlock cb = PM2.colors;
                 cb.normalColor = newColor;
                 PM2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -42,6 +52,8 @@ public class SkilPM2 : MonoBehaviour
                 effectParticle.Play();
                 image.fillAmount = 3 / 10f;
                 SkilPM1.SavedFillAmount = image.fillAmount;
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

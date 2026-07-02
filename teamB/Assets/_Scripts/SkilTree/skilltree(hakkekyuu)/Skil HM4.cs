@@ -10,8 +10,14 @@ public class SkilHM4 : MonoBehaviour
     public Color newColor;
     public GameObject obj;
     public Image image;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip; 
     [SerializeField] private ParticleSystem effectParticle;
-
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilHM3.ButtonONOFF)
@@ -26,6 +32,10 @@ public class SkilHM4 : MonoBehaviour
                 ColorBlock cb = HM4.colors;
                 cb.normalColor = newColor;
                 HM4.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -43,6 +53,8 @@ public class SkilHM4 : MonoBehaviour
                 effectParticle.Play();
                 image.fillAmount = 30 / 45f;
                 SkilHM1.SavedFillAmount = image.fillAmount;
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

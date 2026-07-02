@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
@@ -10,7 +11,14 @@ public class SkilKS2 : MonoBehaviour
     public Button KS2;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilKS1.ButtonONOFF)
@@ -25,6 +33,10 @@ public class SkilKS2 : MonoBehaviour
                 ColorBlock cb = KS2.colors;
                 cb.normalColor = newColor;
                 KS2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -39,6 +51,8 @@ public class SkilKS2 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(30);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

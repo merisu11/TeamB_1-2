@@ -9,8 +9,14 @@ public class SkilPS1 : MonoBehaviour
     public Button PS1;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
-
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilKM1.ButtonONOFF)
@@ -25,6 +31,10 @@ public class SkilPS1 : MonoBehaviour
                 ColorBlock cb = PS1.colors;
                 cb.normalColor = newColor;
                 PS1.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -41,6 +51,8 @@ public class SkilPS1 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(10);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

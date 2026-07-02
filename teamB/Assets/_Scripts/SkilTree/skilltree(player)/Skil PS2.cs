@@ -9,7 +9,14 @@ public class SkilPS2 : MonoBehaviour
     public Button PS2;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilPS1.ButtonONOFF)
@@ -24,6 +31,10 @@ public class SkilPS2 : MonoBehaviour
                 ColorBlock cb = PS2.colors;
                 cb.normalColor = newColor;
                 PS2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -32,13 +43,15 @@ public class SkilPS2 : MonoBehaviour
         if (SkilPS1.ButtonONOFF)
         {
             if (GameManager.Instance.TotalOxygen >= 25) { 
-            Player.speed = 8;
-            hakekkyuu.moveSpeed = 5;
-            Oxygyn.speed = 9;
-            PS2.interactable = false;
-            ButtonONOFF = true;
-            GameManager.Instance.RemoveOxygen(25);
-            effectParticle.Play();
+                Player.speed = 8;
+                hakekkyuu.moveSpeed = 5;
+                Oxygyn.speed = 9;
+                PS2.interactable = false;
+                ButtonONOFF = true;
+                GameManager.Instance.RemoveOxygen(25);
+                effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

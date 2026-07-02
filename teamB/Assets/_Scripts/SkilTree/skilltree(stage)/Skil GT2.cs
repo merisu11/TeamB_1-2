@@ -9,7 +9,14 @@ public class SkilGT2 : MonoBehaviour
     public Button GT2;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilGT1.ButtonONOFF)
@@ -24,6 +31,10 @@ public class SkilGT2 : MonoBehaviour
                 ColorBlock cb = GT2.colors;
                 cb.normalColor = newColor;
                 GT2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -38,6 +49,8 @@ public class SkilGT2 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(30);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

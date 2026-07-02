@@ -10,7 +10,14 @@ public class SkilHM2 : MonoBehaviour
     public Color newColor;
     public GameObject obj;
     public Image image;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilKM1.ButtonONOFF)
@@ -25,6 +32,10 @@ public class SkilHM2 : MonoBehaviour
                 ColorBlock cb = HM2.colors;
                 cb.normalColor = newColor;
                 HM2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -42,6 +53,8 @@ public class SkilHM2 : MonoBehaviour
                 effectParticle.Play();
                 image.fillAmount = 8 / 45f;
                 SkilHM1.SavedFillAmount = image.fillAmount;
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

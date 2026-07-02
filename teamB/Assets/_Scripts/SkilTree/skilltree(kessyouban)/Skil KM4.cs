@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
@@ -11,8 +12,14 @@ public class SkilKM4 : MonoBehaviour
     public Color newColor;
     public GameObject obj;
     public Image image;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
-  
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilKM3.ButtonONOFF)
@@ -27,6 +34,10 @@ public class SkilKM4 : MonoBehaviour
                 ColorBlock cb = KM4.colors;
                 cb.normalColor = newColor;
                 KM4.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -43,6 +54,8 @@ public class SkilKM4 : MonoBehaviour
                 effectParticle.Play();
                 image.fillAmount = 40 / 60f;
                 SkilKM1.SavedFillAmount = image.fillAmount;
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

@@ -9,7 +9,14 @@ public class SkilGT3 : MonoBehaviour
     public Button GT3;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilGT2.ButtonONOFF)
@@ -25,6 +32,10 @@ public class SkilGT3 : MonoBehaviour
                 ColorBlock cb = GT3.colors;
                 cb.normalColor = newColor;
                 GT3.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -39,6 +50,8 @@ public class SkilGT3 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(45);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

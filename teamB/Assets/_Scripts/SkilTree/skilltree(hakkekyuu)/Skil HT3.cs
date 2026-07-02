@@ -9,7 +9,14 @@ public class SkilHT3 : MonoBehaviour
     public Button HT3;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilHT2.ButtonONOFF)
@@ -24,6 +31,10 @@ public class SkilHT3 : MonoBehaviour
                 ColorBlock cb = HT3.colors;
                 cb.normalColor = newColor;
                 HT3.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -38,6 +49,8 @@ public class SkilHT3 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(50);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
             }
     }

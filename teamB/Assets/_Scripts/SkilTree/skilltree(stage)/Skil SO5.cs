@@ -9,7 +9,14 @@ public class SkilSO5 : MonoBehaviour
     public Button SO5;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilSO4.ButtonONOFF)
@@ -24,6 +31,10 @@ public class SkilSO5 : MonoBehaviour
                 ColorBlock cb = SO5.colors;
                 cb.normalColor = newColor;
                 SO5.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -38,6 +49,8 @@ public class SkilSO5 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(100);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }

@@ -9,9 +9,16 @@ public class SceneMoveMainGame : MonoBehaviour
     public static Button button;
     public static bool tut1ONOFF = false;
     public static bool tut2ONOFF = false;
-    
+
     public void Change_Scene()
     {
+        StartCoroutine(ChangeSceneDelay());
+    }
+
+    IEnumerator ChangeSceneDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+
         if (tut1ONOFF)
         {
             if (tut2ONOFF)

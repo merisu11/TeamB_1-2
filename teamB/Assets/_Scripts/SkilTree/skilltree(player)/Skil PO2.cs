@@ -9,7 +9,14 @@ public class SkilPO2 : MonoBehaviour
     public Button PO2;
     public Color newColor;
     public GameObject obj;
+    public GameObject light;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip seClip;
     [SerializeField] private ParticleSystem effectParticle;
+    private void Start()
+    {
+        light.SetActive(false);
+    }
     private void Update()
     {
         if (SkilPO1.ButtonONOFF)
@@ -24,6 +31,10 @@ public class SkilPO2 : MonoBehaviour
                 ColorBlock cb = PO2.colors;
                 cb.normalColor = newColor;
                 PO2.colors = cb;
+                if (!ButtonONOFF)
+                {
+                    light.SetActive(true);
+                }
             }
         }
     }
@@ -39,6 +50,8 @@ public class SkilPO2 : MonoBehaviour
                 ButtonONOFF = true;
                 GameManager.Instance.RemoveOxygen(20);
                 effectParticle.Play();
+                light.SetActive(false);
+                audioSource.PlayOneShot(seClip);
             }
         }
     }
