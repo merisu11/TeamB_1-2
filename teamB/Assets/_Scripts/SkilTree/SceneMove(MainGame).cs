@@ -12,18 +12,11 @@ public class SceneMoveMainGame : MonoBehaviour
 
     public void Change_Scene()
     {
-        StartCoroutine(ChangeSceneDelay());
-    }
-
-    IEnumerator ChangeSceneDelay()
-    {
-        yield return new WaitForSeconds(0.2f);
-
         if (tut1ONOFF)
         {
             if (tut2ONOFF)
             {
-                SceneManager.LoadScene("MainGame");
+                GameManager.Instance.ContinueGame();
             }
             else
             {
@@ -38,3 +31,4 @@ public class SceneMoveMainGame : MonoBehaviour
         }
     }
 }
+
