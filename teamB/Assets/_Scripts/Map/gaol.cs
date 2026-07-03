@@ -4,51 +4,73 @@ public class gaol : MonoBehaviour
 {
     [SerializeField] private GameObject effectGoalprefab;
 
-    // エフェクトの発生位置（ゴールの画面外側）
+    // エフェクトの発生位置（ゴールの奥：画面外側）
     [SerializeField] private Transform effectSpawnPoint;
 
-    // エフェクトが向かう先（ステージ内：画面内側）
+    // エフェクトが向かう方向（ステージ側：画面内側）
     [SerializeField] private Transform effectTargetPoint;
 
-    private int remainingRedCells = -1;   // まだゴールしていない赤血球(Playerタグ)の残り数
-    private bool goalCompleted = false;   // ゴール演出（エフェクト・シーン遷移）が済んだか
+    private int remainingRedCells = -1;   // まだゴールしていない赤血球(Player/SubPlayerタグ)の残数
+    private bool goalCompleted = false;   // ゴール演出（エフェクト・シーン進行）が済んだか
 
     private void Start()
     {
-        // シーン開始時に存在する「Player」タグ（赤血球）の数を数えておく
-        // 仕様：「全ての赤血球がゴールに入った瞬間」エフェクトを出し、その後に遷移
-        remainingRedCells = GameObject.FindGameObjectsWithTag("Player").Length;
+        // シーン開始時に存在する「Player」「SubPlayer」タグ（赤血球）の総数を数えておく
+        // 仕様：「全ての赤血球がゴールに入ったら」エフェクトを出す、の判定基準にする
+        int playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
+        int subPlayerCount = GameObject.FindGameObjectsWithTag("SubPlayer").Length;
+        remainingRedCells = playerCount + subPlayerCount;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag != "Player") return;
-        if (goalCompleted) return; // すでに全員ゴール済みなら何もしない
+        // Player か SubPlayer のどちらかのタグでなければ無視する
+        bool isPlayerTag = other.gameObject.tag == "Player";
+        bool isSubPlayerTag = other.gameObject.tag == "SubPlayer";
+        if (!isPlayerTag && !isSubPlayerTag) return;
+        if (goalCompleted) return; // 既に全員ゴール済みなら何もしない
 
-        // この赤血球が持っていた酸素を GameManager に加算する（赤血球が運んだ分だけ加点）
-        Player playerScript = other.GetComponent<Player>();
-        if (playerScript != null)
+        // この赤血球が獲得した酸素数を GameManager に加算する（赤血球が来るたび毎回行う）
+        // Player・SubPlayer どちらも oxygenCount フィールドを持っているのでそれを見る
+        if (isPlayerTag)
         {
-            GameManager.Instance.AddOxygen(playerScript.oxygenCount);
+            Player playerScript = other.GetComponent<Player>();
+            if (playerScript != null)
+            {
+                GameManager.Instance.AddOxygen(playerScript.oxygenCount);
+            }
+        }
+        else // isSubPlayerTag
+        {
+            SubPlayer subPlayerScript = other.GetComponent<SubPlayer>();
+            if (subPlayerScript != null)
+            {
+                GameManager.Instance.AddOxygen(subPlayerScript.oxygenCount);
+            }
         }
 
         remainingRedCells--;
 
+        // ゴールした個体は画面から消す
+        // （Mainタグの「Player」は操作対象なので、本当に消してよいか要確認。
+        //   ひとまず仕様通りに両方Destroyする実装にしています）
+        Destroy(other.gameObject);
+
         // まだゴールしていない赤血球が残っていればここで終了
-        // エフェクト発生とゴール処理（シーン遷移）は「全員そろった」瞬間だけ実行
+        // エフェクト発生とゴール処理（シーン進行）は「全員到着」の瞬間だけ行う
         if (remainingRedCells > 0) return;
 
         goalCompleted = true;
 
-        // ===== ここから「全ての赤血球がゴールに入った」「場の処理」 =====
+        // ===== ここから「全ての赤血球がゴールに入った」瞬間の処理 =====
         if (effectGoalprefab != null)
         {
-            // ゴール外の位置にエフェクトを生成
+            // ゴール奥の位置にエフェクトを生成
             Vector3 spawnPos = effectSpawnPoint != null
                 ? effectSpawnPoint.position
                 : transform.position;
 
-            // ステージ内へ向けて回転（スマブラの光るエフェクトと同じ、画面外から画面内のイメージ）
+            // ステージ側へ向けて回転（スマブラの撃墜エフェクトと同じ、画面外→画面内のイメージ）
             Vector3 direction = effectTargetPoint != null
                 ? (effectTargetPoint.position - spawnPos).normalized
                 : Vector3.up;

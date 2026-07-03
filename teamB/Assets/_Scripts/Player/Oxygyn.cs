@@ -28,7 +28,11 @@ public class Oxygyn : MonoBehaviour
     void Update()
     {
         GameObject[] subPlayers = GameObject.FindGameObjectsWithTag("SubPlayer");
-        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        // ゴール後はPlayerタグのオブジェクトがDestroyされて存在しなくなるため、
+        // FindGameObjectWithTagがnullを返すことがある。nullのままGetComponentすると例外になるので確認する
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        Player player = playerObj != null ? playerObj.GetComponent<Player>() : null;
 
         float distEnemy = Vector2.Distance(transform.position, enemyTr.position);
 

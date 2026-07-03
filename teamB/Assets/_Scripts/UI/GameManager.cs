@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     // ── シーン名設定 ──────────────────────────────
     [Header("シーン名設定")]
     [SerializeField] private string gameSceneName = "MainGame";
+    
+    [SerializeField] private string[] mapSceneNames = { };
     [SerializeField] private string resultSceneName = "Result";
     [SerializeField] private string skillSceneName = "SkillTree";
     [SerializeField] private string titleSceneName = "TaitoruScenes";
@@ -88,7 +90,16 @@ public class GameManager : MonoBehaviour
     public void ContinueGame()
     {
         OxygenThisRun = 0;
-        SceneManager.LoadScene(gameSceneName);
+        // mapSceneNamesが設定されていればランダムに選ぶ、空ならgameSceneNameを使う
+        if (mapSceneNames != null && mapSceneNames.Length > 0)
+        {
+            int index = Random.Range(0, mapSceneNames.Length);
+            SceneManager.LoadScene(mapSceneNames[index]);
+        }
+        else
+        {
+            SceneManager.LoadScene(gameSceneName);
+        }
     }
 
     /// <summary>「スキルを取る」ボタンから呼ぶ。</summary>

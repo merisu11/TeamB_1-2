@@ -351,9 +351,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   gameSceneName: MainGame
+  mapSceneNames:
+  - map2
+  - MainGame
+  - map1
+  - map4
+  - map7
+  - map8
+  - map9
   resultSceneName: Result
   skillSceneName: SkillTree
   titleSceneName: TaitoruScenes
+  startDelay: 1
 --- !u!4 &472912034
 Transform:
   m_ObjectHideFlags: 0
