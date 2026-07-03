@@ -54,7 +54,7 @@ public class Oxygyn : MonoBehaviour
         {
             IOxygenTarget bestTarget = null;
             float bestDist = Mathf.Infinity;
-            float range = 1.5f;
+            float range = 0.5f;
 
             // Player・SubPlayer問わず、シーン内の全Playerコンポーネントを対象にする
             Player[] allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);

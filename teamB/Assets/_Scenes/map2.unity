@@ -198,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.26
+      value: 3.05
       objectReference: {fileID: 0}
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -235,6 +235,14 @@ PrefabInstance:
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240626854140854297, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0602505
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240626854140854297, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.03012526
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1788,6 +1796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u75C5\u539F\u4F53_0 1"
       objectReference: {fileID: 0}
+    - target: {fileID: 3127645168127104799, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: detectionRange
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2374,7 +2386,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4573686926472498790, guid: adfdea3751585b749ab86a7c9ea0c35c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3037,7 +3049,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 798067568081152575, guid: adfdea3751585b749ab86a7c9ea0c35c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3351,7 +3363,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 5218823490559287709, guid: 13b17f16931cea046bfffb3e934cbb8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3439,6 +3451,14 @@ PrefabInstance:
     - target: {fileID: 3644342899877021476, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
       propertyPath: m_SortingOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+      propertyPath: oxygenGetFadeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+      propertyPath: oxygenGetDisplayDuration
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3628,7 +3648,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7223938905749599537, guid: 7c4052521c78c2f4e81ada0bb0fc8b2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4622,6 +4642,14 @@ PrefabInstance:
     - target: {fileID: 1872339665929304734, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
       propertyPath: m_Name
       value: "\u75C5\u539F\u4F53_0 1 (3)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127645168127104799, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: detectionRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516812203390864881, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

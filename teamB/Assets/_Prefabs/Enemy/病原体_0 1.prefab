@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 145740155492018464, guid: f51dbbfee8a4b1b4d84ef594496880f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
   speed: 3
   StunDuration: 2
+  detectionRange: 5
 --- !u!58 &5005543760070228573
 CircleCollider2D:
   m_ObjectHideFlags: 0

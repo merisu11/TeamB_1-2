@@ -16,6 +16,19 @@ public class Player : MonoBehaviour, IOxygenTarget
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite stunSprite;
 
+    [Header("酸素獲得スプライト表示設定")]
+    [Tooltip("酸素を獲得した瞬間に表示するスプライト")]
+    [SerializeField] private Sprite oxygenGetSprite;
+
+    [Tooltip("赤血球より後ろに表示するためのSorting Orderオフセット（マイナス値を指定）")]
+    [SerializeField] private int oxygenGetEffectSortingOrderOffset = -1;
+
+    [Tooltip("スプライトを表示し続ける時間（秒）")]
+    [SerializeField] private float oxygenGetDisplayDuration = 0.3f;
+
+    [Tooltip("フェードアウトにかける時間（秒）。0にすると表示時間経過後に即座に消えます")]
+    [SerializeField] private float oxygenGetFadeDuration = 0.3f;
+
     [Header("役割設定")]
     [Tooltip("本体（クリック操作する側）ならtrue。サブプレイヤーならfalse")]
     public bool isLeader = true;
@@ -77,7 +90,30 @@ public class Player : MonoBehaviour, IOxygenTarget
     {
         if (oxygenCount >= maxOxygen) return false;
         oxygenCount++;
+        PlayOxygenGetEffect();
         return true;
+    }
+
+    // 酸素獲得スプライトを、自分（赤血球）の後ろに表示する
+    private void PlayOxygenGetEffect()
+    {
+        if (oxygenGetSprite == null) return;
+
+        GameObject effectObj = new GameObject("OxygenGetEffect");
+        effectObj.transform.position = transform.position;
+
+        SpriteRenderer effectRenderer = effectObj.AddComponent<SpriteRenderer>();
+        effectRenderer.sprite = oxygenGetSprite;
+
+        // スプライトが赤血球より後ろに描画されるようSorting Orderを調整
+        if (spriteRenderer != null)
+        {
+            effectRenderer.sortingLayerID = spriteRenderer.sortingLayerID;
+            effectRenderer.sortingOrder = spriteRenderer.sortingOrder + oxygenGetEffectSortingOrderOffset;
+        }
+
+        OxygenGetSpriteEffect spriteEffect = effectObj.AddComponent<OxygenGetSpriteEffect>();
+        spriteEffect.Setup(oxygenGetDisplayDuration, oxygenGetFadeDuration);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

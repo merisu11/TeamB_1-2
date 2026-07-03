@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2030102935040418843, guid: 69ce43390be922f448a5807b9669559b, type: 3}
   m_Color: {r: 0.98490566, g: 0.5856492, b: 0.05760764, a: 1}
@@ -174,6 +174,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3473581409861279814}
   normalSprite: {fileID: 2030102935040418843, guid: 69ce43390be922f448a5807b9669559b, type: 3}
   stunSprite: {fileID: 3760281945670381157, guid: dcaf498ab417e5441881f5a76da48539, type: 3}
+  oxygenGetSprite: {fileID: 0}
+  oxygenGetEffectSortingOrderOffset: -1
+  oxygenGetDisplayDuration: 0.2
+  oxygenGetFadeDuration: 0.1
   isLeader: 0
   leader: {fileID: 0}
   slotIndex: 0
