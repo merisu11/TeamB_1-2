@@ -198,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.26
+      value: 3.05
       objectReference: {fileID: 0}
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -235,6 +235,14 @@ PrefabInstance:
     - target: {fileID: 7200519221370887176, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240626854140854297, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0602505
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240626854140854297, guid: 26b7cea921880c94381bbbd546dfa2ee, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.03012526
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1788,6 +1796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u75C5\u539F\u4F53_0 1"
       objectReference: {fileID: 0}
+    - target: {fileID: 3127645168127104799, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: detectionRange
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2374,7 +2386,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4573686926472498790, guid: adfdea3751585b749ab86a7c9ea0c35c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3037,7 +3049,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 798067568081152575, guid: adfdea3751585b749ab86a7c9ea0c35c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3351,7 +3363,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 5218823490559287709, guid: 13b17f16931cea046bfffb3e934cbb8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3440,6 +3452,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+      propertyPath: oxygenGetFadeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+      propertyPath: oxygenGetDisplayDuration
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.31
@@ -3490,6 +3510,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
   m_PrefabInstance: {fileID: 1680411257}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1680411259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+  m_PrefabInstance: {fileID: 1680411257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b8b8cc9c6452f408600747132f3b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!1001 &1709075306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3498,6 +3529,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2342593485108806742, guid: 45947bd97bf1c4541ade511b8407b857, type: 3}
+      propertyPath: leaderPlayer
+      value: 
+      objectReference: {fileID: 1680411259}
     - target: {fileID: 6211806285953974595, guid: 45947bd97bf1c4541ade511b8407b857, type: 3}
       propertyPath: m_Name
       value: SubPlayerSpawner
@@ -3613,7 +3648,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7223938905749599537, guid: 7c4052521c78c2f4e81ada0bb0fc8b2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3655,6 +3690,8 @@ MonoBehaviour:
   effectGoalprefab: {fileID: 6799137954918481779, guid: 8a70f67d12c0b62428af49bf5734269b, type: 3}
   effectSpawnPoint: {fileID: 1120022475}
   effectTargetPoint: {fileID: 0}
+  goalSE: {fileID: 8300000, guid: bebd42e224ccdf54abfdaa044aa1e39f, type: 3}
+  goalSEVolume: 1
 --- !u!61 &1732055757
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4607,6 +4644,14 @@ PrefabInstance:
     - target: {fileID: 1872339665929304734, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
       propertyPath: m_Name
       value: "\u75C5\u539F\u4F53_0 1 (3)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127645168127104799, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: detectionRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516812203390864881, guid: c95a85703e930284da1eeac7c5affd54, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -21,7 +21,7 @@ public class hakekkyuu : MonoBehaviour
 
     [Header("検知・妨害")]
 
-    public static float detectionRange = 5f;
+    public static float detectionRange = 3f;
 
     [Tooltip("基本の妨害継続時間（秒）/ スキル未取得: 2秒")]
     public static float attachDuration = 2f;

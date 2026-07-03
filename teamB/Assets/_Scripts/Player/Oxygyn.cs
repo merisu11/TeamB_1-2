@@ -14,7 +14,7 @@ public class Oxygyn : MonoBehaviour
     Transform enemyTr;
     IOxygenTarget target;
 
-    [SerializeField] public static float speed = 10f;//速度
+    [SerializeField] public static float speed = 10f;
 
     private float escapeTime = 0f;
     private float randomx;
@@ -27,39 +27,26 @@ public class Oxygyn : MonoBehaviour
 
     void Update()
     {
-        GameObject[] subPlayers = GameObject.FindGameObjectsWithTag("SubPlayer");
-
-        // ゴール後はPlayerタグのオブジェクトがDestroyされて存在しなくなるため、
-        // FindGameObjectWithTagがnullを返すことがある。nullのままGetComponentすると例外になるので確認する
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        Player player = playerObj != null ? playerObj.GetComponent<Player>() : null;
-
         float distEnemy = Vector2.Distance(transform.position, enemyTr.position);
 
         if ((state == State.Follow) && distEnemy < 0.8f)
         {
             state = State.Escape;
-
             escapeTime = 1.0f;
-
             randomx = Random.Range(-9f, 9f);
             randomy = Random.Range(-4.5f, 4.5f);
             target.Reset();
-            //player.oxygenCount = 0;
             target = null;
         }
 
         if (state == State.Escape)
         {
             escapeTime -= Time.deltaTime;
-
-            transform.position = Vector3.MoveTowards(transform.position,new Vector3(randomx, randomy, -6f),speed * Time.deltaTime);
-
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(randomx, randomy, -6f), speed * Time.deltaTime);
             if (escapeTime <= 0f)
             {
                 state = State.Idle;
             }
-
             return;
         }
 
@@ -67,38 +54,27 @@ public class Oxygyn : MonoBehaviour
         {
             IOxygenTarget bestTarget = null;
             float bestDist = Mathf.Infinity;
+            float range = 0.5f;
 
-            float range = 1.5f;//酸素の取得範囲
+            // Player・SubPlayer問わず、シーン内の全Playerコンポーネントを対象にする
+            Player[] allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);
 
-            if (player != null && player.oxygenCount < Player.maxOxygen)
+            foreach (Player p in allPlayers)
             {
-                float d = Vector2.Distance(transform.position, player.transform.position);
+                if (p.oxygenCount >= Player.maxOxygen) continue;
 
-                if (d < range)
-                {
-                    bestTarget = player;
-                    bestDist = d;
-                }
-            }
-
-            foreach (GameObject sp in subPlayers)
-            {
-                SubPlayer sub = sp.GetComponent<SubPlayer>();
-                if (sub == null) continue;
-                if (sub.oxygenCount >= SubPlayer.maxOxygen) continue;
-
-                float d = Vector2.Distance(transform.position, sp.transform.position);
+                float d = Vector2.Distance(transform.position, p.transform.position);
 
                 if (d < range && d < bestDist)
                 {
-                    bestTarget = sub;
+                    bestTarget = p;
                     bestDist = d;
                 }
             }
 
             if (bestTarget != null)
             {
-                bool result = bestTarget.TryGetOxygen();;
+                bool result = bestTarget.TryGetOxygen();
 
                 if (result)
                 {
@@ -110,7 +86,6 @@ public class Oxygyn : MonoBehaviour
 
         if (state == State.Follow && target != null)
         {
-
             MonoBehaviour mb = target as MonoBehaviour;
 
             if (mb == null)
@@ -120,7 +95,7 @@ public class Oxygyn : MonoBehaviour
                 return;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position,new Vector3(mb.transform.position.x, mb.transform.position.y, -6f),speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(mb.transform.position.x, mb.transform.position.y, -6f), speed * Time.deltaTime);
         }
     }
 
