@@ -1,0 +1,157 @@
+﻿using UnityEngine;
+using System.Collections; //コールチンを使うため
+using UnityEngine.UI;
+
+
+public class ClearSceneManager : MonoBehaviour
+{
+    [Header("3人の移動演出設定")]
+    public GameObject performers; //3人とパネルが入った親オブジェクト（ClearPerforme
+    public Transform targetPosition; //画面真ん中上の目標値（TargetPosition)
+    public float speed = 4.0f;   //運んでくるスピード
+
+    [Header("6秒後に出したい2つのボタン")]
+    public GameObject titleButton;
+    public GameObject mainGameButton;
+
+    [Header("酸素量カウンターのUI")]
+    [SerializeField] private Text earnedOxygenText; //獲得酸素量テキスト
+    [SerializeField] private Text availableOxygenText; //利用可能ナ酸素テキスト
+    [SerializeField] private float countDuration = 2.2f;
+
+    private bool isArrived = false;
+    private bool isAnimating;
+    private bool skipRequested;
+
+    void Start()
+    {
+        //最初は2つのボタンを両方友非表示にしておく
+        if (titleButton != null) titleButton.SetActive(false);
+        if (mainGameButton != null) mainGameButton.SetActive(false);
+
+        // シーンが切り替わった瞬間、念のため位置を初期化（スタート位置にある状態）
+
+        // ゲーム開始時点（移動中）は、酸素テキストを仮で表示
+        if (GameManager.Instance != null)
+        {
+            int earned = GameManager.Instance.OxygenThisRun;
+            int newTotal = GameManager.Instance.TotalOxygen;
+            int prevTotal = newTotal - earned;
+
+            if (earnedOxygenText != null) earnedOxygenText.text = earned.ToString("N0");
+            if (availableOxygenText != null) availableOxygenText.text = prevTotal.ToString("N0");
+        }
+
+    }
+    private void Update()
+    {
+        //まだ目標地点についていないなら、毎フレーム真ん中に向かって移動させる
+        if (!isArrived && performers != null && targetPosition != null)
+        {
+            MoveToTarget();
+        }
+
+        // 酸素カウント中にクリックされたらスキップ
+        if (isAnimating && Input.GetMouseButtonDown(0))
+        {
+            skipRequested = true;
+        }
+    }
+    void MoveToTarget()
+    {
+        //3人の塊（performers)を目標地点へスムーズに移動
+        performers.transform.position = Vector3.MoveTowards(
+           performers.transform.position,
+           targetPosition.position,
+           speed * Time.deltaTime
+           );
+        //画面真ん中にピッタリ(誤差0.05歩以内)に着いたら停止
+        if (Vector3.Distance(performers.transform.position, targetPosition.position)<0.05f)
+        {
+            isArrived = true;
+            OnArrival();
+        }
+    }
+
+
+    //真ん中に到着した瞬間にやりたい処理
+    void OnArrival()
+    {
+        Debug.Log("画面中央に到着しました");
+
+        // 到着したら、酸素カウンターのアニメーションを開始！
+        StartCoroutine(PlayOxygenAnimation());
+    }
+
+    // 酸素カウンターアニメーション
+    private IEnumerator PlayOxygenAnimation()
+    {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManagerが見つかりません。ボタンを即座に出します。");
+            StartCoroutine(WaitAndShowButtons());
+            yield break;
+        }
+
+        isAnimating = true;
+
+        int earned = GameManager.Instance.OxygenThisRun;
+        int newTotal = GameManager.Instance.TotalOxygen;
+        int prevTotal = newTotal - earned;
+
+        yield return new WaitForSeconds(0.6f);
+
+        // フェーズ1: 獲得酸素量を earned → 0 に減少
+        yield return StartCoroutine(CountTo(earnedOxygenText, earned, 0, countDuration));
+
+        // フェーズ1中にスキップされていたら終了（フェーズ2を実行しない）
+        if (!isAnimating)
+        {
+            StartCoroutine(WaitAndShowButtons()); // スキップされてもタイマー開始
+            yield break;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        // フェーズ2: 利用可能な酸素を prevTotal → newTotal に増加
+        yield return StartCoroutine(CountTo(availableOxygenText, prevTotal, newTotal, countDuration));
+
+        isAnimating = false;
+
+        // 🌟アニメーションがすべて完了したら、6秒タイマーをスタート！
+        StartCoroutine(WaitAndShowButtons());
+    }
+
+    private IEnumerator CountTo(Text target, int from, int to, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            if (skipRequested)
+            {
+                // 両テキストを最終値に一気に設定して終了
+                if (earnedOxygenText != null) earnedOxygenText.text = 0.ToString("N0");
+                if (availableOxygenText != null) availableOxygenText.text = GameManager.Instance.TotalOxygen.ToString("N0");
+
+                skipRequested = false;
+                isAnimating = false;
+                yield break;
+            }
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - Mathf.Pow(1f - t, 3f); // EaseOutCubic
+            if (target != null) target.text = Mathf.RoundToInt(Mathf.Lerp(from, to, eased)).ToString("N0");
+            yield return null;
+        }
+        if (target != null) target.text = to.ToString("N0");
+    }
+    //6秒待つタイマー
+    IEnumerator WaitAndShowButtons()
+    {
+        yield return new WaitForSeconds(6.0f);
+
+        //6秒たったら2つのボタンを出す
+        if (titleButton != null) titleButton.SetActive(true);
+        if (mainGameButton != null) mainGameButton.SetActive(true);
+    }
+}
