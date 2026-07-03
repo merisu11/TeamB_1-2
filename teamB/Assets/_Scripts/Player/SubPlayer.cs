@@ -15,6 +15,12 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
     private bool playerLost = false;
     private Vector3 touchWorldPosition; // Player不在時（ゴール後）にマウス操作する際の目標位置
     private Rigidbody2D rb;//0703サブプレイヤーの挙動修正
+
+    public int slotIndex = 0;
+    public int slotTotal = 1;
+   [SerializeField] float formationRadius = 1.2f; // Playerからどれくらい離れて並ぶか
+    [SerializeField] float separationRadius = 0.8f;   // これより近いSubPlayerから離れる
+    [SerializeField] float separationWeight = 3f;      // 分離の強さ
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();//挙動修正
@@ -32,21 +38,60 @@ public class SubPlayer : MonoBehaviour, IOxygenTarget
         touchWorldPosition = transform.position;
     }
 
+    Vector2 GetFormationTarget()
+    {
+        float angle = (360f / slotTotal) * slotIndex * Mathf.Deg2Rad;
+        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * formationRadius;
+        return (Vector2)playerTr.position + offset;
+    }
+
+
+    Vector2 GetSeparationForce()
+    {
+        Vector2 separation = Vector2.zero;
+        GameObject[] others = GameObject.FindGameObjectsWithTag("SubPlayer");
+
+        foreach (GameObject other in others)
+        {
+            if (other == gameObject) continue; // 自分自身はスキップ
+
+            float dist = Vector2.Distance(transform.position, other.transform.position);
+
+            if (dist < separationRadius && dist > 0.0001f)
+            {
+                Vector2 away = (Vector2)(transform.position - other.transform.position);
+                // 近いほど強く反発させる（距離で割る）
+                separation += away.normalized / dist;
+            }
+        }
+        return separation;
+    }
+
     void FixedUpdate()
     {
         if (playerTr == null) return;
 
-        float dist = Vector2.Distance(transform.position, playerTr.position);
+        Vector2 target = GetFormationTarget();
+        Vector2 toTarget = target - (Vector2)transform.position;
 
-        if (dist > 1f)
+        Vector2 seekVelocity = Vector2.zero;
+        if (toTarget.magnitude > 0.2f)
         {
-            Vector2 dir = ((Vector2)playerTr.position - (Vector2)transform.position).normalized;
-            rb.linearVelocity = dir * speed;
+            seekVelocity = toTarget.normalized * speed;
         }
-        else
+
+        Vector2 separationForce = GetSeparationForce() * separationWeight;
+
+        // 目標に向かう速度 + 分離の力を合成する
+        Vector2 finalVelocity = seekVelocity + separationForce;
+
+        // 速度が出すぎないようにクランプ
+        if (finalVelocity.magnitude > speed)
         {
-            rb.linearVelocity = Vector2.zero;
+            finalVelocity = finalVelocity.normalized * speed;
         }
+
+        rb.linearVelocity = finalVelocity;
     }
 
     void Update()

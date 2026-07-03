@@ -3490,6 +3490,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
   m_PrefabInstance: {fileID: 1680411257}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1680411259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+  m_PrefabInstance: {fileID: 1680411257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b8b8cc9c6452f408600747132f3b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!1001 &1709075306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3498,6 +3509,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2342593485108806742, guid: 45947bd97bf1c4541ade511b8407b857, type: 3}
+      propertyPath: leaderPlayer
+      value: 
+      objectReference: {fileID: 1680411259}
     - target: {fileID: 6211806285953974595, guid: 45947bd97bf1c4541ade511b8407b857, type: 3}
       propertyPath: m_Name
       value: SubPlayerSpawner

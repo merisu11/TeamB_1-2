@@ -70,25 +70,33 @@ public class EnemyMove : MonoBehaviour, IPathogen
     private void FindNearestPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] subPlayers = GameObject.FindGameObjectsWithTag("SubPlayer");
+
         float minDist = float.MaxValue;
         target = null;
 
-        foreach (GameObject p in players)
+        void CheckTargets(GameObject[] group)
         {
-            float dist = Vector2.Distance(transform.position, p.transform.position);
-            if (dist < minDist)
+            foreach (GameObject p in group)
             {
-                minDist = dist;
-                target = p.transform;
+                float dist = Vector2.Distance(transform.position, p.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    target = p.transform;
+                }
             }
         }
+
+        CheckTargets(players);
+        CheckTargets(subPlayers);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isStunned) return;
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("SubPlayer"))
         {
             isStunned = true;
             stunTimer = StunDuration;
