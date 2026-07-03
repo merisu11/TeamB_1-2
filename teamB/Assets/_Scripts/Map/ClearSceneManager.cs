@@ -8,7 +8,7 @@ public class ClearSceneManager : MonoBehaviour
     [Header("3人の移動演出設定")]
     public GameObject performers; //3人とパネルが入った親オブジェクト（ClearPerforme
     public Transform targetPosition; //画面真ん中上の目標値（TargetPosition)
-    public float speed = 4.0f;   //運んでくるスピード
+    public float speed = 10000.0f;   //運んでくるスピード
 
     [Header("6秒後に出したい2つのボタン")]
     public GameObject titleButton;
@@ -22,6 +22,7 @@ public class ClearSceneManager : MonoBehaviour
     private bool isArrived = false;
     private bool isAnimating;
     private bool skipRequested;
+    private bool oxygenAnimationDone = false; // 酸素(リザルト)演出が完了したか
 
     void Start()
     {
@@ -42,6 +43,23 @@ public class ClearSceneManager : MonoBehaviour
             if (availableOxygenText != null) availableOxygenText.text = prevTotal.ToString("N0");
         }
 
+        // ボタンを押した時の遷移処理を登録
+        if (titleButton != null)
+        {
+            Button btn = titleButton.GetComponent<Button>();
+            if (btn != null) btn.onClick.AddListener(OnTitleButtonClicked);
+        }
+        if (mainGameButton != null)
+        {
+            Button btn = mainGameButton.GetComponent<Button>();
+            if (btn != null) btn.onClick.AddListener(OnMainGameButtonClicked);
+        }
+
+        // 文字の移動演出(Updateで開始)と同時進行でリザルト(酸素)処理も開始する
+        StartCoroutine(PlayOxygenAnimation());
+
+        // 移動演出とリザルト処理の両方が終わってからボタン表示のタイマーを始める
+        StartCoroutine(WaitForBothThenShowButtons());
     }
     private void Update()
     {
@@ -66,30 +84,20 @@ public class ClearSceneManager : MonoBehaviour
            speed * Time.deltaTime
            );
         //画面真ん中にピッタリ(誤差0.05歩以内)に着いたら停止
-        if (Vector3.Distance(performers.transform.position, targetPosition.position)<0.05f)
+        if (Vector3.Distance(performers.transform.position, targetPosition.position) < 0.05f)
         {
             isArrived = true;
-            OnArrival();
+            Debug.Log("画面中央に到着しました");
         }
     }
 
-
-    //真ん中に到着した瞬間にやりたい処理
-    void OnArrival()
-    {
-        Debug.Log("画面中央に到着しました");
-
-        // 到着したら、酸素カウンターのアニメーションを開始！
-        StartCoroutine(PlayOxygenAnimation());
-    }
-
-    // 酸素カウンターアニメーション
+    // 酸素カウンターアニメーション(文字の移動演出と同時に実行される)
     private IEnumerator PlayOxygenAnimation()
     {
         if (GameManager.Instance == null)
         {
-            Debug.LogError("GameManagerが見つかりません。ボタンを即座に出します。");
-            StartCoroutine(WaitAndShowButtons());
+            Debug.LogError("GameManagerが見つかりません。");
+            oxygenAnimationDone = true;
             yield break;
         }
 
@@ -107,7 +115,7 @@ public class ClearSceneManager : MonoBehaviour
         // フェーズ1中にスキップされていたら終了（フェーズ2を実行しない）
         if (!isAnimating)
         {
-            StartCoroutine(WaitAndShowButtons()); // スキップされてもタイマー開始
+            oxygenAnimationDone = true;
             yield break;
         }
 
@@ -118,8 +126,8 @@ public class ClearSceneManager : MonoBehaviour
 
         isAnimating = false;
 
-        // 🌟アニメーションがすべて完了したら、6秒タイマーをスタート！
-        StartCoroutine(WaitAndShowButtons());
+        // 🌟酸素演出が完了(移動演出と合わせてWaitForBothThenShowButtonsが検知する)
+        oxygenAnimationDone = true;
     }
 
     private IEnumerator CountTo(Text target, int from, int to, float duration)
@@ -135,6 +143,7 @@ public class ClearSceneManager : MonoBehaviour
 
                 skipRequested = false;
                 isAnimating = false;
+                oxygenAnimationDone = true;
                 yield break;
             }
             elapsed += Time.deltaTime;
@@ -145,13 +154,28 @@ public class ClearSceneManager : MonoBehaviour
         }
         if (target != null) target.text = to.ToString("N0");
     }
-    //6秒待つタイマー
-    IEnumerator WaitAndShowButtons()
-    {
-        yield return new WaitForSeconds(6.0f);
 
-        //6秒たったら2つのボタンを出す
+    // 移動演出とリザルト(酸素)処理の両方が終わるのを待ってから6秒後にボタンを出す
+    private IEnumerator WaitForBothThenShowButtons()
+    {
+        yield return new WaitUntil(() => isArrived && oxygenAnimationDone);
+
+        yield return new WaitForSeconds(3.0f);
+
+        //両方終わって6秒たったら2つのボタンを出す
         if (titleButton != null) titleButton.SetActive(true);
         if (mainGameButton != null) mainGameButton.SetActive(true);
+    }
+
+    // 「タイトルに戻る」ボタン → タイトル画面へ
+    private void OnTitleButtonClicked()
+    {
+        if (GameManager.Instance != null) GameManager.Instance.GoToTitleScene();
+    }
+
+    // 「ゲームを続ける」ボタン → メインゲームへ
+    private void OnMainGameButtonClicked()
+    {
+        if (GameManager.Instance != null) GameManager.Instance.ContinueGame();
     }
 }

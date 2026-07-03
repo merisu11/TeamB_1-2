@@ -21,14 +21,21 @@ public class GameManager : MonoBehaviour
     public enum EndReason { Goal, TimerUp }
     public EndReason LastEndReason { get; private set; }
 
+    // ── ゲームクリア演出 ──────────────────────────
+    /// <summary>ゲームクリアシーンを一度でも表示したらtrueになる。
+    /// これ以降はゴールしても通常のリザルト画面へ遷移する。</summary>
+    public bool HasSeenClearScene { get; private set; } = false;
+
     // ── シーン名設定 ──────────────────────────────
     [Header("シーン名設定")]
     [SerializeField] private string gameSceneName = "MainGame";
-    
+
     [SerializeField] private string[] mapSceneNames = { };
     [SerializeField] private string resultSceneName = "Result";
     [SerializeField] private string skillSceneName = "SkillTree";
     [SerializeField] private string titleSceneName = "TaitoruScenes";
+    [Tooltip("全スキル取得後・初回ゴール時に遷移するゲームクリアシーンの名前")]
+    [SerializeField] private string clearSceneName = "GameClear";
     [SerializeField] private float startDelay = 1f;
     void Awake()
     {
@@ -63,6 +70,17 @@ public class GameManager : MonoBehaviour
     public void OnGoalReached()
     {
         LastEndReason = EndReason.Goal;
+
+        // 全スキル取得済み、かつまだクリア演出を見せていない場合だけ
+        // ゲームクリアシーンへ。それ以降のゴールは通常のリザルト画面へ。
+        if (skillcomplete.skillallget && !HasSeenClearScene)
+        {
+            HasSeenClearScene = true;
+            Debug.Log("[GameManager] ゴール！(全スキル取得済み) → ゲームクリアシーンへ");
+            SceneManager.LoadScene(clearSceneName);
+            return;
+        }
+
         Debug.Log("[GameManager] ゴール！ → リザルト画面へ");
         LoadResultScene();
     }

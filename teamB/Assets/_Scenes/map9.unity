@@ -707,6 +707,8 @@ MonoBehaviour:
   effectGoalprefab: {fileID: 6799137954918481779, guid: 303fe0947ac2e314695e7ebd4e5ade7c, type: 3}
   effectSpawnPoint: {fileID: 619879064}
   effectTargetPoint: {fileID: 0}
+  goalSE: {fileID: 0}
+  goalSEVolume: 1
 --- !u!61 &232003642
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1408,6 +1410,10 @@ PrefabInstance:
     - target: {fileID: 3644342899877021476, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
       propertyPath: m_SortingOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719764418927077869, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
+      propertyPath: formationRadius
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9199405610501328469, guid: 3b40d0e3eb236ed488d26b30fd6ea4fa, type: 3}
       propertyPath: m_LocalPosition.x

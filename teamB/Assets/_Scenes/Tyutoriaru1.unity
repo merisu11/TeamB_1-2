@@ -361,6 +361,7 @@ MonoBehaviour:
   resultSceneName: Result
   skillSceneName: SkillTree
   titleSceneName: TaitoruScenes
+  clearSceneName: ClearScene
   startDelay: 1
 --- !u!4 &472912034
 Transform:

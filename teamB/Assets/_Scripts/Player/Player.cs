@@ -37,16 +37,13 @@ public class Player : MonoBehaviour, IOxygenTarget
     public Player leader;              // 追いかける相手（リーダー）
     public int slotIndex = 0;          // 自分が何番目か
     public int slotTotal = 1;          // 全体で何人いるか
-    [Tooltip("リーダーから1人分離れる基本距離。slotIndexが大きいほどさらに後ろになる")]
-    public float formationRadius = 1f;
-
-    [Tooltip("重なりを防ぐための左右のジグザグ幅")]
-    [SerializeField] private float lateralSpread = 0.4f;
+    [Tooltip("団子の1リング目の半径。リーダーからこの距離だけ離れた円周上に最初の6体が並ぶ")]
+    public float formationRadius = 0f;
 
     [Tooltip("サブプレイヤーの速度倍率。1より大きくすると隊列の位置に追いつきやすくなる")]
     [SerializeField] private float followerSpeedMultiplier = 1.3f;
 
-    // リーダーが直近で移動していた方向（サブプレイヤーの縦列配置の基準に使う）
+    // リーダーが直近で移動していた方向（後方の半円を決める基準に使う）
     private Vector3 moveDirection = Vector3.right;
     public Vector3 MoveDirection => moveDirection;
 
@@ -102,22 +99,49 @@ public class Player : MonoBehaviour, IOxygenTarget
         time -= Time.deltaTime;
     }
 
-    // リーダーの移動方向に沿って縦に並びつつ、左右に少しずらして重なりを防ぐ
+    // リーダーの後方の半円上に、同心円のリング状（団子状）に固まって配置する
+    // 前方（リーダーの進行方向側）は開けておき、後ろ側だけに集まる
+    // 1リング目に最大3体、2リング目に最大6体…と後方半円の中で外側へ広がっていく
     Vector3 GetFormationTarget()
     {
-        // リーダーの後方方向（進行方向の逆）を基準にする
+        // リーダーの後方方向（進行方向の逆）を基準の中心角度にする
         Vector3 backDir = -leader.MoveDirection;
-        Vector3 rightDir = new Vector3(-backDir.y, backDir.x, 0f);
+        float backAngleDeg = Mathf.Atan2(backDir.y, backDir.x) * Mathf.Rad2Deg;
 
-        // slotIndexが大きいほど後方に離れていく（縦列）
-        float distanceBehind = formationRadius * (slotIndex + 1);
+        const float arcSpan = 180f; // 後方半円（前方180度は開けておく）
 
-        // 奇数・偶数で左右に振り分けてジグザグにし、重なりを防ぐ
-        int side = (slotIndex % 2 == 0) ? 1 : -1;
-        float lateralOffset = side * lateralSpread * ((slotIndex + 2) / 2);
+        int index = slotIndex; // 0始まりの自分の番号
+        int ring = 1;
+        int ringCapacity = 3;   // 半円なので、全周(6)の半分から開始
+        int cumulative = 0;     // これまでのリングで埋まった人数の合計
 
-        Vector3 dir = backDir * distanceBehind + rightDir * lateralOffset;
-        return leader.transform.position + dir;
+        // 自分がどのリングの何番目に入るかを求める
+        while (index >= cumulative + ringCapacity)
+        {
+            cumulative += ringCapacity;
+            ring++;
+            ringCapacity = 3 * ring;
+        }
+
+        int indexInRing = index - cumulative;
+
+        // 半円の中に等間隔で並べる（両端が後方の真横、中央が真後ろになる）
+        float angleOffsetDeg;
+        if (ringCapacity <= 1)
+        {
+            angleOffsetDeg = 0f;
+        }
+        else
+        {
+            float angleStep = arcSpan / (ringCapacity - 1);
+            angleOffsetDeg = -arcSpan / 2f + indexInRing * angleStep;
+        }
+
+        float angleRad = (backAngleDeg + angleOffsetDeg) * Mathf.Deg2Rad;
+        float radius = formationRadius * ring;
+        Vector3 offset = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f) * radius;
+
+        return leader.transform.position + offset;
     }
 
     public bool TryGetOxygen()

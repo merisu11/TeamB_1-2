@@ -176,10 +176,11 @@ MonoBehaviour:
   stunSprite: {fileID: 3760281945670381157, guid: dcaf498ab417e5441881f5a76da48539, type: 3}
   oxygenGetSprite: {fileID: 0}
   oxygenGetEffectSortingOrderOffset: -1
-  oxygenGetDisplayDuration: 0.2
+  oxygenGetDisplayDuration: 0.7
   oxygenGetFadeDuration: 0.1
   isLeader: 0
   leader: {fileID: 0}
   slotIndex: 0
   slotTotal: 1
-  formationRadius: 1.2
+  formationRadius: 0.2
+  followerSpeedMultiplier: 1.3
