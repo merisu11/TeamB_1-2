@@ -171,3 +171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   oxygenCount: 0
   resetTime: 3
+  spriteRenderer: {fileID: 3644342899877021476}
+  normalSprite: {fileID: 2030102935040418843, guid: 69ce43390be922f448a5807b9669559b, type: 3}
+  stunSprite: {fileID: 3760281945670381157, guid: dcaf498ab417e5441881f5a76da48539, type: 3}

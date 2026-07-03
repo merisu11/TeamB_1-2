@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IOxygenTarget
 {
@@ -11,9 +12,14 @@ public class Player : MonoBehaviour, IOxygenTarget
     Vector3 touchWorldPosition;
     private float time;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite stunSprite;
+
     void Start()
     {
         touchWorldPosition = transform.position;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -29,6 +35,7 @@ public class Player : MonoBehaviour, IOxygenTarget
                 touchWorldPosition = Camera.main.ScreenToWorldPoint(pos);
             }
 
+            spriteRenderer.sprite = normalSprite;
             transform.position = Vector3.MoveTowards(transform.position,touchWorldPosition,speed * Time.deltaTime);
         }
 
@@ -58,6 +65,7 @@ public class Player : MonoBehaviour, IOxygenTarget
         if (collision.gameObject.CompareTag("Enemy"))
         {
             time = 1.0f;
+            spriteRenderer.sprite = stunSprite;
         }
     }
 
