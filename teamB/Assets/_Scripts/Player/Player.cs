@@ -37,7 +37,18 @@ public class Player : MonoBehaviour, IOxygenTarget
     public Player leader;              // 追いかける相手（リーダー）
     public int slotIndex = 0;          // 自分が何番目か
     public int slotTotal = 1;          // 全体で何人いるか
-    public float formationRadius = 1.2f; // リーダーからの距離
+    [Tooltip("リーダーから1人分離れる基本距離。slotIndexが大きいほどさらに後ろになる")]
+    public float formationRadius = 1.2f;
+
+    [Tooltip("重なりを防ぐための左右のジグザグ幅")]
+    [SerializeField] private float lateralSpread = 0.4f;
+
+    [Tooltip("サブプレイヤーの速度倍率。1より大きくすると隊列の位置に追いつきやすくなる")]
+    [SerializeField] private float followerSpeedMultiplier = 1.3f;
+
+    // リーダーが直近で移動していた方向（サブプレイヤーの縦列配置の基準に使う）
+    private Vector3 moveDirection = Vector3.right;
+    public Vector3 MoveDirection => moveDirection;
 
     // 他のスクリプトからリーダーのクリック目標地点を読めるようにする
     public Vector3 TouchWorldPosition => touchWorldPosition;
@@ -64,7 +75,7 @@ public class Player : MonoBehaviour, IOxygenTarget
             }
             else
             {
-                // ===== サブプレイヤーはリーダーの周りの自分専用の点を目指す =====
+                // ===== サブプレイヤーはリーダーの後方の自分専用の点を目指す =====
                 if (leader != null)
                 {
                     touchWorldPosition = GetFormationTarget();
@@ -72,18 +83,41 @@ public class Player : MonoBehaviour, IOxygenTarget
             }
 
             spriteRenderer.sprite = normalSprite;
-            transform.position = Vector3.MoveTowards(transform.position, touchWorldPosition, speed * Time.deltaTime);
+
+            // リーダーの移動方向を記録する（サブプレイヤーの縦列配置の基準に使う）
+            if (isLeader)
+            {
+                Vector3 delta = touchWorldPosition - transform.position;
+                if (delta.sqrMagnitude > 0.0001f)
+                {
+                    moveDirection = delta.normalized;
+                }
+            }
+
+            // サブプレイヤーは隊列の位置に追いつけるよう少し速く移動する
+            float currentSpeed = isLeader ? speed : speed * followerSpeedMultiplier;
+            transform.position = Vector3.MoveTowards(transform.position, touchWorldPosition, currentSpeed * Time.deltaTime);
         }
 
         time -= Time.deltaTime;
     }
 
-    // リーダーを中心とした円周上の自分の目標位置を計算する
+    // リーダーの移動方向に沿って縦に並びつつ、左右に少しずらして重なりを防ぐ
     Vector3 GetFormationTarget()
     {
-        float angle = (360f / slotTotal) * slotIndex * Mathf.Deg2Rad;
-        Vector3 offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * formationRadius;
-        return leader.transform.position + offset;
+        // リーダーの後方方向（進行方向の逆）を基準にする
+        Vector3 backDir = -leader.MoveDirection;
+        Vector3 rightDir = new Vector3(-backDir.y, backDir.x, 0f);
+
+        // slotIndexが大きいほど後方に離れていく（縦列）
+        float distanceBehind = formationRadius * (slotIndex + 1);
+
+        // 奇数・偶数で左右に振り分けてジグザグにし、重なりを防ぐ
+        int side = (slotIndex % 2 == 0) ? 1 : -1;
+        float lateralOffset = side * lateralSpread * ((slotIndex + 2) / 2);
+
+        Vector3 dir = backDir * distanceBehind + rightDir * lateralOffset;
+        return leader.transform.position + dir;
     }
 
     public bool TryGetOxygen()

@@ -1129,6 +1129,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 751314949724955545, guid: abaf1e4d90aa7b645a7d6e77914b82a7, type: 3}
+      propertyPath: timerText
+      value: 
+      objectReference: {fileID: 1588020341}
     - target: {fileID: 1231867685504566797, guid: abaf1e4d90aa7b645a7d6e77914b82a7, type: 3}
       propertyPath: m_Name
       value: Timer
@@ -2316,6 +2320,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d6ea333845cdc147bbbc3b51ca45764, type: 3}
+--- !u!114 &1588020341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6079272255057635306, guid: 2d6ea333845cdc147bbbc3b51ca45764, type: 3}
+  m_PrefabInstance: {fileID: 1588020340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!1 &1627822746
 GameObject:
   m_ObjectHideFlags: 0
