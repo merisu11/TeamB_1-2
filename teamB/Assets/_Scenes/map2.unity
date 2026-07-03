@@ -3690,6 +3690,8 @@ MonoBehaviour:
   effectGoalprefab: {fileID: 6799137954918481779, guid: 8a70f67d12c0b62428af49bf5734269b, type: 3}
   effectSpawnPoint: {fileID: 1120022475}
   effectTargetPoint: {fileID: 0}
+  goalSE: {fileID: 8300000, guid: bebd42e224ccdf54abfdaa044aa1e39f, type: 3}
+  goalSEVolume: 1
 --- !u!61 &1732055757
 BoxCollider2D:
   m_ObjectHideFlags: 0

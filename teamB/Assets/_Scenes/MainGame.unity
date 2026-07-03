@@ -615,6 +615,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6586114473008624127, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
+      propertyPath: goalSE
+      value: 
+      objectReference: {fileID: 8300000, guid: bebd42e224ccdf54abfdaa044aa1e39f, type: 3}
+    - target: {fileID: 6586114473008624127, guid: e2fe40dd728e62549ace52e7b9bd529b, type: 3}
       propertyPath: effectGoalprefab
       value: 
       objectReference: {fileID: 6799137954918481779, guid: 8a70f67d12c0b62428af49bf5734269b, type: 3}

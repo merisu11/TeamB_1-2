@@ -38,7 +38,7 @@ public class Player : MonoBehaviour, IOxygenTarget
     public int slotIndex = 0;          // 自分が何番目か
     public int slotTotal = 1;          // 全体で何人いるか
     [Tooltip("リーダーから1人分離れる基本距離。slotIndexが大きいほどさらに後ろになる")]
-    public float formationRadius = 1.2f;
+    public float formationRadius = 1f;
 
     [Tooltip("重なりを防ぐための左右のジグザグ幅")]
     [SerializeField] private float lateralSpread = 0.4f;

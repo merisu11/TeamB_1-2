@@ -6,6 +6,13 @@ public class gaol : MonoBehaviour
     [SerializeField] private Transform effectSpawnPoint;
     [SerializeField] private Transform effectTargetPoint;
 
+    [Header("ƒS[ƒ‹SEİ’è")]
+    [Tooltip("‘SˆõƒS[ƒ‹‚µ‚½uŠÔ‚ÉÄ¶‚·‚éSE")]
+    [SerializeField] private AudioClip goalSE;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float goalSEVolume = 1f;
+
     private int remainingRedCells = -1;
     private bool goalCompleted = false;
 
@@ -43,6 +50,8 @@ public class gaol : MonoBehaviour
         if (remainingRedCells > 0) return;
 
         goalCompleted = true;
+
+        PlayGoalSE();
 
         if (effectGoalprefab != null)
         {
@@ -87,5 +96,12 @@ public class gaol : MonoBehaviour
     private void GoalAfterDelay()
     {
         GameManager.Instance.OnGoalReached();
+    }
+
+    // ‘SˆõƒS[ƒ‹‚µ‚½uŠÔ‚ÉSE‚ğÄ¶‚·‚é
+    private void PlayGoalSE()
+    {
+        if (goalSE == null) return;
+        AudioSource.PlayClipAtPoint(goalSE, transform.position, goalSEVolume);
     }
 }
