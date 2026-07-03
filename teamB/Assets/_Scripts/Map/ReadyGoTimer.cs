@@ -11,6 +11,11 @@ public class ReadyGoTimer : MonoBehaviour
     public bool IsGameStarted { get; private set; } = true;
     void Start()
     {
+     if (uiText == null)
+        {
+            uiText = GetComponent<Text>();
+        }
+
         //演出のコールチンを開始
         StartCoroutine(ReadyGoRoutine());
     }
