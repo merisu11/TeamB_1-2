@@ -9,14 +9,14 @@ public class SceneMoveMainGame : MonoBehaviour
     public static Button button;
     public static bool tut1ONOFF = false;
     public static bool tut2ONOFF = false;
-    
+
     public void Change_Scene()
     {
         if (tut1ONOFF)
         {
             if (tut2ONOFF)
             {
-                SceneManager.LoadScene("MainGame");
+                GameManager.Instance.ContinueGame();
             }
             else
             {
@@ -31,3 +31,4 @@ public class SceneMoveMainGame : MonoBehaviour
         }
     }
 }
+
