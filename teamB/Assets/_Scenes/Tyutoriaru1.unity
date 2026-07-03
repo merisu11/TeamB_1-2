@@ -354,6 +354,11 @@ MonoBehaviour:
   mapSceneNames:
   - map2
   - MainGame
+  - map1
+  - map4
+  - map7
+  - map8
+  - map9
   resultSceneName: Result
   skillSceneName: SkillTree
   titleSceneName: TaitoruScenes
